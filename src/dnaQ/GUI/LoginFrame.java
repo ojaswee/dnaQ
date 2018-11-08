@@ -100,8 +100,6 @@ public class LoginFrame extends JFrame {
 		String userName= usernameTextField.getText();
 		String passwd = new String(passwordTextField.getPassword());
 
-		userName = "oj";
-		passwd = "oj";
 		boolean success = DatabaseConnections.connectLogin(userName, passwd);
 		
 		if (success){

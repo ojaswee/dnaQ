@@ -27,7 +27,8 @@ public class SampleListFrame extends JDialog  {
 
 
 
-	public JCheckBox cosmicCheckbox;
+	public JCheckBox cosmicIDCheckbox;
+	public JCheckBox clinvarIDCheckbox;
 
 	public SampleListFrame(LoginFrame parent, SampleList sampleList ) throws Exception {
 		super(parent, "Sample List");
@@ -57,8 +58,11 @@ public class SampleListFrame extends JDialog  {
 		tableScrollPane = new JScrollPane();
 		tableScrollPane.setViewportView(table);
 
-		cosmicCheckbox = new JCheckBox("Cosmic");
-		filterList.addCosmicIDFilter(cosmicCheckbox);
+		cosmicIDCheckbox = new JCheckBox("Cosmic");
+		clinvarIDCheckbox = new JCheckBox("Clinvar");
+
+		filterList.addCosmicIDFilter(cosmicIDCheckbox);
+		filterList.addClinvarIDFilter(clinvarIDCheckbox);
 
 
 	}
@@ -77,13 +81,8 @@ public class SampleListFrame extends JDialog  {
 		filterPanel.add(new Label("Filter area"));
 		filterPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-		filterPanel.add(cosmicCheckbox);
-		cosmicCheckbox.addActionListener(new ActionListener() {
-			@Override
-            public void actionPerformed(ActionEvent e) {
-				handleCheckBoxClick(cosmicCheckbox.isSelected());
-			}
-		});
+		filterPanel.add(cosmicIDCheckbox);
+		filterPanel.add(clinvarIDCheckbox);
 
 		JPanel featurePanel = new JPanel();
 		featurePanel.setSize(200,200);
@@ -128,20 +127,24 @@ public class SampleListFrame extends JDialog  {
 //	}
 	
 	private void activateComponents(){
+		cosmicIDCheckbox.addActionListener(new ActionListener() {
+			@Override
+            public void actionPerformed(ActionEvent e) {
+				handleCheckBoxClick();
+			}
+		});
 
-
+		clinvarIDCheckbox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				handleCheckBoxClick();
+			}
+		});
 	}
 
-	private void handleCheckBoxClick(boolean choice) {
-
-		sampleList.filterSamples(filterList);
-
+	private void handleCheckBoxClick() {
+			sampleList.filterSamples(filterList);
+			sampleTableModel.fireTableDataChanged();
 	}
 
-
-	public void checkboxSelected(){
-
-	}
-
-		
 }
