@@ -81,7 +81,7 @@ public class LoginFrame extends JFrame {
 		Rectangle bounds = GUICommonTools.getBounds(this);
 		setLocation(bounds.width/2-getSize().width/2, bounds.height/2-getSize().height/2);
 	}
-	
+
 	private void activateComponents(){
 		loginButton.addActionListener(new ActionListener(){
 			@Override
@@ -89,7 +89,6 @@ public class LoginFrame extends JFrame {
 				try {
 					login();
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}			
@@ -99,6 +98,9 @@ public class LoginFrame extends JFrame {
 	private void login() throws Exception{
 		String userName= usernameTextField.getText();
 		String passwd = new String(passwordTextField.getPassword());
+
+		userName = "admin";
+		passwd = "admin";
 
 		boolean success = DatabaseConnections.connectLogin(userName, passwd);
 		

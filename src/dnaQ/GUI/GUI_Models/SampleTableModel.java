@@ -41,7 +41,6 @@ public class SampleTableModel extends AbstractTableModel {
 				String.class,
 				(Sample request) -> request.ref));
 
-
 		columns.add(new SampleTableModelColumn("alt",
 				"alt",
 				String.class,
@@ -86,11 +85,6 @@ public class SampleTableModel extends AbstractTableModel {
 				"mc",
 				String.class,
 				(Sample request) -> request.mc));
-
-		columns.add(new SampleTableModelColumn("count",
-				"count",
-				String.class,
-				(Sample request) -> request.count));
 
 		columns.add(new SampleTableModelColumn("origin",
 				"origin",
@@ -184,16 +178,6 @@ public class SampleTableModel extends AbstractTableModel {
 				String.class,
 				(Sample request) -> request.mutationEffect));
 		}
-//
-//	public void resetModel() {
-//		samples.clear();
-//		fireTableDataChanged();
-//	}
-//
-//	public void addSample(Sample sample){
-//		samples.add(sample);
-//		fireTableRowsInserted(samples.size()-1, samples.size()-1);
-//	}
 
 	@Override 
 	public boolean isCellEditable(int row, int column) {
@@ -225,9 +209,5 @@ public class SampleTableModel extends AbstractTableModel {
 		Sample request = samples.get(row);
 		return columns.get(column).getValue(request);
 	}
-
-//	public String getColumnDescription(int column){
-//		return columns.get(column).description;
-//	}
 
 }

@@ -319,11 +319,4 @@ public class Sample {
 		this.mutationEffect = mutationEffect;
 	}
 
-
-
-	public boolean isSelected() { return isSelected; }
-
-	public void setSelected(boolean selected) {
-		isSelected = selected;
-	}
 }

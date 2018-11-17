@@ -65,6 +65,10 @@ public class FilterList {
 
         addFilter(new ClinvarIDSampleFilter(clinvarIDCheckBox));
     }
+    public void addG1000IDFilter(JCheckBox g1000IDCheckbox) {
+
+        addFilter(new G1000IDSampleFilter(g1000IDCheckbox));
+    }
 
 }
 
@@ -123,6 +127,29 @@ class ClinvarIDSampleFilter extends SampleFilter {
                 return false;
             }
         }
+}
 
+class G1000IDSampleFilter extends SampleFilter {
+
+    private JCheckBox g1000IDCheckbox;
+
+    G1000IDSampleFilter(JCheckBox g1000IDCheckbox) {
+        this.g1000IDCheckbox = g1000IDCheckbox;
+
+    }
+
+    @Override
+    public boolean exclude(Sample sample) {
+
+        if (g1000IDCheckbox.isSelected()) {
+            if (sample.getG1000id().equals("")) {
+                return true;
+            } else {
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
 }
 

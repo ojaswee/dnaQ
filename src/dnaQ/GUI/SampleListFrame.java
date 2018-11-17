@@ -1,6 +1,5 @@
 package dnaQ.GUI;
 
-
 import java.awt.*;
 
 import javax.swing.*;
@@ -26,9 +25,9 @@ public class SampleListFrame extends JDialog  {
 	private FilterList filterList;
 
 
-
 	public JCheckBox cosmicIDCheckbox;
 	public JCheckBox clinvarIDCheckbox;
+	public JCheckBox g1000IDCheckbox;
 
 	public SampleListFrame(LoginFrame parent, SampleList sampleList ) throws Exception {
 		super(parent, "Sample List");
@@ -36,7 +35,6 @@ public class SampleListFrame extends JDialog  {
 		this.filterList=new FilterList();
 		this.parent = parent;
 		this.sampleTableModel= new SampleTableModel(sampleList.getSamples());
-
 
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -60,32 +58,33 @@ public class SampleListFrame extends JDialog  {
 
 		cosmicIDCheckbox = new JCheckBox("Cosmic");
 		clinvarIDCheckbox = new JCheckBox("Clinvar");
+		g1000IDCheckbox = new JCheckBox("g1000");
 
 		filterList.addCosmicIDFilter(cosmicIDCheckbox);
 		filterList.addClinvarIDFilter(clinvarIDCheckbox);
-
-
+		filterList.addG1000IDFilter(g1000IDCheckbox);
 	}
 	
 	private void layoutComponents(){
 
-		Rectangle bounds = GUICommonTools.getBounds(parent);
-		setSize((int)(bounds.width*.100), (int)(bounds.height*.100));
-		setMinimumSize(new Dimension(1900, getHeight()/2));
+//		Rectangle bounds = GUICommonTools.getBounds(parent);
+//		setSize((int)(bounds.width*.100), (int)(bounds.height*.100));
+		setMinimumSize(new Dimension(1900,500));
 
 
 		JPanel upperPanel = new JPanel(new GridLayout(1,0));
 
 		JPanel filterPanel = new JPanel();
-		filterPanel.setSize(1000,200);
+//		filterPanel.setSize(1000,10);
 		filterPanel.add(new Label("Filter area"));
 		filterPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 		filterPanel.add(cosmicIDCheckbox);
 		filterPanel.add(clinvarIDCheckbox);
+		filterPanel.add(g1000IDCheckbox);
 
 		JPanel featurePanel = new JPanel();
-		featurePanel.setSize(200,200);
+//		featurePanel.setSize(200,10);
 		featurePanel.add(new Label("Feature area"));
 		featurePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
@@ -135,6 +134,13 @@ public class SampleListFrame extends JDialog  {
 		});
 
 		clinvarIDCheckbox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				handleCheckBoxClick();
+			}
+		});
+
+		g1000IDCheckbox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				handleCheckBoxClick();

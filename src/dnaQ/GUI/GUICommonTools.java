@@ -9,14 +9,9 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 
 public class GUICommonTools {
-
-	public static Font TAHOMA_PLAIN_13 = new Font("Tahoma", Font.BOLD, 13);
-	
-	public static Font TAHOMA_BOLD_11 = new Font("Tahoma", Font.BOLD, 11);
-	public static Font TAHOMA_BOLD_12 = new Font("Tahoma", Font.BOLD, 12);
-	public static Font TAHOMA_BOLD_13 = new Font("Tahoma", Font.BOLD, 13);
+	public static Font TAHOMA_BOLD_16 = new Font("Tahoma", Font.BOLD, 16);
 	public static Font TAHOMA_BOLD_14 = new Font("Tahoma", Font.BOLD, 14);
-	
+
 	public static Rectangle getBounds(Component componentOrNull){
 		Insets insets;
 	    Rectangle bounds;
@@ -35,5 +30,5 @@ public class GUICommonTools {
 	    bounds.height -= (insets.top + insets.bottom);
 	    return bounds;
 	}
-	
+
 }
