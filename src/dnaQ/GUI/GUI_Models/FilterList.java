@@ -1,6 +1,6 @@
 package dnaQ.GUI.GUI_Models;
 
-import dnaQ.Objects.Sample;
+import dnaQ.Models.Sample;
 
 import javax.swing.*;
 import java.util.ArrayList;

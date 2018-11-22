@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
-import dnaQ.Objects.Sample;
+import dnaQ.Models.Sample;
 
 public class SampleTableModel extends AbstractTableModel {
 	

@@ -1,7 +1,7 @@
 package dnaQ.GUI.GUI_Models;
 
 import dnaQ.GUI.CommonTableColumn;
-import dnaQ.Objects.Sample;
+import dnaQ.Models.Sample;
 
 public class SampleTableModelColumn extends CommonTableColumn {
 	

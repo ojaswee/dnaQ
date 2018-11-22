@@ -13,7 +13,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import java.util.ArrayList;
 
-import dnaQ.Objects.Sample;
+import dnaQ.Models.Sample;
 import dnaQ.GUI.GUI_Models.SampleList;
 
 import dnaQ.Connections.DatabaseConnections;
@@ -109,14 +109,13 @@ public class LoginFrame extends JFrame {
 			DatabaseConnections.connect();
 			System.out.println("Login Successful");
 
-			//if login successful
-
 			samples = DatabaseConnections.getAllSample();
 			sampleList = new SampleList(samples);
 			SampleListFrame samplelistframe = new SampleListFrame(this,sampleList);
+			dispose();
 			samplelistframe.setVisible(true);
 
-			dispose();
+
 		}
 		else {
 			JOptionPane.showMessageDialog(null,"Invalid username or password");
