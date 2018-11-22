@@ -2,12 +2,8 @@
   <library name="mysql-connector-java">
     <CLASSES>
       <root url="jar:///usr/share/java/mysql-connector-java.jar!/" />
-      <root url="file://$USER_HOME$/Downloads/jfreechart-1.0.0" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES>
-      <root url="file://$USER_HOME$/Downloads/jfreechart-1.0.0/source" />
-    </SOURCES>
-    <jarDirectory url="file://$USER_HOME$/Downloads/jfreechart-1.0.0" recursive="false" />
+    <SOURCES />
   </library>
 </component>
