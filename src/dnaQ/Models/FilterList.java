@@ -1,6 +1,4 @@
-package dnaQ.GUI.GUI_Models;
-
-import dnaQ.Models.Sample;
+package dnaQ.Models;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -18,9 +16,6 @@ public class FilterList {
     }
 
     public void filterSamples(ArrayList<Sample> samples,ArrayList<Sample> filtered_samples){
-
-        System.out.println(samples.size());
-        System.out.println(filtered_samples.size());
 
         ArrayList<Sample> allsamples = new ArrayList<Sample>(samples.size()+filtered_samples.size());
         allsamples.addAll(samples);
@@ -50,9 +45,6 @@ public class FilterList {
         samples.addAll(allsamples);
         filtered_samples.clear();
         filtered_samples.addAll(tempfiltersamples);
-
-        System.out.println(samples.size());
-        System.out.println(filtered_samples.size());
 
     }
 

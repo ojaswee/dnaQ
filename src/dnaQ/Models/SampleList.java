@@ -1,7 +1,5 @@
-package dnaQ.GUI.GUI_Models;
+package dnaQ.Models;
 
-
-import dnaQ.Models.Sample;
 
 import java.util.ArrayList;
 
@@ -25,6 +23,7 @@ public class SampleList {
     }
 
     public void filterSamples(FilterList filterList){
+
         filterList.filterSamples(this.samples,this.filteredSamples);
     }
 

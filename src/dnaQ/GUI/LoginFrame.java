@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 import java.util.ArrayList;
 
 import dnaQ.Models.Sample;
-import dnaQ.GUI.GUI_Models.SampleList;
+import dnaQ.Models.SampleList;
 
 import dnaQ.Connections.DatabaseConnections;
 

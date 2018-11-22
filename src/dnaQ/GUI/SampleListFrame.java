@@ -6,9 +6,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import dnaQ.GUI.GUI_Models.FilterList;
+import dnaQ.Models.FilterList;
 import dnaQ.GUI.GUI_Models.SampleTableModel;
-import dnaQ.GUI.GUI_Models.SampleList;
+import dnaQ.Models.SampleList;
 
 public class SampleListFrame extends JDialog  {
 	
@@ -32,12 +32,17 @@ public class SampleListFrame extends JDialog  {
 
 	public JButton pieChartButton;
 
+	public DataChart datachart;
+
+
+
 	public SampleListFrame(LoginFrame parent, SampleList sampleList ) throws Exception {
 		super(parent, "Sample List");
 		this.sampleList=sampleList;
 		this.filterList=new FilterList();
 		this.parent = parent;
 		this.sampleTableModel= new SampleTableModel(sampleList.getSamples());
+		this.datachart = new DataChart(this,this.sampleList);
 
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -72,9 +77,7 @@ public class SampleListFrame extends JDialog  {
 	
 	private void layoutComponents(){
 
-
 		setMinimumSize(new Dimension(1900,500));
-
 
 		JPanel upperPanel = new JPanel(new GridLayout(1,0));
 
@@ -143,8 +146,24 @@ public class SampleListFrame extends JDialog  {
 
 
 	private void handleChartButtonClick() {
-		AnalysisFrame analysisFrame = new AnalysisFrame(this, sampleList);
-		analysisFrame.setVisible(true);
+
+
+		Thread analysisFrameThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+					AnalysisFrame analysisFrame = new AnalysisFrame(SampleListFrame.this, sampleList,datachart);
+					analysisFrame.setVisible(true);
+				} catch (Exception e) {
+					//
+				}
+				setCursor(Cursor.getDefaultCursor());
+			}
+		});
+		analysisFrameThread.start();
 	}
 
 }
+
+

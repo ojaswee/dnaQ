@@ -1,4 +1,4 @@
-package dnaQ.GUI;
+package dnaQ.GUI.GUI_Models;
 
 
 	public class CommonTableColumn {
