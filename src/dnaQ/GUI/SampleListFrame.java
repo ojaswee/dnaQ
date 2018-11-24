@@ -10,7 +10,7 @@ import dnaQ.Models.FilterList;
 import dnaQ.GUI.GUI_Models.SampleTableModel;
 import dnaQ.Models.SampleList;
 
-public class SampleListFrame extends JDialog  {
+public class SampleListFrame extends JFrame  {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -30,14 +30,15 @@ public class SampleListFrame extends JDialog  {
 	public JCheckBox g1000IDCheckbox;
 
 
-	public JButton pieChartButton;
+	public JButton dashboardButton;
+
+	public JButton reportButton;
 
 	public DataChart datachart;
 
 
 
-	public SampleListFrame(LoginFrame parent, SampleList sampleList ) throws Exception {
-		super(parent, "Sample List");
+	public SampleListFrame(LoginFrame parent, SampleList sampleList )  {
 		this.sampleList=sampleList;
 		this.filterList=new FilterList();
 		this.parent = parent;
@@ -45,14 +46,13 @@ public class SampleListFrame extends JDialog  {
 		this.datachart = new DataChart(this,this.sampleList);
 
 
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		createComponents();
 		layoutComponents();
 		activateComponents();
 		
 		pack();
-		setModalityType(ModalityType.APPLICATION_MODAL);
 		setAlwaysOnTop(true);
 		setResizable(true);
         setLocationRelativeTo(parent);
@@ -72,7 +72,8 @@ public class SampleListFrame extends JDialog  {
 		filterList.addClinvarIDFilter(clinvarIDCheckbox);
 		filterList.addG1000IDFilter(g1000IDCheckbox);
 
-		pieChartButton = new JButton("Pie Chart");
+		dashboardButton = new JButton("Dashboard");
+		reportButton = new JButton("Report");
 	}
 	
 	private void layoutComponents(){
@@ -93,7 +94,8 @@ public class SampleListFrame extends JDialog  {
 		featurePanel.add(new Label("Feature area"));
 		featurePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-		featurePanel.add(pieChartButton);
+		featurePanel.add(dashboardButton);
+		featurePanel.add(reportButton);
 
 		upperPanel.add(filterPanel);
 		upperPanel.add(featurePanel);
@@ -131,10 +133,17 @@ public class SampleListFrame extends JDialog  {
 		});
 
 
-		pieChartButton.addActionListener(new ActionListener() {
+		dashboardButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				handleChartButtonClick();
+			}
+		});
+
+		reportButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				handleReportButtonClick();
 			}
 		});
 	}
@@ -142,26 +151,20 @@ public class SampleListFrame extends JDialog  {
 	private void handleCheckBoxClick() {
 			sampleList.filterSamples(filterList);
 			sampleTableModel.fireTableDataChanged();
+			datachart.updateCharts();
 	}
 
 
 	private void handleChartButtonClick() {
 
+		AnalysisFrame analysisFrame = new AnalysisFrame(SampleListFrame.this, sampleList,datachart);
+		analysisFrame.setVisible(true);
+	}
 
-		Thread analysisFrameThread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-					AnalysisFrame analysisFrame = new AnalysisFrame(SampleListFrame.this, sampleList,datachart);
-					analysisFrame.setVisible(true);
-				} catch (Exception e) {
-					//
-				}
-				setCursor(Cursor.getDefaultCursor());
-			}
-		});
-		analysisFrameThread.start();
+
+	private void handleReportButtonClick() {
+
+		System.out.println("Report button clicked");
 	}
 
 }

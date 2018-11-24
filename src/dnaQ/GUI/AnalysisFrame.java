@@ -1,23 +1,14 @@
 package dnaQ.GUI;
 
 import dnaQ.Models.SampleList;
-import dnaQ.Models.Sample;
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
+
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
-public class AnalysisFrame extends JDialog {
+
+public class AnalysisFrame extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
@@ -42,7 +33,6 @@ public class AnalysisFrame extends JDialog {
         layoutAnalysisComponents();
 
         pack();
-        //setModalityType(ModalityType.APPLICATION_MODAL);
         setAlwaysOnTop(true);
         setResizable(true);
         setLocationRelativeTo(parent);
@@ -71,11 +61,8 @@ public class AnalysisFrame extends JDialog {
 
     private void layoutAnalysisComponents(){
 
-       //setMinimumSize(new Dimension(2000,2000));
-
         JPanel dataPanel = new JPanel();
         dataPanel.setLayout(new GridLayout(0,2));
-        //dataPanel.setMinimumSize(new Dimension(1990,1990));
 
         dataAPanel.setMinimumSize(new Dimension(450,50));
         dataAPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -118,6 +105,4 @@ public class AnalysisFrame extends JDialog {
         chartpanel.setDomainZoomable(true);
         dataCPanel.add(chartpanel);
     }
-
-
 }

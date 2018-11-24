@@ -6,7 +6,6 @@ import dnaQ.Models.SampleList;
 import javax.swing.*;
 
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -41,10 +40,9 @@ public class DataChart extends JDialog {
 
     private void createCharts(){
 
+        charts.add(createChromosomeMutationPlot());
         charts.add(createLinePlot());
         charts.add(createHistoGram());
-        charts.add(createChromosomeMutationPlot());
-
     }
 
     private JFreeChart createLinePlot(){
@@ -60,7 +58,6 @@ public class DataChart extends JDialog {
         JFreeChart chart = ChartFactory.createXYLineChart(null, null, null, dataset, PlotOrientation.HORIZONTAL, true, true, true);
 
         return chart;
-
     }
 
     private JFreeChart createHistoGram() {
@@ -108,6 +105,13 @@ public class DataChart extends JDialog {
                 PlotOrientation.VERTICAL, false, true, false);
 
         return chart;
+    }
+
+    public void updateCharts(){
+
+        charts.clear();
+        createCharts();
+
     }
 
 }
