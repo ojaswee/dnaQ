@@ -28,11 +28,15 @@ public class SampleListFrame extends JFrame  {
 	public JCheckBox cosmicIDCheckbox;
 	public JCheckBox clinvarIDCheckbox;
 	public JCheckBox g1000IDCheckbox;
+    public JCheckBox db4IDCheckbox;
+    public JCheckBox db5IDCheckbox;
 
 
 	public JButton dashboardButton;
 
 	public JButton reportButton;
+
+	public JButton exportButton;
 
 	public DataChart datachart;
 
@@ -67,6 +71,8 @@ public class SampleListFrame extends JFrame  {
 		cosmicIDCheckbox = new JCheckBox("Cosmic");
 		clinvarIDCheckbox = new JCheckBox("Clinvar");
 		g1000IDCheckbox = new JCheckBox("g1000");
+        db4IDCheckbox = new JCheckBox("db4");
+        db5IDCheckbox = new JCheckBox("db5");
 
 		filterList.addCosmicIDFilter(cosmicIDCheckbox);
 		filterList.addClinvarIDFilter(clinvarIDCheckbox);
@@ -74,36 +80,93 @@ public class SampleListFrame extends JFrame  {
 
 		dashboardButton = new JButton("Dashboard");
 		reportButton = new JButton("Report");
+		exportButton = new JButton("Export");
 	}
 	
 	private void layoutComponents(){
 
+        setLayout(new GridLayout(0,1));
 		setMinimumSize(new Dimension(1900,500));
 
 		JPanel upperPanel = new JPanel(new GridLayout(1,0));
 
-		JPanel filterPanel = new JPanel();
-		filterPanel.add(new Label("Filter area"));
-		filterPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		JPanel filterPanel = new JPanel(new GridLayout(0,1));
+        filterPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-		filterPanel.add(cosmicIDCheckbox);
-		filterPanel.add(clinvarIDCheckbox);
-		filterPanel.add(g1000IDCheckbox);
+		JPanel filterPanelHeading = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        filterPanelHeading.add(new Label("Choose filter to select results"));
+        filterPanelHeading.setFont(GUICommonTools.TAHOMA_BOLD_16);
+        filterPanelHeading.setPreferredSize(new Dimension(20, 30));
+        filterPanelHeading.setMinimumSize(new Dimension(20, 30));
+        filterPanelHeading.setMaximumSize(new Dimension(20, 30));
+        filterPanelHeading.setBackground(GUICommonTools.BackgroundColor1);
+        filterPanel.add(filterPanelHeading);
 
-		JPanel featurePanel = new JPanel();
-		featurePanel.add(new Label("Feature area"));
+
+		JPanel databasefilterPanel = new JPanel(new GridLayout(1,0));
+        databasefilterPanel.add(new Label("Select database"));
+        databasefilterPanel.add(cosmicIDCheckbox);
+        databasefilterPanel.add(clinvarIDCheckbox);
+        databasefilterPanel.add(g1000IDCheckbox);
+        databasefilterPanel.add(db4IDCheckbox);
+        databasefilterPanel.add(db5IDCheckbox);
+        filterPanel.add(databasefilterPanel);
+
+
+        JPanel filterPanel2 = new JPanel(new GridLayout(1,0));
+        filterPanel2.add(new Label("Select"));
+        filterPanel.add(filterPanel2);
+
+
+        JPanel filterPanel3 = new JPanel(new GridLayout(1,0));
+        filterPanel3.add(new Label("Select"));
+        filterPanel.add(filterPanel3);
+
+        JPanel filterPanel4 = new JPanel(new GridLayout(1,0));
+        filterPanel4.add(new Label("Select"));
+        filterPanel.add(filterPanel4);
+
+        JPanel filterPanel5 = new JPanel(new GridLayout(1,0));
+        filterPanel5.add(new Label("Select"));
+        filterPanel.add(filterPanel4);
+
+
+		JPanel featurePanel = new JPanel(new GridLayout(0,1));
 		featurePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        featurePanel.setBackground(GUICommonTools.BackgroundColor1);
 
-		featurePanel.add(dashboardButton);
-		featurePanel.add(reportButton);
 
+        JPanel featurePanelHeading = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        featurePanelHeading.add(new Label("Choose filter to select results"));
+        featurePanelHeading.setFont(GUICommonTools.TAHOMA_BOLD_16);
+        featurePanelHeading.setBackground(GUICommonTools.BackgroundColor1);
+        featurePanel.add(featurePanelHeading);
+
+        JPanel featureButtonPanel = new JPanel(new GridLayout(0,1));
+
+
+        JPanel dashboardButtonPanel = new JPanel();
+        dashboardButton.setMinimumSize(new Dimension(100,100));
+        dashboardButtonPanel.add(dashboardButton);
+		featureButtonPanel.add(dashboardButtonPanel);
+		featureButtonPanel.add(new Label(" "));
+
+        JPanel reportButtonPanel = new JPanel();
+        reportButtonPanel.add(reportButton);
+        featureButtonPanel.add(reportButtonPanel);
+		featureButtonPanel.add(new Label(" "));
+
+        JPanel exportButtonPanel = new JPanel();
+        exportButtonPanel.add(exportButton);
+        featureButtonPanel.add(exportButtonPanel);
+
+		featurePanel.add(featureButtonPanel);
 		upperPanel.add(filterPanel);
 		upperPanel.add(featurePanel);
 
 		JPanel lowerPanel = new JPanel(new GridLayout(0,1));
 		lowerPanel.add(tableScrollPane);
 
-		setLayout(new GridLayout(0,1));
 		add(upperPanel);
 		add(lowerPanel);
 
@@ -164,7 +227,8 @@ public class SampleListFrame extends JFrame  {
 
 	private void handleReportButtonClick() {
 
-		System.out.println("Report button clicked");
+		ReportFrame reportframe = new ReportFrame(this);
+		reportframe.setVisible(true);
 	}
 
 }

@@ -1,6 +1,6 @@
 package dnaQ.GUI;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -51,6 +51,9 @@ public class LoginFrame extends JFrame {
 	}
 	
 	private void layoutLoginComponents(){
+
+        panel.setBackground(GUICommonTools.BackgroundColor1);
+
 		setSize(440, 345);
 		panel.setLayout(null);
 		
@@ -68,7 +71,7 @@ public class LoginFrame extends JFrame {
 		passwordTextField.setBounds(160, 139, 142, 30);
 		
 		loginButton.setFont(GUICommonTools.TAHOMA_BOLD_14);
-		loginButton.setBounds(181, 214, 89, 23);
+		loginButton.setBounds(181, 214, 90, 45);
 		
 		panel.add(lblUsername);
 		panel.add(usernameTextField);

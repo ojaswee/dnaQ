@@ -9,6 +9,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -42,7 +43,9 @@ public class DataChart extends JDialog {
 
         charts.add(createChromosomeMutationPlot());
         charts.add(createLinePlot());
+        charts.add(createPieChart());
         charts.add(createHistoGram());
+
     }
 
     private JFreeChart createLinePlot(){
@@ -74,6 +77,27 @@ public class DataChart extends JDialog {
 
         return chart;
     }
+
+
+    private JFreeChart createPieChart() {
+
+        DefaultPieDataset dataset = new DefaultPieDataset( );
+        dataset.setValue( "IPhone 5s" , new Double( 20 ) );
+        dataset.setValue( "SamSung Grand" , new Double( 20 ) );
+        dataset.setValue( "MotoG" , new Double( 40 ) );
+        dataset.setValue( "Nokia Lumia" , new Double( 10 ) );
+
+        JFreeChart chart = ChartFactory.createPieChart(
+                "Mobile Sales",   // chart title
+                dataset,          // data
+                true,             // include legend
+                true,
+                false);
+
+        return chart;
+    }
+
+
 
 
     private JFreeChart createChromosomeMutationPlot() {

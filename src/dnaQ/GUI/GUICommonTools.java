@@ -1,20 +1,16 @@
 package dnaQ.GUI;
 
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
+import java.awt.*;
 
 public class GUICommonTools {
 	public static Font TAHOMA_BOLD_16 = new Font("Tahoma", Font.BOLD, 16);
 	public static Font TAHOMA_BOLD_14 = new Font("Tahoma", Font.BOLD, 14);
+	public static Color BackgroundColor1 = new java.awt.Color(67, 176, 49);
 
 	public static Rectangle getBounds(Component componentOrNull){
 		Insets insets;
 	    Rectangle bounds;
+
 	    if (componentOrNull == null) {
 	        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 	        insets = Toolkit.getDefaultToolkit().getScreenInsets(ge.getDefaultScreenDevice().getDefaultConfiguration());
