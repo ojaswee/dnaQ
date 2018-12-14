@@ -3,6 +3,9 @@ package dnaQ.GUI;
 import javax.swing.*;
 import java.awt.*;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class ReportFrame extends JFrame {
 
     public JPanel reportPanel;
@@ -18,6 +21,7 @@ public class ReportFrame extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         createComponents();
         layoutReportComponents();
+//        activateComponents();
 
         pack();
         setAlwaysOnTop(true);
@@ -30,7 +34,7 @@ public class ReportFrame extends JFrame {
 
         reportPanel = new JPanel(new GridLayout(0, 1));
 
-        String[] reportStrings = { "Bird", "Cat", "Dog", "Rabbit", "Pig" };
+        String[] reportStrings = {"Cat", "Dog" };
         reportChoicesBox = new JComboBox(reportStrings);
 
         reportSubmitButton = new JButton("Submit");
@@ -59,4 +63,25 @@ public class ReportFrame extends JFrame {
         add(reportPanel);
 
     }
+
+
+//    private void activateComponents(){
+//
+//        reportSubmitButton.addActionListener(new ActionListener(){
+//            @Override
+//            public void actionPerformed(ActionEvent arg0) {
+//                try{
+//
+//                    reportSubmission();
+//
+//                }catch (Exception e){
+//                    JOptionPane.showMessageDialog(ReportFrame.this, e.getMessage());
+//                }
+//            }
+//        });
+//    }
+//
+//    private void reportSubmission(){
+//
+//    }
 }

@@ -28,8 +28,8 @@ public class SampleListFrame extends JFrame  {
 	public JCheckBox cosmicIDCheckbox;
 	public JCheckBox clinvarIDCheckbox;
 	public JCheckBox g1000IDCheckbox;
-    public JCheckBox db4IDCheckbox;
-    public JCheckBox db5IDCheckbox;
+    public JCheckBox globalFreqCheckbox;
+	public JCheckBox diseaseCheckbox;
 
 
 	public JButton dashboardButton;
@@ -71,12 +71,14 @@ public class SampleListFrame extends JFrame  {
 		cosmicIDCheckbox = new JCheckBox("Cosmic");
 		clinvarIDCheckbox = new JCheckBox("Clinvar");
 		g1000IDCheckbox = new JCheckBox("g1000");
-        db4IDCheckbox = new JCheckBox("db4");
-        db5IDCheckbox = new JCheckBox("db5");
+		globalFreqCheckbox = new JCheckBox("Global Frequency");
+		diseaseCheckbox = new JCheckBox("Disease");
 
 		filterList.addCosmicIDFilter(cosmicIDCheckbox);
 		filterList.addClinvarIDFilter(clinvarIDCheckbox);
 		filterList.addG1000IDFilter(g1000IDCheckbox);
+		filterList.addG1000IDFilter(globalFreqCheckbox);
+		filterList.addG1000IDFilter(diseaseCheckbox);
 
 		dashboardButton = new JButton("Dashboard");
 		reportButton = new JButton("Report");
@@ -108,8 +110,8 @@ public class SampleListFrame extends JFrame  {
         databasefilterPanel.add(cosmicIDCheckbox);
         databasefilterPanel.add(clinvarIDCheckbox);
         databasefilterPanel.add(g1000IDCheckbox);
-        databasefilterPanel.add(db4IDCheckbox);
-        databasefilterPanel.add(db5IDCheckbox);
+        databasefilterPanel.add(globalFreqCheckbox);
+        databasefilterPanel.add(diseaseCheckbox);
         filterPanel.add(databasefilterPanel);
 
 
@@ -137,7 +139,7 @@ public class SampleListFrame extends JFrame  {
 
 
         JPanel featurePanelHeading = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        featurePanelHeading.add(new Label("Choose filter to select results"));
+        featurePanelHeading.add(new Label("Please select one"));
         featurePanelHeading.setFont(GUICommonTools.TAHOMA_BOLD_16);
         featurePanelHeading.setBackground(GUICommonTools.BackgroundColor1);
         featurePanel.add(featurePanelHeading);
@@ -189,6 +191,20 @@ public class SampleListFrame extends JFrame  {
 		});
 
 		g1000IDCheckbox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				handleCheckBoxClick();
+			}
+		});
+
+		globalFreqCheckbox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				handleCheckBoxClick();
+			}
+		});
+
+		diseaseCheckbox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				handleCheckBoxClick();

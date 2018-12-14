@@ -2,17 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ac36e5f-9449-4d4b-9123-4f0ebc89e5b1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/dnaQ/GUI/ReportFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/dnaQ/GUI/GUICommonTools.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/dnaQ/GUI/GUICommonTools.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/dnaQ/GUI/LoginFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/dnaQ/GUI/LoginFrame$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/dnaQ/GUI/LoginFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/dnaQ/GUI/LoginFrame.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/dnaQ/GUI/SampleListFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/dnaQ/GUI/SampleListFrame$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/dnaQ/GUI/SampleListFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/dnaQ/GUI/SampleListFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dnaQ/GUI/AnalysisFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/GUI/AnalysisFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/dnaQ/Main/Home.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/dnaQ/Main/Home.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dnaQ/Connections/DatabaseConnections.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/Connections/DatabaseConnections.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dnaQ/GUI/DataChart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/GUI/DataChart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dnaQ/GUI/GUICommonTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/GUI/GUICommonTools.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dnaQ/GUI/LoginFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/GUI/LoginFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dnaQ/GUI/ReportFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/GUI/ReportFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dnaQ/GUI/SampleListFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/GUI/SampleListFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dnaQ/Main/Home.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/Main/Home.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dnaQ/Models/Report.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/Models/Report.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -138,41 +138,42 @@
     <session id="708483505">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="14" />
+          <entry key="project.closed" value="19" />
           <entry key="project.open.time.10" value="5" />
-          <entry key="project.open.time.11" value="3" />
-          <entry key="project.open.time.12" value="5" />
-          <entry key="project.open.time.13" value="2" />
+          <entry key="project.open.time.11" value="4" />
+          <entry key="project.open.time.12" value="6" />
+          <entry key="project.open.time.13" value="4" />
+          <entry key="project.open.time.21" value="1" />
           <entry key="project.open.time.25" value="1" />
           <entry key="project.open.time.4" value="1" />
           <entry key="project.open.time.7" value="1" />
           <entry key="project.open.time.8" value="1" />
-          <entry key="project.opened" value="19" />
+          <entry key="project.opened" value="24" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="class" value="7" />
-          <entry key="java" value="31" />
+          <entry key="class" value="15" />
+          <entry key="java" value="44" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="CLASS" value="7" />
-          <entry key="JAVA" value="31" />
+          <entry key="CLASS" value="15" />
+          <entry key="JAVA" value="44" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="8" />
-          <entry key="java" value="3147" />
-          <entry key="txt" value="47" />
+          <entry key="java" value="4341" />
+          <entry key="txt" value="59" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="3147" />
-          <entry key="PLAIN_TEXT" value="55" />
+          <entry key="JAVA" value="4341" />
+          <entry key="PLAIN_TEXT" value="67" />
         </counts>
       </usages-collector>
     </session>
@@ -182,11 +183,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/SampleListFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="149" column="58" selection-start-line="149" selection-start-column="58" selection-end-line="149" selection-end-column="58" />
+            <state relative-caret-position="4992">
+              <caret line="230" selection-start-line="230" selection-end-line="230" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#5648#5649#0" expanded="true" />
+                <element signature="e#5680#5681#0" expanded="true" />
+                <element signature="e#5809#5810#0" expanded="true" />
+                <element signature="e#5841#5842#0" expanded="true" />
+                <element signature="e#5968#5969#0" expanded="true" />
+                <element signature="e#6000#6001#0" expanded="true" />
+                <element signature="e#6130#6131#0" expanded="true" />
+                <element signature="e#6162#6163#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/DataChart.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="192">
+              <caret line="107" selection-start-line="107" selection-end-line="107" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -195,19 +216,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/GUICommonTools.java">
+        <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/ReportFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-43">
-              <caret line="7" column="40" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="40" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/LoginFrame.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="98">
-              <caret line="54" column="59" selection-start-line="54" selection-start-column="59" selection-end-line="54" selection-end-column="59" />
+            <state relative-caret-position="1026">
+              <caret line="69" column="55" lean-forward="true" selection-start-line="69" selection-start-column="55" selection-end-line="69" selection-end-column="55" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -215,14 +227,24 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/AnalysisFrame.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/dnaQ/Connections/DatabaseConnections.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="94" column="5" lean-forward="true" selection-start-line="94" selection-start-column="5" selection-end-line="94" selection-end-column="5" />
+            <state relative-caret-position="392">
+              <caret line="144" lean-forward="true" selection-start-line="144" selection-end-line="144" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#4455#4463#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/dnaQ/Models/Report.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="48">
+              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -238,7 +260,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>username</find>
       <find>userID</find>
       <find>department</find>
       <find>requests</find>
@@ -268,6 +289,7 @@
       <find>count</find>
       <find>getBounds</find>
       <find>System.out</find>
+      <find>Series 1</find>
     </findStrings>
     <replaceStrings>
       <replace>chr</replace>
@@ -327,19 +349,19 @@
         <option value="$PROJECT_DIR$/src/dnaQ/Objects/Sample.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/GUI/GUI_Models/SampleTableModel.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/GUI/GUI_Models/FilterList.java" />
-        <option value="$PROJECT_DIR$/src/dnaQ/Connections/DatabaseConnections.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/GUI/GUI_Models/SampleList.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/Models/SampleList.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/Models/Communicator.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/Models/FilterList.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/Models/Report.java" />
-        <option value="$PROJECT_DIR$/src/dnaQ/GUI/ReportFrame.java" />
-        <option value="$PROJECT_DIR$/src/dnaQ/GUI/DataChart.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/Main/Home.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/GUI/AnalysisFrame.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/GUI/GUICommonTools.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/GUI/LoginFrame.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/GUI/SampleListFrame.java" />
+        <option value="$PROJECT_DIR$/src/dnaQ/GUI/DataChart.java" />
+        <option value="$PROJECT_DIR$/src/dnaQ/GUI/ReportFrame.java" />
+        <option value="$PROJECT_DIR$/src/dnaQ/Connections/DatabaseConnections.java" />
       </list>
     </option>
   </component>
@@ -350,10 +372,9 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-30" />
     <option name="y" value="28" />
-    <option name="width" value="1910" />
-    <option name="height" value="763" />
+    <option name="width" value="1920" />
+    <option name="height" value="1018" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -361,6 +382,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -378,6 +400,13 @@
               <item name="dnaQ" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="dnaQ" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="TabPort" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dnaQ" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="dnaQ" type="462c0819:PsiDirectoryNode" />
+              <item name="Connections" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="TabPort" type="b2602c69:ProjectViewProjectNode" />
@@ -405,7 +434,6 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -413,11 +441,12 @@
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
     <property name="SearchEverywhereHistoryKey" value="System.out&#9;ACTION&#9;null" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543148949454" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544826050257" />
     <property name="last_opened_file_path" value="/usr/share/java/jcommon-1.0.23.jar!/" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
@@ -531,14 +560,21 @@
       <option name="project" value="LOCAL" />
       <updated>1543093079263</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="update UI">
+      <created>1543149003905</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1543149003905</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="28" width="1920" height="1018" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49615383" visible="true" weight="0.17574786" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49615383" visible="true" weight="0.1826923" />
       <window_info id="Structure" order="1" sideWeight="0.50384617" side_tool="true" weight="0.13728632" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -548,14 +584,14 @@
       <window_info id="DB Browser" order="7" weight="0.32934782" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32939634" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4946581" visible="true" weight="0.16666667" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49626067" weight="0.3812665" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4946581" weight="0.3584475" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49626067" visible="true" weight="0.37899545" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32990867" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5037393" side_tool="true" weight="0.38127854" />
-      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49946582" weight="0.33409092" />
+      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49946582" weight="0.41666666" />
       <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.49732906" weight="0.39611873" />
       <window_info anchor="bottom" id="DB Execution Console" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -603,7 +639,20 @@
     <MESSAGE value="updated chart module" />
     <MESSAGE value="added jfree dependencies" />
     <MESSAGE value="report model added" />
-    <option name="LAST_COMMIT_MESSAGE" value="report model added" />
+    <MESSAGE value="update UI" />
+    <option name="LAST_COMMIT_MESSAGE" value="update UI" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/dnaQ/GUI/SampleListFrame.java</url>
+          <line>209</line>
+          <properties />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/TabPort/GUI/RequestReport.java" />
@@ -642,20 +691,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/FilterFrame.java" />
-    <entry file="jar:///usr/lib/jvm/java-1.8.0-openjdk/jre/lib/rt.jar!/java/lang/Object.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///usr/lib/jvm/java-1.8.0-openjdk/jre/lib/rt.jar!/java/util/ArrayList.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="270" column="19" selection-start-line="270" selection-start-column="19" selection-end-line="270" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/idea64.vmoptions">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -694,20 +729,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dnaQ/Models/SampleList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dnaQ/Models/FilterList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="696">
-          <caret line="52" column="30" lean-forward="true" selection-start-line="52" selection-start-column="30" selection-end-line="52" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///usr/lib/jvm/java-1.8.0-openjdk/jre/lib/rt.jar!/java/lang/Math.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="146">
@@ -743,13 +764,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dnaQ/Models/Sample.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="20" selection-start-column="20" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/dnaQ/Models/User.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="48">
@@ -757,57 +771,115 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dnaQ/Connections/DatabaseConnections.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2361">
-          <caret line="101" selection-start-line="101" selection-end-line="101" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dnaQ/Models/Report.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/DataChart.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="776">
-          <caret line="43" column="47" selection-start-line="43" selection-start-column="47" selection-end-line="43" selection-end-column="47" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/dnaQ/Main/Home.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
           <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/ReportFrame.java">
+    <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/GUICommonTools.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="530">
-          <caret line="60" column="5" selection-start-line="60" selection-start-column="5" selection-end-line="60" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="264">
+          <caret line="11" column="25" lean-forward="true" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dnaQ/Models/SampleList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="26" selection-start-line="26" selection-end-line="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dnaQ/Models/FilterList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1680">
+          <caret line="87" selection-start-line="87" selection-end-line="87" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/AnalysisFrame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="94" column="5" lean-forward="true" selection-start-line="94" selection-start-column="5" selection-end-line="94" selection-end-column="5" />
+        <state relative-caret-position="-326">
+          <caret line="94" column="5" selection-start-line="94" selection-start-column="5" selection-end-line="94" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///usr/lib/jvm/java-1.8.0-openjdk/jre/lib/rt.jar!/java/lang/Object.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///usr/lib/jvm/java-1.8.0-openjdk/jre/lib/rt.jar!/java/lang/Double.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="81" selection-start-line="81" selection-end-line="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///usr/share/java/jfreechart-1.0.19.jar!/org/jfree/chart/util/ParamChecks.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///usr/lib/jvm/java-1.8.0-openjdk/jre/lib/rt.jar!/java/util/ArrayList.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-521">
+          <caret line="136" selection-start-line="136" selection-end-line="136" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///usr/lib/jvm/java-1.8.0-openjdk/jre/lib/rt.jar!/java/lang/Number.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///usr/share/java/jfreechart-1.0.19.jar!/org/jfree/data/DefaultKeyedValues2D.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="101" selection-start-line="101" selection-end-line="101" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///usr/share/java/jfreechart-1.0.19.jar!/org/jfree/data/category/DefaultCategoryDataset.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="960">
+          <caret line="67" selection-start-line="67" selection-end-line="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/SampleListFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4992">
+          <caret line="230" selection-start-line="230" selection-end-line="230" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#5648#5649#0" expanded="true" />
+            <element signature="e#5680#5681#0" expanded="true" />
+            <element signature="e#5809#5810#0" expanded="true" />
+            <element signature="e#5841#5842#0" expanded="true" />
+            <element signature="e#5968#5969#0" expanded="true" />
+            <element signature="e#6000#6001#0" expanded="true" />
+            <element signature="e#6130#6131#0" expanded="true" />
+            <element signature="e#6162#6163#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/DataChart.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="107" selection-start-line="107" selection-end-line="107" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -816,27 +888,48 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/LoginFrame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="98">
-          <caret line="54" column="59" selection-start-line="54" selection-start-column="59" selection-end-line="54" selection-end-column="59" />
+        <state>
+          <caret column="17" lean-forward="true" selection-start-column="17" selection-end-column="17" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/GUICommonTools.java">
+    <entry file="file://$PROJECT_DIR$/src/dnaQ/Models/Sample.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-43">
-          <caret line="7" column="40" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="40" />
+        <state relative-caret-position="-2062">
+          <caret line="88" selection-start-line="88" selection-end-line="88" />
+          <folding>
+            <element signature="e#2484#2485#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/SampleListFrame.java">
+    <entry file="file://$PROJECT_DIR$/src/dnaQ/Models/Report.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="149" column="58" selection-start-line="149" selection-start-column="58" selection-end-line="149" selection-end-column="58" />
+        <state relative-caret-position="48">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/ReportFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1026">
+          <caret line="69" column="55" lean-forward="true" selection-start-line="69" selection-start-column="55" selection-end-line="69" selection-end-column="55" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dnaQ/Connections/DatabaseConnections.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="392">
+          <caret line="144" lean-forward="true" selection-start-line="144" selection-end-line="144" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4455#4463#0" expanded="true" />
           </folding>
         </state>
       </provider>

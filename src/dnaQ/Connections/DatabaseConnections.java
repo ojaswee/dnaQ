@@ -128,4 +128,21 @@ public class DatabaseConnections {
         }
 		return value;
 	}
+
+	public static ArrayList<String> getReportOptions() throws Exception{
+
+		ArrayList<String> reports = new ArrayList<String>();
+		//TODO check the name of departmentID
+
+		String query = "select reportname from report ;" ;
+		PreparedStatement pstm = databaseConnection.prepareStatement(query);
+		ResultSet rs = pstm.executeQuery();
+
+		while(rs.next()){
+			System.out.println(rs.getString(1));
+			reports.add(rs.getString(1));
+		}
+
+		return reports;
+	}
 }
