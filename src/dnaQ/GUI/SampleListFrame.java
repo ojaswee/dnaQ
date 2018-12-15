@@ -222,7 +222,11 @@ public class SampleListFrame extends JFrame  {
 		reportButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				handleReportButtonClick();
+				try {
+					handleReportButtonClick();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 	}
@@ -241,7 +245,7 @@ public class SampleListFrame extends JFrame  {
 	}
 
 
-	private void handleReportButtonClick() {
+	private void handleReportButtonClick() throws Exception {
 
 		ReportFrame reportframe = new ReportFrame(this);
 		reportframe.setVisible(true);

@@ -12,10 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import java.util.ArrayList;
-
 import dnaQ.Models.Sample;
 import dnaQ.Models.SampleList;
-
+import dnaQ.Connections.SSHConnection;
 import dnaQ.Connections.DatabaseConnections;
 
 
@@ -110,6 +109,7 @@ public class LoginFrame extends JFrame {
 		if (success){
 			
 			DatabaseConnections.connect();
+			SSHConnection.connect();
 			System.out.println("Login Successful");
 
 			samples = DatabaseConnections.getAllSample();
