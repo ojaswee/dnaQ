@@ -27,15 +27,16 @@ public class SSHConnection {
 
     private static CommandResponse executeCommandAndGetOutput(String command) throws Exception{
         StringBuilder result = new StringBuilder();
-        ChannelExec channel = null;
+        ChannelExec exechannel = null;
 
         try{
 //            A channel connected to a remotely executing program uses "exec"
-            channel = (ChannelExec) sshSession.openChannel("exec");
-            channel.setCommand(command);
-            channel.setInputStream(null);
-            InputStream stdout = channel.getInputStream();
-            channel.connect();
+            exechannel = (ChannelExec) sshSession.openChannel("exec");
+            exechannel.setCommand(command);
+            exechannel.setInputStream(null);
+            InputStream stdout = exechannel.getInputStream();
+            exechannel.connect();
+
 
             //Read output line by line
             byte[] tmp = new byte[1024];
@@ -47,7 +48,7 @@ public class SSHConnection {
                     String thisLine = new String(tmp, 0, i);
                     result.append(thisLine);
                 }
-                if (channel.isClosed()){
+                if (exechannel.isClosed()){
                     break;
                 }
             }
@@ -56,20 +57,26 @@ public class SSHConnection {
             for(String s : result.toString().split("\\r?\\n")) {
                 responseLines.add(s);
             }
-            return new CommandResponse(responseLines, channel.getExitStatus());
+            return new CommandResponse(responseLines, exechannel.getExitStatus());
         }finally {
-            if (channel != null) {
-                channel.disconnect();
+            if (exechannel != null) {
+                exechannel.disconnect();
             }
         }
+
     }
 
     public static void testRun() throws Exception {
-        String command = "cat /home/ojaswee/test.txt";
+//        String command = "cat /home/ojaswee/masters_project/08_server_report_generator/test.dir";
+//        String command = "python3 /home/ojaswee/masters_project/08_server_report_generator/reportGenerator.py";
+
+        String command = "bash /home/ojaswee/masters_project/08_server_report_generator/test_bash.sh";
+
+
         CommandResponse rs = executeCommandAndGetOutput(command);
 
         if(rs.exitStatus != 0) {
-            throw new Exception("Error creating local BAM file on server.");
+            throw new Exception("Error creating local file on server.");
         }
         System.out.println(rs.responseLines);
 
