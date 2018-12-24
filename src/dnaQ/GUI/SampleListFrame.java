@@ -247,7 +247,7 @@ public class SampleListFrame extends JFrame  {
 
 	private void handleReportButtonClick() throws Exception {
 
-		ReportFrame reportframe = new ReportFrame(this);
+		RequestReportFrame reportframe = new RequestReportFrame(this);
 		reportframe.setVisible(true);
 	}
 

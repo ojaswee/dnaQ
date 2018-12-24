@@ -2,106 +2,66 @@ package dnaQ.GUI;
 
 import javax.swing.*;
 import java.awt.*;
-
-import java.util.ArrayList;
-
-import dnaQ.Connections.DatabaseConnections;
-import dnaQ.Connections.SSHConnection;
-import dnaQ.Models.Report;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class ReportFrame extends JFrame {
 
     public JPanel reportPanel;
-    public JComboBox reportChoicesBox;
-    public JButton reportSubmitButton;
 
-    public SampleListFrame parent;
+    public JTextField reportTextField;
 
-    public ReportFrame(SampleListFrame samplelistframe) throws Exception {
+    public RequestReportFrame parent;
 
-        this.parent = samplelistframe;
+    public ReportFrame(RequestReportFrame requestreportframe) throws Exception{
+        this.parent = requestreportframe;
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         createComponents();
         layoutReportComponents();
-        activateComponents();
+        display();
 
         pack();
         setAlwaysOnTop(true);
         setResizable(true);
         setLocationRelativeTo(parent);
-        setReportsOption();
-
     }
 
-    private void createComponents() {
+    public void createComponents(){
+        reportPanel = new JPanel();
 
-        reportPanel = new JPanel(new GridLayout(0, 1));
-
-        reportChoicesBox = new JComboBox();
-
-        reportSubmitButton = new JButton("Submit");
-
+        reportTextField = new JTextField();
     }
 
-    private void layoutReportComponents() {
+    public void layoutReportComponents(){
 
-        setMinimumSize(new Dimension(500, 500));
-        setLayout(new GridLayout(0, 1));
+        reportPanel.setBackground(GUICommonTools.BackgroundColor1);
 
-        reportPanel.add(new Label(""));
 
-        JPanel dropdownPanel = new JPanel();
-        dropdownPanel.add(new Label("Select Report:"));
-        dropdownPanel.add(reportChoicesBox);
-        dropdownPanel.add(reportSubmitButton);
+        reportPanel.add(new Label("Report"));
+        reportPanel.setSize(500,500);
 
-        JPanel progressPanel = new JPanel();
-        progressPanel.add(new Label("Progress Monitor"));
-        progressPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        reportTextField.setBounds(160, 74, 142, 30);
 
-        reportPanel.add(dropdownPanel);
-        reportPanel.add(progressPanel);
+        reportPanel.add(reportTextField);
         add(reportPanel);
-
     }
 
-    private void setReportsOption() throws Exception {
+    public void display(){
 
-        ArrayList<String> reports = DatabaseConnections.getReportOptions();
+        try {
+            Scanner read = new Scanner(new File("/home/ojaswee/masters_project/08_server_report_generator/" +
+                    "transfered_files/output.txt"));
+            while (read.hasNextLine()){
+                System.out.println(read.nextLine());
 
-        for(int i =0; i < reports.size(); i++){
-            reportChoicesBox.addItem(reports.get(i));
-        }
-    }
-    private void activateComponents(){
-
-        reportSubmitButton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                try{
-
-                    reportSubmission();
-
-                }catch (Exception e){
-                    JOptionPane.showMessageDialog(ReportFrame.this, e.getMessage());
-                }
+                String value= "From Report dummy";
+                reportTextField.setText(value);
             }
-        });
-    }
-
-    private void reportSubmission() throws Exception {
-        System.out.println("submitted");
-
-        SSHConnection.testRun();
-
-    }
-
-    private void connectToServer(){
-
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,9 +1,20 @@
+/*
+SSHConnection.java
+-connects to remove server
+- executes bash
+    - bash runs python file
+    - python files make a txt files
+- using stfp channel transfer files from server to local computer
+- ends
+
+*/
 package dnaQ.Connections;
 
 import com.jcraft.jsch.*;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+
 
 public class SSHConnection {
 
@@ -18,7 +29,7 @@ public class SSHConnection {
 
     private static Session connectToSSH()throws Exception{
         JSch jsch = new JSch();
-        Session sshSession = jsch.getSession("root", "127.0.0.1",22);
+        Session sshSession = jsch.getSession("ojaswee", "127.0.0.1",22);
         sshSession.setPassword("main");
         sshSession.setConfig("StrictHostKeyChecking", "no");
         sshSession.connect();
@@ -30,7 +41,7 @@ public class SSHConnection {
         ChannelExec exechannel = null;
 
         try{
-//            A channel connected to a remotely executing program uses "exec"
+            //A channel connected to a remotely executing program uses "exec"
             exechannel = (ChannelExec) sshSession.openChannel("exec");
             exechannel.setCommand(command);
             exechannel.setInputStream(null);
@@ -63,20 +74,32 @@ public class SSHConnection {
                 exechannel.disconnect();
             }
         }
-
     }
 
-    public static void testRun() throws Exception {
-//        String command = "cat /home/ojaswee/masters_project/08_server_report_generator/test.dir";
-//        String command = "python3 /home/ojaswee/masters_project/08_server_report_generator/reportGenerator.py";
+    public static void transferReport(String name) throws JSchException, SftpException {
 
-        String command = "bash /home/ojaswee/masters_project/08_server_report_generator/test_bash.sh";
+        ChannelSftp sftpChannel = (ChannelSftp) sshSession.openChannel("sftp");
+        sftpChannel.connect();
 
+        String source_path = "/home/ojaswee/masters_project/08_server_report_generator/04_file_sender/" + name +".pdf";
+        String destination_path = "/home/ojaswee/masters_project/08_server_report_generator/05_file_receiver/";
+
+        sftpChannel.put(source_path, destination_path);
+
+        sftpChannel.exit();
+    }
+
+
+    public static void generateReport(String name) throws Exception {
+
+
+
+        String command = "bash /home/ojaswee/masters_project/08_server_report_generator/01_test_bash.sh -f " + name;
 
         CommandResponse rs = executeCommandAndGetOutput(command);
 
         if(rs.exitStatus != 0) {
-            throw new Exception("Error creating local file on server.");
+            throw new Exception("Error creating file on server.");
         }
         System.out.println(rs.responseLines);
 
