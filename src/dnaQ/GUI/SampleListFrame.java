@@ -45,7 +45,8 @@ public class SampleListFrame extends JFrame  {
 	public SampleListFrame(LoginFrame parent, SampleList sampleList )  {
 		this.sampleList=sampleList;
 		this.filterList=new FilterList();
-		this.parent = parent;
+//		this.parent = parent;
+
 		this.sampleTableModel= new SampleTableModel(sampleList.getSamples());
 		this.datachart = new DataChart(this,this.sampleList);
 
@@ -57,7 +58,6 @@ public class SampleListFrame extends JFrame  {
 		activateComponents();
 		
 		pack();
-		setAlwaysOnTop(true);
 		setResizable(true);
         setLocationRelativeTo(parent);
 	}
@@ -77,7 +77,7 @@ public class SampleListFrame extends JFrame  {
 		filterList.addCosmicIDFilter(cosmicIDCheckbox);
 		filterList.addClinvarIDFilter(clinvarIDCheckbox);
 		filterList.addG1000IDFilter(g1000IDCheckbox);
-		filterList.addG1000IDFilter(globalFreqCheckbox);
+		filterList.addGlobalFreqFilter(globalFreqCheckbox);
 		filterList.addG1000IDFilter(diseaseCheckbox);
 
 		dashboardButton = new JButton("Dashboard");

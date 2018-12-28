@@ -25,6 +25,7 @@ public class RequestReportFrame extends JFrame {
 
     public RequestReportFrame(SampleListFrame samplelistframe) throws Exception {
 
+        super ("Request Report");
         this.parent = samplelistframe;
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -94,11 +95,8 @@ public class RequestReportFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 try{
-
-
 //                    runProgressBar();
                     reportSubmission();
-
 
                 }catch (Exception e){
                     JOptionPane.showMessageDialog(RequestReportFrame.this, e.getMessage());

@@ -61,6 +61,10 @@ public class FilterList {
 
         addFilter(new G1000IDSampleFilter(g1000IDCheckbox));
     }
+    public void addGlobalFreqFilter(JCheckBox globalFreqCheckbox) {
+
+        addFilter(new GlobalFreqSampleFilter(globalFreqCheckbox));
+    }
 
 }
 
@@ -135,6 +139,30 @@ class G1000IDSampleFilter extends SampleFilter {
 
         if (g1000IDCheckbox.isSelected()) {
             if (sample.getG1000id().equals("")) {
+                return true;
+            } else {
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+}
+
+class GlobalFreqSampleFilter extends SampleFilter {
+
+    private JCheckBox globalFreqCheckbox;
+
+    GlobalFreqSampleFilter(JCheckBox globalFreqCheckbox) {
+        this.globalFreqCheckbox = globalFreqCheckbox;
+
+    }
+
+    @Override
+    public boolean exclude(Sample sample) {
+
+        if (globalFreqCheckbox.isSelected()) {
+            if (sample.getAltGlobalFreq().equals("")) {
                 return true;
             } else {
                 return false;

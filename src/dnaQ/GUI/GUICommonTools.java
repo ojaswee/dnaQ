@@ -1,11 +1,14 @@
 package dnaQ.GUI;
 
+import javax.swing.*;
 import java.awt.*;
+
 
 public class GUICommonTools {
 	public static Font TAHOMA_BOLD_16 = new Font("Tahoma", Font.BOLD, 16);
 	public static Font TAHOMA_BOLD_14 = new Font("Tahoma", Font.BOLD, 14);
-	public static Color BackgroundColor1 = new java.awt.Color(67, 176, 49);
+	public static Color BackgroundColor1 = new java.awt.Color(176, 26, 159);
+	public static Color BackgroundColor2 = new java.awt.Color(251, 255, 255);
 
 	public static Rectangle getBounds(Component componentOrNull){
 		Insets insets;
@@ -26,5 +29,6 @@ public class GUICommonTools {
 	    bounds.height -= (insets.top + insets.bottom);
 	    return bounds;
 	}
+
 
 }

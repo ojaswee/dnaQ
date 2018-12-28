@@ -4,14 +4,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.swing.*;
 import java.util.ArrayList;
+
+import com.sun.xml.internal.messaging.saaj.soap.JpegDataContentHandler;
 import dnaQ.Models.Sample;
 import dnaQ.Models.SampleList;
 import dnaQ.Connections.SSHConnection;
@@ -23,6 +19,7 @@ public class LoginFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel panel;
+
 	private JTextField usernameTextField;
 	private JPasswordField passwordTextField;
     private JButton loginButton;
@@ -32,7 +29,7 @@ public class LoginFrame extends JFrame {
 
 
 	/**
-	 * Create the application.
+	 * Create login Frame application.
 	 */
 	public LoginFrame() {
 		super("dnaQ Login");
@@ -40,10 +37,13 @@ public class LoginFrame extends JFrame {
 		createComponents();
 		layoutLoginComponents();
 		activateComponents();
+
+		setLocationRelativeTo(null);
 	}
 
 	private void createComponents(){
 		panel = new JPanel();
+
 		loginButton = new JButton("Login");
 		usernameTextField = new JTextField();
 		passwordTextField = new JPasswordField();
@@ -51,37 +51,62 @@ public class LoginFrame extends JFrame {
 	
 	private void layoutLoginComponents(){
 
-        panel.setBackground(GUICommonTools.BackgroundColor1);
+		int width_panel, height_panel;
 
-		setSize(440, 345);
-		panel.setLayout(null);
-		
+		width_panel = 600;
+		height_panel = 400;
+
+		panel.setBackground(GUICommonTools.BackgroundColor2);
+		setSize(width_panel, height_panel);
+		panel.setLayout(new GridBagLayout());
+
+		//fit logo as label background
+		ImageIcon logoPicture = new ImageIcon(new ImageIcon("/home/ojaswee/masters_project/logo.png").getImage().getScaledInstance(width_panel/2, height_panel/2,Image.SCALE_SMOOTH));
+		JLabel lblLogo= new JLabel(logoPicture);
+
+		JPanel logo_panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+//		logo_panel.setBackground(GUICommonTools.BackgroundColor1);
+		logo_panel.add(lblLogo);
+		panel.add(logo_panel);
+
+		JPanel lower_panel = new JPanel(new GridLayout(1,1));
+		lower_panel.setBackground(GUICommonTools.BackgroundColor1);
+		lower_panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+		JPanel login_panel = new JPanel(new GridLayout(6,1));
+		login_panel.setBackground(GUICommonTools.BackgroundColor1);
+		login_panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		login_panel.setBorder(BorderFactory.createEmptyBorder(10,90,10,90));
+
+
+
+
+
+		//credentials
 		JLabel lblUsername = new JLabel("UserName");
 		lblUsername.setFont(GUICommonTools.TAHOMA_BOLD_14);
-		lblUsername.setBounds(72, 71, 101, 33);
-		
+
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setFont(GUICommonTools.TAHOMA_BOLD_14);
-		lblPassword.setBounds(72, 145, 101, 14);
-		
-		usernameTextField.setBounds(160, 74, 142, 30);
-		usernameTextField.setColumns(10);
-		
-		passwordTextField.setBounds(160, 139, 142, 30);
-		
+
+		//login button
 		loginButton.setFont(GUICommonTools.TAHOMA_BOLD_14);
-		loginButton.setBounds(181, 214, 90, 45);
-		
-		panel.add(lblUsername);
-		panel.add(usernameTextField);
-		panel.add(lblPassword);
-		panel.add(passwordTextField);
-		panel.add(loginButton);
+		login_panel.add(lblUsername);
+		login_panel.add(usernameTextField);
+		login_panel.add(lblPassword);
+		login_panel.add(passwordTextField);
+		login_panel.add(new Label(""));
+		login_panel.add(loginButton);
+
+		lower_panel.add(login_panel);
+		panel.add(lower_panel);
+
 		add(panel);
-		getRootPane().setDefaultButton(loginButton);
-		
-		Rectangle bounds = GUICommonTools.getBounds(this);
-		setLocation(bounds.width/2-getSize().width/2, bounds.height/2-getSize().height/2);
+
+//		getRootPane().setDefaultButton(loginButton);
+//
+//		Rectangle bounds = GUICommonTools.getBounds(this);
+//		setLocation(bounds.width/2-getSize().width/2, bounds.height/2-getSize().height/2);
 	}
 
 	private void activateComponents(){
@@ -117,8 +142,6 @@ public class LoginFrame extends JFrame {
 			SampleListFrame samplelistframe = new SampleListFrame(this,sampleList);
 			dispose();
 			samplelistframe.setVisible(true);
-
-
 		}
 		else {
 			JOptionPane.showMessageDialog(null,"Invalid username or password");
