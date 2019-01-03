@@ -24,6 +24,7 @@ public class SampleListFrame extends JFrame  {
 	private SampleList sampleList;
 	private FilterList filterList;
 
+	private JPanel panel;
 
 	public JCheckBox cosmicIDCheckbox;
 	public JCheckBox clinvarIDCheckbox;
@@ -45,7 +46,7 @@ public class SampleListFrame extends JFrame  {
 	public SampleListFrame(LoginFrame parent, SampleList sampleList )  {
 		this.sampleList=sampleList;
 		this.filterList=new FilterList();
-//		this.parent = parent;
+		this.parent = parent;
 
 		this.sampleTableModel= new SampleTableModel(sampleList.getSamples());
 		this.datachart = new DataChart(this,this.sampleList);
@@ -64,8 +65,10 @@ public class SampleListFrame extends JFrame  {
 
 	public void createComponents(){
 
+		panel = new JPanel();
+
 		table = new JTable(sampleTableModel);
-		tableScrollPane = new JScrollPane();
+		tableScrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		tableScrollPane.setViewportView(table);
 
 		cosmicIDCheckbox = new JCheckBox("Cosmic");
@@ -87,13 +90,29 @@ public class SampleListFrame extends JFrame  {
 	
 	private void layoutComponents(){
 
-        setLayout(new GridLayout(0,1));
-		setMinimumSize(new Dimension(1900,500));
+		int widthPanel, heightPanel;
 
-		JPanel upperPanel = new JPanel(new GridLayout(1,0));
+		widthPanel = 1900;
+		heightPanel = 1000;
+
+		setMinimumSize(new Dimension(widthPanel,heightPanel));
+		panel.setBackground(GUICommonTools.BackgroundColor2);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+		//logo
+		ImageIcon logoPicture = new ImageIcon(new ImageIcon("/home/ojaswee/masters_project/logo.png").getImage());
+		JLabel lblLogo= new JLabel(logoPicture);
+
+		JPanel logoPanel = new JPanel();
+		logoPanel.add(lblLogo);
+
+//		upper panel includes filter and feature panel
+
+		JPanel upperPanel = new JPanel(new FlowLayout());
 
 		JPanel filterPanel = new JPanel(new GridLayout(0,1));
         filterPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        filterPanel.setBackground(GUICommonTools.BackgroundColor2);
 
 		JPanel filterPanelHeading = new JPanel(new FlowLayout(FlowLayout.CENTER));
         filterPanelHeading.add(new Label("Choose filter to select results"));
@@ -130,25 +149,21 @@ public class SampleListFrame extends JFrame  {
 
         JPanel filterPanel5 = new JPanel(new GridLayout(1,0));
         filterPanel5.add(new Label("Select"));
-        filterPanel.add(filterPanel4);
+        filterPanel.add(filterPanel5);
 
-
-		JPanel featurePanel = new JPanel(new GridLayout(0,1));
+		JPanel featurePanel = new JPanel(new BorderLayout());
 		featurePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        featurePanel.setBackground(GUICommonTools.BackgroundColor1);
+        featurePanel.setBackground(GUICommonTools.BackgroundColor2);
 
-
-        JPanel featurePanelHeading = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        featurePanelHeading.add(new Label("Please select one"));
-        featurePanelHeading.setFont(GUICommonTools.TAHOMA_BOLD_16);
-        featurePanelHeading.setBackground(GUICommonTools.BackgroundColor1);
-        featurePanel.add(featurePanelHeading);
+		JPanel featurePanelHeading = new JPanel(new FlowLayout());
+		featurePanelHeading.add(new Label("Please select one"));
+		featurePanelHeading.setFont(GUICommonTools.TAHOMA_BOLD_16);
+		featurePanelHeading.setBackground(GUICommonTools.BackgroundColor1);
+		featurePanel.add(featurePanelHeading, BorderLayout.NORTH);
 
         JPanel featureButtonPanel = new JPanel(new GridLayout(0,1));
 
-
         JPanel dashboardButtonPanel = new JPanel();
-        dashboardButton.setMinimumSize(new Dimension(100,100));
         dashboardButtonPanel.add(dashboardButton);
 		featureButtonPanel.add(dashboardButtonPanel);
 		featureButtonPanel.add(new Label(" "));
@@ -162,16 +177,22 @@ public class SampleListFrame extends JFrame  {
         exportButtonPanel.add(exportButton);
         featureButtonPanel.add(exportButtonPanel);
 
-		featurePanel.add(featureButtonPanel);
+		featurePanel.add(featureButtonPanel, BorderLayout.SOUTH);
+
+		upperPanel.add(logoPanel);
 		upperPanel.add(filterPanel);
+
 		upperPanel.add(featurePanel);
 
-		JPanel lowerPanel = new JPanel(new GridLayout(0,1));
-		lowerPanel.add(tableScrollPane);
+		panel.add(upperPanel);
 
-		add(upperPanel);
-		add(lowerPanel);
+		JPanel lowerPanel = new JPanel(new BorderLayout());
 
+		lowerPanel.add(tableScrollPane, BorderLayout.CENTER);
+		lowerPanel.setBackground(GUICommonTools.BackgroundColor1);
+		panel.add(lowerPanel);
+
+		add(panel);
 	}
 
 	

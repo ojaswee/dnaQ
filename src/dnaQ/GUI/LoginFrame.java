@@ -51,32 +51,31 @@ public class LoginFrame extends JFrame {
 	
 	private void layoutLoginComponents(){
 
-		int width_panel, height_panel;
+		int widthPanel, heightPanel;
 
-		width_panel = 600;
-		height_panel = 400;
+		widthPanel = 600;
+		heightPanel = 400;
 
 		panel.setBackground(GUICommonTools.BackgroundColor2);
-		setSize(width_panel, height_panel);
+		setSize(widthPanel, heightPanel);
 		panel.setLayout(new GridBagLayout());
 
 		//fit logo as label background
-		ImageIcon logoPicture = new ImageIcon(new ImageIcon("/home/ojaswee/masters_project/logo.png").getImage().getScaledInstance(width_panel/2, height_panel/2,Image.SCALE_SMOOTH));
+		ImageIcon logoPicture = new ImageIcon(new ImageIcon("/home/ojaswee/masters_project/logo.png").getImage().getScaledInstance(widthPanel/2, heightPanel/2,Image.SCALE_SMOOTH));
 		JLabel lblLogo= new JLabel(logoPicture);
 
-		JPanel logo_panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-//		logo_panel.setBackground(GUICommonTools.BackgroundColor1);
-		logo_panel.add(lblLogo);
-		panel.add(logo_panel);
+		JPanel logoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		logoPanel.add(lblLogo);
+		panel.add(logoPanel);
 
-		JPanel lower_panel = new JPanel(new GridLayout(1,1));
-		lower_panel.setBackground(GUICommonTools.BackgroundColor1);
-		lower_panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		JPanel lowerPanel = new JPanel(new GridLayout(1,1));
+		lowerPanel.setBackground(GUICommonTools.BackgroundColor1);
+		lowerPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-		JPanel login_panel = new JPanel(new GridLayout(6,1));
-		login_panel.setBackground(GUICommonTools.BackgroundColor1);
-		login_panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		login_panel.setBorder(BorderFactory.createEmptyBorder(10,90,10,90));
+		JPanel loginPanel = new JPanel(new GridLayout(6,1));
+		loginPanel.setBackground(GUICommonTools.BackgroundColor1);
+		loginPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		loginPanel.setBorder(BorderFactory.createEmptyBorder(10,90,10,90));
 
 
 
@@ -91,22 +90,17 @@ public class LoginFrame extends JFrame {
 
 		//login button
 		loginButton.setFont(GUICommonTools.TAHOMA_BOLD_14);
-		login_panel.add(lblUsername);
-		login_panel.add(usernameTextField);
-		login_panel.add(lblPassword);
-		login_panel.add(passwordTextField);
-		login_panel.add(new Label(""));
-		login_panel.add(loginButton);
+		loginPanel.add(lblUsername);
+		loginPanel.add(usernameTextField);
+		loginPanel.add(lblPassword);
+		loginPanel.add(passwordTextField);
+		loginPanel.add(new Label(""));
+		loginPanel.add(loginButton);
 
-		lower_panel.add(login_panel);
-		panel.add(lower_panel);
+		lowerPanel.add(loginPanel);
+		panel.add(lowerPanel);
 
 		add(panel);
-
-//		getRootPane().setDefaultButton(loginButton);
-//
-//		Rectangle bounds = GUICommonTools.getBounds(this);
-//		setLocation(bounds.width/2-getSize().width/2, bounds.height/2-getSize().height/2);
 	}
 
 	private void activateComponents(){

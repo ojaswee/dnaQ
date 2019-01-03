@@ -2,15 +2,21 @@ package dnaQ.GUI.GUI_Models;
 
 import dnaQ.Models.Sample;
 
-public class SampleTableModelColumn extends CommonTableColumn {
+public class SampleTableModelColumn  {
 	
 	/**
 	 * The Lambda interface object
 	 */
 	private final SampleGetValueAtOperation operation;
+
+	public final String description;
+	public final String title;
+	public final Class<?> columnClass;
 	
 	public SampleTableModelColumn(String description, String title, Class<?> columnClass, SampleGetValueAtOperation operation) {
-		super(description, title, columnClass);
+		this.description = description;
+		this.title = title;
+		this.columnClass= columnClass;
 		this.operation = operation;
 	}
 	
