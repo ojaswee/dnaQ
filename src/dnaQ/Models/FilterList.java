@@ -57,10 +57,12 @@ public class FilterList {
 
         addFilter(new ClinvarIDSampleFilter(clinvarIDCheckBox));
     }
+
     public void addG1000IDFilter(JCheckBox g1000IDCheckbox) {
 
         addFilter(new G1000IDSampleFilter(g1000IDCheckbox));
     }
+
     public void addGlobalFreqFilter(JCheckBox globalFreqCheckbox) {
 
         addFilter(new GlobalFreqSampleFilter(globalFreqCheckbox));

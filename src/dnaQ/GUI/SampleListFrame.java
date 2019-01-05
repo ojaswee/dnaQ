@@ -3,7 +3,7 @@ package dnaQ.GUI;
 import java.awt.*;
 
 import javax.swing.*;
-import javax.swing.table.TableCellRenderer;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -24,9 +24,13 @@ public class SampleListFrame extends JFrame  {
 	private ClinvarTable clinvarTable;
 	private ClinvarTableModel clinvarTableModel;
 
+	private G1000Table g1000Table;
+	private G1000TableModel g1000TableModel;
+
 	private JScrollPane commonScrollPane;
 	private JScrollPane cosmicScrollPane;
 	private JScrollPane clinvarScrollPane;
+	private JScrollPane g1000ScrollPane;
 
 	private LoginFrame parent;
 
@@ -61,6 +65,7 @@ public class SampleListFrame extends JFrame  {
 		this.commonTableModel = new CommonTableModel(sampleList.getSamples());
 		this.cosmicTableModel = new CosmicTableModel(sampleList.getSamples());
 		this.clinvarTableModel = new ClinvarTableModel(sampleList.getSamples());
+		this.g1000TableModel = new G1000TableModel(sampleList.getSamples());
 		this.datachart = new DataChart(this,this.sampleList);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -90,6 +95,11 @@ public class SampleListFrame extends JFrame  {
 		clinvarTable = new ClinvarTable(this,clinvarTableModel);
 		clinvarScrollPane = new JScrollPane(clinvarTable);
 		clinvarScrollPane.setViewportView(clinvarTable);
+
+		g1000Table = new G1000Table(this,g1000TableModel);
+		g1000ScrollPane = new JScrollPane(g1000Table);
+		g1000ScrollPane.setViewportView(g1000Table);
+
 
 		cosmicIDCheckbox = new JCheckBox("Cosmic");
 		clinvarIDCheckbox = new JCheckBox("Clinvar");
@@ -212,6 +222,9 @@ public class SampleListFrame extends JFrame  {
 		tabbedPane.addTab("Common", null, commonScrollPane, null);
 		tabbedPane.addTab("Cosmic", null, cosmicScrollPane, null);
 		tabbedPane.addTab("Clinvar", null, clinvarScrollPane, null);
+		tabbedPane.addTab("G1000", null, g1000ScrollPane, null);
+
+
 
 		lowerPanel.add(tabbedPane, BorderLayout.CENTER);
 
