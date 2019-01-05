@@ -51,7 +51,9 @@ public class CommonTable extends JTable {
             for (int row = 0; row < getRowCount(); row++) {
                 TableCellRenderer renderer = getCellRenderer(row, column);
                 Component comp = prepareRenderer(renderer, row, column);
+
                 width = Math.max(comp.getPreferredSize().width + buffer , width);
+
             }
             width = Math.min(maxWidth, width);
             columnModel.getColumn(column).setPreferredWidth(width);

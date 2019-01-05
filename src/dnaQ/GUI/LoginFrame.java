@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.util.ArrayList;
 
-import com.sun.xml.internal.messaging.saaj.soap.JpegDataContentHandler;
 import dnaQ.Models.Sample;
 import dnaQ.Models.SampleList;
 import dnaQ.Connections.SSHConnection;
@@ -76,9 +75,6 @@ public class LoginFrame extends JFrame {
 		loginPanel.setBackground(GUICommonTools.BackgroundColor1);
 		loginPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		loginPanel.setBorder(BorderFactory.createEmptyBorder(10,90,10,90));
-
-
-
 
 
 		//credentials

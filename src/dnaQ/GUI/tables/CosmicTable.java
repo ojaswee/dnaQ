@@ -16,14 +16,14 @@ public class CosmicTable extends CommonTable {
 
     protected SampleListFrame parent;
 
-    protected CommonTableModel commonTableModel;
+    protected CosmicTableModel cosmicTableModel;
 
 
-    public CosmicTable (SampleListFrame parent, CommonTableModel commonTableModel){
+    public CosmicTable (SampleListFrame parent, CosmicTableModel cosmicTableModel){
         super();
         this.parent = parent;
-        this.commonTableModel = commonTableModel;
-        setModel(commonTableModel);
+        this.cosmicTableModel = cosmicTableModel;
+        setModel(cosmicTableModel);
 
         resizeColumnWidths();
         constructRenderers();
@@ -33,6 +33,8 @@ public class CosmicTable extends CommonTable {
     }
 
     public void resizeColumnWidths() {
+
+
         TableColumnModel columnModel = getColumnModel();
         int buffer = 12;
 
@@ -43,7 +45,7 @@ public class CosmicTable extends CommonTable {
             Component headerComp = headerRenderer.getTableCellRendererComponent(this, tableColumn.getHeaderValue(), false, false, 0, 0);
 
             int minWidth = headerComp.getPreferredSize().width + buffer;
-            int maxWidth = 100;
+            int maxWidth = 200;
 
             int width = minWidth;
             for (int row = 0; row < getRowCount(); row++) {

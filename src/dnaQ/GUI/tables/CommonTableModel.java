@@ -53,45 +53,10 @@ public class CommonTableModel extends AbstractTableModel {
 				String.class,
 				(Sample request) -> request.cosmicid));
 
-		columns.add(new CommonTableModelColumn("cds",
-				"cds",
-				String.class,
-				(Sample request) -> request.cds));
-
-		columns.add(new CommonTableModelColumn("aa",
-				"aa",
-				String.class,
-				(Sample request) -> request.aa));
-
-		columns.add(new CommonTableModelColumn("count",
-				"count",
-				String.class,
-				(Sample request) -> request.count));
-
 		columns.add(new CommonTableModelColumn("clinvarid",
 				"clinvarid",
 				String.class,
 				(Sample request) -> request.clinvarid));
-
-		columns.add(new CommonTableModelColumn("clndn",
-				"clndn",
-				String.class,
-				(Sample request) -> request.clndn));
-
-		columns.add(new CommonTableModelColumn("clnsig",
-				"clnsig",
-				String.class,
-				(Sample request) -> request.clnsig));
-
-		columns.add(new CommonTableModelColumn("mc",
-				"mc",
-				String.class,
-				(Sample request) -> request.mc));
-
-		columns.add(new CommonTableModelColumn("origin",
-				"origin",
-				String.class,
-				(Sample request) -> request.origin));
 
 		columns.add(new CommonTableModelColumn("g1000id",
 				"g1000id",

@@ -3,14 +3,12 @@ package dnaQ.GUI;
 import java.awt.*;
 
 import javax.swing.*;
+import javax.swing.table.TableCellRenderer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import dnaQ.GUI.tables.CommonTable;
-import dnaQ.GUI.tables.CosmicTable;
-import dnaQ.GUI.tables.CosmicTableModel;
+import dnaQ.GUI.tables.*;
 import dnaQ.Models.FilterList;
-import dnaQ.GUI.tables.CommonTableModel;
 import dnaQ.Models.SampleList;
 
 public class SampleListFrame extends JFrame  {
@@ -23,8 +21,12 @@ public class SampleListFrame extends JFrame  {
 	private CosmicTable cosmicTable;
 	private CosmicTableModel cosmicTableModel;
 
-    private JScrollPane cosmicScrollPane;
+	private ClinvarTable clinvarTable;
+	private ClinvarTableModel clinvarTableModel;
+
 	private JScrollPane commonScrollPane;
+	private JScrollPane cosmicScrollPane;
+	private JScrollPane clinvarScrollPane;
 
 	private LoginFrame parent;
 
@@ -56,8 +58,9 @@ public class SampleListFrame extends JFrame  {
 		this.filterList=new FilterList();
 		this.parent = parent;
 
-		this.cosmicTableModel = new CosmicTableModel(sampleList.getSamples());
 		this.commonTableModel = new CommonTableModel(sampleList.getSamples());
+		this.cosmicTableModel = new CosmicTableModel(sampleList.getSamples());
+		this.clinvarTableModel = new ClinvarTableModel(sampleList.getSamples());
 		this.datachart = new DataChart(this,this.sampleList);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -76,12 +79,17 @@ public class SampleListFrame extends JFrame  {
 		panel = new JPanel();
 
 		commonTable = new CommonTable(this,commonTableModel);
+
 		commonScrollPane = new JScrollPane(commonTable);
 		commonScrollPane.setViewportView(commonTable);
 
 		cosmicTable = new CosmicTable(this,cosmicTableModel);
 		cosmicScrollPane = new JScrollPane(cosmicTable);
 		cosmicScrollPane.setViewportView(cosmicTable);
+
+		clinvarTable = new ClinvarTable(this,clinvarTableModel);
+		clinvarScrollPane = new JScrollPane(clinvarTable);
+		clinvarScrollPane.setViewportView(clinvarTable);
 
 		cosmicIDCheckbox = new JCheckBox("Cosmic");
 		clinvarIDCheckbox = new JCheckBox("Clinvar");
@@ -203,6 +211,7 @@ public class SampleListFrame extends JFrame  {
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.addTab("Common", null, commonScrollPane, null);
 		tabbedPane.addTab("Cosmic", null, cosmicScrollPane, null);
+		tabbedPane.addTab("Clinvar", null, clinvarScrollPane, null);
 
 		lowerPanel.add(tabbedPane, BorderLayout.CENTER);
 
