@@ -10,7 +10,7 @@ import javax.swing.table.TableColumnModel;
 import java.awt.*;
 
 
-public class CommonTable extends JTable {
+public class CosmicTable extends CommonTable {
 
     private static final long serialVersionUID = 1L;
 
@@ -19,9 +19,7 @@ public class CommonTable extends JTable {
     protected CommonTableModel commonTableModel;
 
 
-    public CommonTable(){}
-
-    public CommonTable (SampleListFrame parent, CommonTableModel commonTableModel){
+    public CosmicTable (SampleListFrame parent, CommonTableModel commonTableModel){
         super();
         this.parent = parent;
         this.commonTableModel = commonTableModel;

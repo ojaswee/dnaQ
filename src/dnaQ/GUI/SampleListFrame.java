@@ -6,18 +6,25 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import dnaQ.GUI.tables.CommonTable;
+import dnaQ.GUI.tables.CosmicTable;
+import dnaQ.GUI.tables.CosmicTableModel;
 import dnaQ.Models.FilterList;
-import dnaQ.GUI.GUI_Models.SampleTableModel;
+import dnaQ.GUI.tables.CommonTableModel;
 import dnaQ.Models.SampleList;
 
 public class SampleListFrame extends JFrame  {
-	
+
 	private static final long serialVersionUID = 1L;
 
-	private JTable table;
-	private SampleTableModel sampleTableModel;
-	
-    private JScrollPane tableScrollPane;
+	private CommonTable commonTable;
+	private CommonTableModel commonTableModel;
+
+	private CosmicTable cosmicTable;
+	private CosmicTableModel cosmicTableModel;
+
+    private JScrollPane cosmicScrollPane;
+	private JScrollPane commonScrollPane;
 
 	private LoginFrame parent;
 
@@ -25,6 +32,7 @@ public class SampleListFrame extends JFrame  {
 	private FilterList filterList;
 
 	private JPanel panel;
+	private JTabbedPane tabbedPane;
 
 	public JCheckBox cosmicIDCheckbox;
 	public JCheckBox clinvarIDCheckbox;
@@ -48,16 +56,16 @@ public class SampleListFrame extends JFrame  {
 		this.filterList=new FilterList();
 		this.parent = parent;
 
-		this.sampleTableModel= new SampleTableModel(sampleList.getSamples());
+		this.cosmicTableModel = new CosmicTableModel(sampleList.getSamples());
+		this.commonTableModel = new CommonTableModel(sampleList.getSamples());
 		this.datachart = new DataChart(this,this.sampleList);
 
-
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		createComponents();
 		layoutComponents();
 		activateComponents();
-		
+
 		pack();
 		setResizable(true);
         setLocationRelativeTo(parent);
@@ -67,9 +75,13 @@ public class SampleListFrame extends JFrame  {
 
 		panel = new JPanel();
 
-		table = new JTable(sampleTableModel);
-		tableScrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		tableScrollPane.setViewportView(table);
+		commonTable = new CommonTable(this,commonTableModel);
+		commonScrollPane = new JScrollPane(commonTable);
+		commonScrollPane.setViewportView(commonTable);
+
+		cosmicTable = new CosmicTable(this,cosmicTableModel);
+		cosmicScrollPane = new JScrollPane(cosmicTable);
+		cosmicScrollPane.setViewportView(cosmicTable);
 
 		cosmicIDCheckbox = new JCheckBox("Cosmic");
 		clinvarIDCheckbox = new JCheckBox("Clinvar");
@@ -87,7 +99,7 @@ public class SampleListFrame extends JFrame  {
 		reportButton = new JButton("Report");
 		exportButton = new JButton("Export");
 	}
-	
+
 	private void layoutComponents(){
 
 		int widthPanel, heightPanel;
@@ -188,14 +200,20 @@ public class SampleListFrame extends JFrame  {
 
 		JPanel lowerPanel = new JPanel(new BorderLayout());
 
-		lowerPanel.add(tableScrollPane, BorderLayout.CENTER);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.addTab("Common", null, commonScrollPane, null);
+		tabbedPane.addTab("Cosmic", null, cosmicScrollPane, null);
+
+		lowerPanel.add(tabbedPane, BorderLayout.CENTER);
+
+
 		lowerPanel.setBackground(GUICommonTools.BackgroundColor1);
 		panel.add(lowerPanel);
 
 		add(panel);
 	}
 
-	
+
 	private void activateComponents(){
 		cosmicIDCheckbox.addActionListener(new ActionListener() {
 			@Override
@@ -254,7 +272,7 @@ public class SampleListFrame extends JFrame  {
 
 	private void handleCheckBoxClick() {
 			sampleList.filterSamples(filterList);
-			sampleTableModel.fireTableDataChanged();
+			cosmicTableModel.fireTableDataChanged();
 			datachart.updateCharts();
 	}
 
