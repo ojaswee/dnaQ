@@ -27,10 +27,14 @@ public class SampleListFrame extends JFrame  {
 	private G1000Table g1000Table;
 	private G1000TableModel g1000TableModel;
 
+	private OncokbTable oncokbTable;
+	private OncokbTableModel oncokbTableModel;
+
 	private JScrollPane commonScrollPane;
 	private JScrollPane cosmicScrollPane;
 	private JScrollPane clinvarScrollPane;
 	private JScrollPane g1000ScrollPane;
+	private JScrollPane oncokbScrollPane;
 
 	private LoginFrame parent;
 
@@ -66,6 +70,8 @@ public class SampleListFrame extends JFrame  {
 		this.cosmicTableModel = new CosmicTableModel(sampleList.getSamples());
 		this.clinvarTableModel = new ClinvarTableModel(sampleList.getSamples());
 		this.g1000TableModel = new G1000TableModel(sampleList.getSamples());
+		this.oncokbTableModel = new OncokbTableModel(sampleList.getSamples());
+
 		this.datachart = new DataChart(this,this.sampleList);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -100,6 +106,10 @@ public class SampleListFrame extends JFrame  {
 		g1000ScrollPane = new JScrollPane(g1000Table);
 		g1000ScrollPane.setViewportView(g1000Table);
 
+		oncokbTable = new OncokbTable(this,oncokbTableModel);
+		oncokbScrollPane = new JScrollPane(oncokbTable);
+		oncokbScrollPane.setViewportView(oncokbTable);
+
 
 		cosmicIDCheckbox = new JCheckBox("Cosmic");
 		clinvarIDCheckbox = new JCheckBox("Clinvar");
@@ -130,7 +140,7 @@ public class SampleListFrame extends JFrame  {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
 		//logo
-		ImageIcon logoPicture = new ImageIcon(new ImageIcon("/home/ojaswee/masters_project/logo.png").getImage());
+		ImageIcon logoPicture = GUICommonTools.getsquareLogo(widthPanel/5, heightPanel/5);
 		JLabel lblLogo= new JLabel(logoPicture);
 
 		JPanel logoPanel = new JPanel();
@@ -223,7 +233,7 @@ public class SampleListFrame extends JFrame  {
 		tabbedPane.addTab("Cosmic", null, cosmicScrollPane, null);
 		tabbedPane.addTab("Clinvar", null, clinvarScrollPane, null);
 		tabbedPane.addTab("G1000", null, g1000ScrollPane, null);
-
+		tabbedPane.addTab("Oncokb", null, oncokbScrollPane, null);
 
 
 		lowerPanel.add(tabbedPane, BorderLayout.CENTER);

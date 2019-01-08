@@ -60,7 +60,8 @@ public class LoginFrame extends JFrame {
 		panel.setLayout(new GridBagLayout());
 
 		//fit logo as label background
-		ImageIcon logoPicture = new ImageIcon(new ImageIcon("/home/ojaswee/masters_project/logo.png").getImage().getScaledInstance(widthPanel/2, heightPanel/2,Image.SCALE_SMOOTH));
+		ImageIcon logoPicture = GUICommonTools.getsquareLogo(widthPanel/2, heightPanel/2);
+
 		JLabel lblLogo= new JLabel(logoPicture);
 
 		JPanel logoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -127,11 +128,18 @@ public class LoginFrame extends JFrame {
 			SSHConnection.connect();
 			System.out.println("Login Successful");
 
-			samples = DatabaseConnections.getAllSample();
-			sampleList = new SampleList(samples);
-			SampleListFrame samplelistframe = new SampleListFrame(this,sampleList);
+
+			//add upload file before moving to sampleFrame and control it from uploadFrame
+			UploadFrame uploadFrame = new UploadFrame(this);
 			dispose();
-			samplelistframe.setVisible(true);
+			uploadFrame.setVisible(true);
+
+// previously working code
+//			samples = DatabaseConnections.getAllSample();
+//			sampleList = new SampleList(samples);
+//			SampleListFrame samplelistframe = new SampleListFrame(this,sampleList);
+//			dispose();
+//			samplelistframe.setVisible(true);
 		}
 		else {
 			JOptionPane.showMessageDialog(null,"Invalid username or password");

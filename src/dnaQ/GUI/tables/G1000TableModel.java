@@ -60,7 +60,7 @@ public class G1000TableModel extends CommonTableModel {
                 (Sample request) -> request.totalCount));
 
         columns.add(new CommonTableModelColumn("altGlobalFreq",
-                "altGlobalFreq",
+                "globalFreq",
                 String.class,
                 (Sample request) -> request.altGlobalFreq));
 

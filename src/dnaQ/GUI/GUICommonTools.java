@@ -10,6 +10,11 @@ public class GUICommonTools {
 	public static Color BackgroundColor1 = new java.awt.Color(176, 26, 159);
 	public static Color BackgroundColor2 = new java.awt.Color(251, 255, 255);
 
+
+	public static ImageIcon logo1 = new ImageIcon();
+	public static ImageIcon logo2 = new ImageIcon();
+
+
 	public static Rectangle getBounds(Component componentOrNull){
 		Insets insets;
 	    Rectangle bounds;
@@ -29,6 +34,18 @@ public class GUICommonTools {
 	    bounds.height -= (insets.top + insets.bottom);
 	    return bounds;
 	}
+
+	public static ImageIcon getsquareLogo(Integer width, Integer height){
+		logo1 = new ImageIcon(new ImageIcon("/home/ojaswee/masters_project/logo.png").getImage().getScaledInstance(width, height,Image.SCALE_SMOOTH));
+		return logo1;
+	}
+
+	public static ImageIcon getRectangularLogo(Integer width, Integer height){
+		logo2 = new ImageIcon(new ImageIcon("/home/ojaswee/masters_project/logo_2.png").getImage().getScaledInstance(width, height,Image.SCALE_SMOOTH));
+		return logo2;
+	}
+
+
 
 
 }

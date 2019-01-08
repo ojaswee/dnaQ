@@ -9,21 +9,20 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 
-
-public class CosmicTable extends CommonTable {
+public class OncokbTable extends CommonTable{
 
     private static final long serialVersionUID = 1L;
 
     protected SampleListFrame parent;
 
-    protected CosmicTableModel cosmicTableModel;
+    protected OncokbTableModel oncokbTableModel;
 
 
-    public CosmicTable (SampleListFrame parent, CosmicTableModel cosmicTableModel){
+    public OncokbTable (SampleListFrame parent, OncokbTableModel oncokbTableModel){
         super();
         this.parent = parent;
-        this.cosmicTableModel = cosmicTableModel;
-        setModel(cosmicTableModel);
+        this.oncokbTableModel = oncokbTableModel;
+        setModel(oncokbTableModel);
 
         resizeColumnWidths();
         constructRenderers();
@@ -32,10 +31,5 @@ public class CosmicTable extends CommonTable {
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
-
 }
-
-
-
-
 

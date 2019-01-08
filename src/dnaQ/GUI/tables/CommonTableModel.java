@@ -58,54 +58,26 @@ public class CommonTableModel extends AbstractTableModel {
 				String.class,
 				(Sample request) -> request.clinvarid));
 
+		columns.add(new CommonTableModelColumn("g1000id",
+				"g1000id",
+				String.class,
+				(Sample request) -> request.g1000id));
 
+		columns.add(new CommonTableModelColumn("altGlobalFreq",
+				"globalFreq",
+				String.class,
+				(Sample request) -> request.altGlobalFreq));
 
 		columns.add(new CommonTableModelColumn("disease",
 				"disease",
 				String.class,
 				(Sample request) -> request.disease));
 
-		columns.add(new CommonTableModelColumn("drugs",
-				"drugs",
+		columns.add(new CommonTableModelColumn("comment",
+				"comment",
 				String.class,
-				(Sample request) -> request.drugs));
+				(Sample sample) -> sample.comment));
 
-		columns.add(new CommonTableModelColumn("clinicalSignificance",
-				"clinicalSignificance",
-				String.class,
-				(Sample request) -> request.clinicalSignificance));
-
-		columns.add(new CommonTableModelColumn("evidenceStatement",
-				"evidenceStatement",
-				String.class,
-				(Sample request) -> request.evidenceStatement));
-
-
-		columns.add(new CommonTableModelColumn("variantSummary",
-				"variantSummary",
-				String.class,
-				(Sample request) -> request.variantSummary));
-
-		columns.add(new CommonTableModelColumn("gene",
-				"gene",
-				String.class,
-				(Sample request) -> request.gene));
-
-		columns.add(new CommonTableModelColumn("proteinChange",
-				"proteinChange",
-				String.class,
-				(Sample request) -> request.proteinChange));
-
-		columns.add(new CommonTableModelColumn("oncogenecity",
-				"oncogenecity",
-				String.class,
-				(Sample request) -> request.oncogenecity));
-
-
-		columns.add(new CommonTableModelColumn("mutationEffect",
-				"mutationEffect",
-				String.class,
-				(Sample request) -> request.mutationEffect));
 		}
 
 	@Override 

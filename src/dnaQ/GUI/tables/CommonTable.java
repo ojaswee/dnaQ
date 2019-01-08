@@ -45,7 +45,7 @@ public class CommonTable extends JTable {
             Component headerComp = headerRenderer.getTableCellRendererComponent(this, tableColumn.getHeaderValue(), false, false, 0, 0);
 
             int minWidth = headerComp.getPreferredSize().width + buffer;
-            int maxWidth = 100;
+            int maxWidth = 200;
 
             int width = minWidth;
             for (int row = 0; row < getRowCount(); row++) {
@@ -60,7 +60,7 @@ public class CommonTable extends JTable {
         }
     }
 
-    private void constructRenderers(){
+    public void constructRenderers(){
         ((DefaultTableCellRenderer)getDefaultRenderer(Integer.class)).setHorizontalAlignment(SwingConstants.CENTER);
         ((DefaultTableCellRenderer)getDefaultRenderer(Double.class)).setHorizontalAlignment(SwingConstants.CENTER);
         ((DefaultTableCellRenderer)getDefaultRenderer(String.class)).setHorizontalAlignment(SwingConstants.CENTER);

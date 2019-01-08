@@ -4,15 +4,21 @@ public class Sample {
 
 //	everything string except for id and position
 
+	//common
 	public Integer id;
 	public String chr;
 	public Integer pos;
 	public String ref;
 	public String alt;
+	public String comment;
+
+	//cosmic
 	public String cosmicid; //same as cosmic-id
 	public String cds;
 	public String aa;
 	public String count;
+
+	//clinvar
 	public String clinvarid; //same as clinvar-id
 	public String clndn;
 	public String clnsig;
@@ -113,6 +119,14 @@ public class Sample {
 
 	public void setAlt(String alt) {
 		this.alt = alt;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 	public String getCosmicid() {
