@@ -35,7 +35,7 @@ public class GUICommonTools {
 	    return bounds;
 	}
 
-	public static ImageIcon getsquareLogo(Integer width, Integer height){
+	public static ImageIcon getSquareLogo(Integer width, Integer height){
 		logo1 = new ImageIcon(new ImageIcon("/home/ojaswee/masters_project/logo.png").getImage().getScaledInstance(width, height,Image.SCALE_SMOOTH));
 		return logo1;
 	}

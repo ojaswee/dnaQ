@@ -114,7 +114,7 @@ public class RequestReportFrame extends JFrame {
         progressBar.setValue(50);
         SSHConnection.generateReport(name);
         progressBar.setValue(80);
-        SSHConnection.transferReport(name);
+        SSHConnection.transferReportFromServer(name);
         progressBar.setValue(100);
 
 //        displayReport();

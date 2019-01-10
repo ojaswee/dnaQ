@@ -140,7 +140,7 @@ public class SampleListFrame extends JFrame  {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
 		//logo
-		ImageIcon logoPicture = GUICommonTools.getsquareLogo(widthPanel/5, heightPanel/5);
+		ImageIcon logoPicture = GUICommonTools.getSquareLogo(widthPanel/5, heightPanel/5);
 		JLabel lblLogo= new JLabel(logoPicture);
 
 		JPanel logoPanel = new JPanel();
