@@ -76,13 +76,26 @@ public class SSHConnection {
         }
     }
 
-    public static void transferReport(String name) throws JSchException, SftpException {
+    public static void transferSampleFromLocal(String name) throws JSchException, SftpException {
 
         ChannelSftp sftpChannel = (ChannelSftp) sshSession.openChannel("sftp");
         sftpChannel.connect();
 
-        String source_path = "/home/ojaswee/masters_project/08_server_report_generator/04_file_sender/" + name +".pdf";
-        String destination_path = "/home/ojaswee/masters_project/08_server_report_generator/05_file_receiver/";
+        String source_path = name;
+        String destination_path = "/home/ojaswee/masters_project/08_server_report_generator/04_uploaded_sample_file/" + name;
+
+        sftpChannel.put(source_path, destination_path);
+
+        sftpChannel.exit();
+    }
+
+    public static void transferReportFromServer(String name) throws JSchException, SftpException {
+
+        ChannelSftp sftpChannel = (ChannelSftp) sshSession.openChannel("sftp");
+        sftpChannel.connect();
+
+        String source_path = "/home/ojaswee/masters_project/08_server_report_generator/05_file_sender/" + name +".pdf";
+        String destination_path = "/home/ojaswee/masters_project/08_server_report_generator/06_file_receiver/";
 
         sftpChannel.put(source_path, destination_path);
 

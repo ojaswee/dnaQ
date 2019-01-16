@@ -1,6 +1,7 @@
 package dnaQ.GUI.tables;
 
 import dnaQ.GUI.SampleListFrame;
+import dnaQ.Models.UserQueue;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -15,6 +16,8 @@ public class CommonTable extends JTable {
     private static final long serialVersionUID = 1L;
 
     protected SampleListFrame parent;
+
+    protected UserQueue qparent;
 
     protected CommonTableModel commonTableModel;
 
@@ -31,6 +34,19 @@ public class CommonTable extends JTable {
         constructRenderers();
 
         setAutoResizeMode(JTable.AUTO_RESIZE_OFF); //do not resize columns use scrollbar instead
+        setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    }
+
+    public CommonTable (UserQueue qparent, CommonTableModel commonTableModel){
+        super();
+        this.qparent = qparent;
+        this.commonTableModel = commonTableModel;
+        setModel(commonTableModel);
+
+        resizeColumnWidths();
+        constructRenderers();
+
+       // setAutoResizeMode(JTable.AUTO_RESIZE_OFF); //do not resize columns use scrollbar instead
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 

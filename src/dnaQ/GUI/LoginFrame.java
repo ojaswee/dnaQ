@@ -11,19 +11,22 @@ import dnaQ.Models.Sample;
 import dnaQ.Models.SampleList;
 import dnaQ.Connections.SSHConnection;
 import dnaQ.Connections.DatabaseConnections;
+import dnaQ.Models.User;
+import dnaQ.Models.UserQueue;
 
 
 public class LoginFrame extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private JPanel panel;
+	private JPanel mainPanel;
 
-	private JTextField usernameTextField;
+	private JTextField emailTextField;
 	private JPasswordField passwordTextField;
     private JButton loginButton;
 
 	public ArrayList<Sample> samples;
+
 	public SampleList sampleList;
 
 
@@ -41,10 +44,10 @@ public class LoginFrame extends JFrame {
 	}
 
 	private void createComponents(){
-		panel = new JPanel();
+		mainPanel = new JPanel();
 
 		loginButton = new JButton("Login");
-		usernameTextField = new JTextField();
+		emailTextField = new JTextField();
 		passwordTextField = new JPasswordField();
 	}
 	
@@ -55,18 +58,18 @@ public class LoginFrame extends JFrame {
 		widthPanel = 600;
 		heightPanel = 400;
 
-		panel.setBackground(GUICommonTools.BackgroundColor2);
+		mainPanel.setBackground(GUICommonTools.BackgroundColor2);
 		setSize(widthPanel, heightPanel);
-		panel.setLayout(new GridBagLayout());
+		mainPanel.setLayout(new GridBagLayout());
 
 		//fit logo as label background
-		ImageIcon logoPicture = GUICommonTools.getsquareLogo(widthPanel/2, heightPanel/2);
+		ImageIcon logoPicture = GUICommonTools.getSquareLogo(widthPanel/2, heightPanel/2);
 
 		JLabel lblLogo= new JLabel(logoPicture);
 
 		JPanel logoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		logoPanel.add(lblLogo);
-		panel.add(logoPanel);
+		mainPanel.add(logoPanel);
 
 		JPanel lowerPanel = new JPanel(new GridLayout(1,1));
 		lowerPanel.setBackground(GUICommonTools.BackgroundColor1);
@@ -88,16 +91,16 @@ public class LoginFrame extends JFrame {
 		//login button
 		loginButton.setFont(GUICommonTools.TAHOMA_BOLD_14);
 		loginPanel.add(lblUsername);
-		loginPanel.add(usernameTextField);
+		loginPanel.add(emailTextField);
 		loginPanel.add(lblPassword);
 		loginPanel.add(passwordTextField);
 		loginPanel.add(new Label(""));
 		loginPanel.add(loginButton);
 
 		lowerPanel.add(loginPanel);
-		panel.add(lowerPanel);
+		mainPanel.add(lowerPanel);
 
-		add(panel);
+		add(mainPanel);
 	}
 
 	private void activateComponents(){
@@ -114,27 +117,41 @@ public class LoginFrame extends JFrame {
 	}
 	
 	private void login() throws Exception{
-		String userName= usernameTextField.getText();
+		String email= emailTextField.getText();
 		String passwd = new String(passwordTextField.getPassword());
 
-		userName = "admin";
+		email = "admin@dnaq.com";
 		passwd = "admin";
 
-		boolean success = DatabaseConnections.connectLogin(userName, passwd);
-		
-		if (success){
-			
-			DatabaseConnections.connect();
-			SSHConnection.connect();
+		User currentuser = null;
+
+		if (!(email.isEmpty()) && !(passwd.isEmpty())) {
+			currentuser = DatabaseConnections.connectLogin(email, passwd);
+		}
+
+		else {
+			if (email.isEmpty()){
+				JOptionPane.showMessageDialog(null,"Email is empty");
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Password is empty");
+			}
+		}
+
+		if (currentuser.getUserID().length()>0){
+
+//			SSHConnection.connect();
 			System.out.println("Login Successful");
 
+			//add upload file before moving to welcome frame
+			ArrayList<UserQueue> userQueue = DatabaseConnections.getAllUserQueue(currentuser.getUserID().toString());
 
-			//add upload file before moving to sampleFrame and control it from uploadFrame
-			UploadFrame uploadFrame = new UploadFrame(this);
+			WelcomeFrame welcomeFrame = new WelcomeFrame(this, currentuser,userQueue);
+
 			dispose();
-			uploadFrame.setVisible(true);
+			welcomeFrame.setVisible(true);
 
-// previously working code
+//// previously working code
 //			samples = DatabaseConnections.getAllSample();
 //			sampleList = new SampleList(samples);
 //			SampleListFrame samplelistframe = new SampleListFrame(this,sampleList);
@@ -142,7 +159,7 @@ public class LoginFrame extends JFrame {
 //			samplelistframe.setVisible(true);
 		}
 		else {
-			JOptionPane.showMessageDialog(null,"Invalid username or password");
+			JOptionPane.showMessageDialog(null,"Invalid email or password");
 		}
 
 	}

@@ -1,68 +1,80 @@
 package dnaQ.Connections;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 import dnaQ.Models.Sample;
+import dnaQ.Models.User;
+import dnaQ.Models.UserQueue;
 
 
 public class DatabaseConnections {
 
-    private static Connection databaseConnection = null;
-	   
-	public static void connect () throws Exception{
-		
-		   String driver = "com.mysql.cj.jdbc.Driver";
-	       String dbuser ="root";
-		   String dbpasswd="main";
-		   String db="mydna";
-		   String url="jdbc:mysql://localhost/"+db + "?useSSL=false";
-		   
-		   try {
-		   //Class.forName(driver);
-		   databaseConnection = DriverManager.getConnection(url, dbuser, dbpasswd);
-		   }catch (Exception e) {
-			   throw new Exception("mysql connection error "+ e.getMessage());
-		   }
-		   
-	}
-		 
-	public static boolean connectLogin(String userName, String passwd) throws Exception{
-		connect();
-		boolean success = false;
+	private static Connection databaseConnection = null;
+
+	public static void connect() throws Exception {
+
+		String driver = "com.mysql.cj.jdbc.Driver";
+		String dbuser = "root";
+		String dbpasswd = "main";
+		String db = "dnaq";
+		String url = "jdbc:mysql://localhost/" + db + "?useSSL=false";
+
 		try {
-			String query = "SELECT * FROM login where username ='"+userName+"'AND pword ='"+passwd +"';";
-		    PreparedStatement pstm = databaseConnection.prepareStatement(query);
-		    ResultSet rs = pstm.executeQuery();
-		    
-		    if(rs.next()){
-				success=true;
-	           }
-		    }
-		catch (Exception e) {
-		   throw new Exception("mysql connection error "+ e.getMessage());
-		   }
-		return success;
-    }
-//
-//	public static User getUserInfo(String userName) throws Exception{
-//
-//		User user = null;
-//
-//		String query = "SELECT username From login  where username='"+userName + "';";
-//
-//	    PreparedStatement pstm = databaseConnection.prepareStatement(query);
-//	    ResultSet rs = pstm.executeQuery();
-//
-//	    if(rs.next()){
-//	    	pstm.close();
-//	    }
-//	    return user;
-//	}
+			databaseConnection = DriverManager.getConnection(url, dbuser, dbpasswd);
+		} catch (Exception e) {
+			throw new Exception("mysql connection error " + e.getMessage());
+		}
+	}
+
+	public static User connectLogin(String email, String passwd) throws Exception {
+		connect();
+		User user = null;
+
+		try {
+			String query = String.format("SELECT * FROM user where email ='%s' AND password ='%s';", email, passwd);
+
+			PreparedStatement pstm = databaseConnection.prepareStatement(query);
+
+			ResultSet rs = pstm.executeQuery();
+
+			if (rs.next()) {
+				user = new User(rs.getString(1).toString(), rs.getString(2).toString(),
+						rs.getString(3).toString(), email, passwd);
+				pstm.close();
+			}
+		} catch (Exception e) {
+			throw new Exception("mysql connection error " + e.getMessage());
+		}
+		return user;
+	}
+
+	public static UserQueue getUserQueue (ResultSet row) throws SQLException{
+		UserQueue userqueue = new UserQueue(
+				getValueOREmpty(row.getString("queueID")),
+				getValueOREmpty(row.getString ("usertestID")),
+				getValueOREmpty(row.getString ("status")),
+				getValueOREmpty(row.getString ("createdon")));
+		return userqueue;
+	}
+
+	public static ArrayList<UserQueue> getAllUserQueue(String userid) throws Exception {
+
+		String query = String.format("SELECT * from queue where usertestid IN ( " +
+				"SELECT usertestid FROM usertest where userid = '%s';" ,userid);
+		PreparedStatement preparedStatement = databaseConnection.prepareStatement(query);
+		ResultSet rs = preparedStatement.executeQuery();
+
+		ArrayList<UserQueue> userqueue = new ArrayList<UserQueue>();
+
+		while(rs.next()){
+			UserQueue q = getUserQueue(rs);
+			userqueue.add(q);
+		}
+		preparedStatement.close();
+
+		return userqueue;
+	}
 
 	private static Sample getSample(ResultSet row) throws SQLException{
 		Sample sample = new Sample(
@@ -102,7 +114,7 @@ public class DatabaseConnections {
 		return sample;
 	}
 
-	public static ArrayList<Sample> getAllSample() throws Exception{
+	public static ArrayList<Sample> getAllSample() throws Exception {
 		String query = "Select * from sample;";
 		PreparedStatement preparedStatement = databaseConnection.prepareStatement(query);
 		ResultSet rs = preparedStatement.executeQuery();
