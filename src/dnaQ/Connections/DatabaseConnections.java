@@ -4,9 +4,8 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import dnaQ.Models.Sample;
+import dnaQ.Models.Test;
 import dnaQ.Models.User;
-import dnaQ.Models.UserQueue;
-
 
 public class DatabaseConnections {
 
@@ -49,31 +48,38 @@ public class DatabaseConnections {
 		return user;
 	}
 
-	public static UserQueue getUserQueue (ResultSet row) throws SQLException{
-		UserQueue userqueue = new UserQueue(
-				getValueOREmpty(row.getString("queueID")),
-				getValueOREmpty(row.getString ("usertestID")),
-				getValueOREmpty(row.getString ("status")),
-				getValueOREmpty(row.getString ("createdon")));
-		return userqueue;
+
+	public static Test getUserTest (ResultSet row) throws SQLException{
+		Test test = new Test(
+				getValueOREmpty(row.getString("testid")),
+				getValueOREmpty(row.getString ("name")),
+				getValueOREmpty(row.getString ("type")),
+				getValueOREmpty(row.getString ("run")),
+				getValueOREmpty(row.getString ("usertestid")),
+				getValueOREmpty(row.getString ("status"))
+		);
+		return test;
 	}
 
-	public static ArrayList<UserQueue> getAllUserQueue(String userid) throws Exception {
-
-		String query = String.format("SELECT * from queue where usertestid IN ( " +
-				"SELECT usertestid FROM usertest where userid = '%s';" ,userid);
+	public static ArrayList<Test> getAllUserTest (String userid) throws Exception{
+		String query = String.format("SELECT t.testid,t.name, t.type, ut.run, ut.usertestid,q.status\n" +
+				"FROM usertest ut\n" +
+				"INNER JOIN user u ON u.userid = ut.userid \n" +
+				"INNER JOIN test t ON t.testid = ut.testid \n" +
+				"INNER JOIN queue q ON q.usertestid = ut.usertestid\n" +
+				"WHERE ut.userid = '%s';" ,userid);
 		PreparedStatement preparedStatement = databaseConnection.prepareStatement(query);
 		ResultSet rs = preparedStatement.executeQuery();
 
-		ArrayList<UserQueue> userqueue = new ArrayList<UserQueue>();
+		ArrayList<Test> userTest = new ArrayList<Test>();
 
 		while(rs.next()){
-			UserQueue q = getUserQueue(rs);
-			userqueue.add(q);
+			Test t = getUserTest(rs);
+			userTest.add(t);
 		}
 		preparedStatement.close();
 
-		return userqueue;
+		return userTest;
 	}
 
 	private static Sample getSample(ResultSet row) throws SQLException{
@@ -144,8 +150,9 @@ public class DatabaseConnections {
 	public static ArrayList<String> getReportOptions() throws Exception{
 
 		ArrayList<String> report = new ArrayList<String>();
-		//TODO check the name of departmentID
 
+
+		//Check reports name
 		String query = "select name from report ;" ;
 		PreparedStatement pstm = databaseConnection.prepareStatement(query);
 		ResultSet rs = pstm.executeQuery();

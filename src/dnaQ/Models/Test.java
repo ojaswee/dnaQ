@@ -1,29 +1,34 @@
 package dnaQ.Models;
 
 public class Test {
-    private String testID;
-    private String testname;
-    private String type;
-    private String cost;
+    public String testid;
+    public String testname;
+    public String type;
+    public String testrun;
+    public String usertestid;
+    public String status;
 
     public Test() {
         super();
     }
 
-    public Test (String testID,String testname,String type,String cost) {
+    public Test (String testid,String testname,String type,String testrun,String usertestid,String status) {
         super();
-        this.testID = testID;
+        this.testid = testid;
         this.testname = testname;
         this.type = type;
-        this.cost = cost;
+        this.testrun = testrun;
+        this.usertestid = usertestid;
+        this.status = status;
     }
 
-    public String getTestID() {
-        return testID;
+
+    public String getTestid() {
+        return testid;
     }
 
-    public void setTestID(String testID) {
-        this.testID = testID;
+    public void setTestid(String testid) {
+        this.testid = testid;
     }
 
     public String getTestname() {
@@ -42,11 +47,28 @@ public class Test {
         this.type = type;
     }
 
-    public String getCost() {
-        return cost;
+    public String getTestrun() {
+        return testrun;
     }
 
-    public void setCost(String cost) {
-        this.cost = cost;
+    public void setTestrun(String testrun) {
+        this.testrun = testrun;
     }
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getUsertestid() {
+        return usertestid;
+    }
+
+    public void setUsertestid(String usertestid) {
+        this.usertestid = usertestid;
+    }
+
+
 }

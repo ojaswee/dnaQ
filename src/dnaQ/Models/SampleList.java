@@ -1,11 +1,8 @@
 package dnaQ.Models;
 
-
 import java.util.ArrayList;
 
-
 public class SampleList {
-
 
     private ArrayList<Sample> samples;
     private ArrayList<Sample> filteredSamples;

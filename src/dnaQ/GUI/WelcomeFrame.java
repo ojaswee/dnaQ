@@ -1,5 +1,6 @@
 package dnaQ.GUI;
 
+import dnaQ.Models.Test;
 import dnaQ.Models.User;
 
 import javax.swing.*;
@@ -7,18 +8,26 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
+
+import dnaQ.GUI.tables.*;
 
 public class WelcomeFrame extends JFrame{
 
-    private JPanel panel;
+    private JPanel mainPanel;
     private JPanel logoPanel;
     private JPanel userInfoPanel;
-    private JPanel uploadPanel;
     private JPanel openFilePanel;
+    private JPanel uploadPanel;
+    private JPanel userHistoryPanel;
 
     private LoginFrame parent;
 
     private User currentuser;
+    private ArrayList<Test> userTest;
+
+    private TestTable userTestTable;
+    private TestTableModel userTestTableModel;
 
     private JButton openButton;
     private JTextField fileNameTextField;
@@ -26,10 +35,14 @@ public class WelcomeFrame extends JFrame{
     private JButton uploadButton;
     private JFileChooser fs;
 
+    private JScrollPane userTestScrollPane;
 
-    public WelcomeFrame(LoginFrame parent, User currentuser){
+
+    public WelcomeFrame(LoginFrame parent, User currentuser, ArrayList<Test> userTest){
         this.parent = parent;
         this.currentuser = currentuser;
+        this.userTest = userTest;
+
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(parent);
@@ -40,18 +53,29 @@ public class WelcomeFrame extends JFrame{
     }
 
     private void createComponents(){
-        panel = new JPanel();
+        mainPanel = new JPanel();
+        
         logoPanel = new JPanel();
-
+        
         userInfoPanel = new JPanel();
-
+     
         uploadPanel = new JPanel();
+        openFilePanel = new JPanel();
         lblupload = new JLabel();
         fileNameTextField = new JTextField();
+        
         openButton = new JButton("Open");
         uploadButton = new JButton("Upload");
 
-        openFilePanel = new JPanel();
+        userHistoryPanel = new JPanel();
+
+        userTestTableModel = new TestTableModel(userTest);
+
+        userTestTable = new TestTable(this,userTestTableModel);
+
+        userTestScrollPane = new JScrollPane(userTestTable);
+        userTestScrollPane.setViewportView(userTestTable);
+
     }
 
     private void layoutComponents() {
@@ -63,9 +87,7 @@ public class WelcomeFrame extends JFrame{
 
         setSize(widthPanel, heightPanel);
 
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
 
         uploadPanel.setBackground(GUICommonTools.BackgroundColor2);
@@ -77,16 +99,15 @@ public class WelcomeFrame extends JFrame{
         JPanel logoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         logoPanel.add(lblLogo);
 
-        //userInfo panel
+        //userInfo mainPanel
         userInfoPanel.setBackground(GUICommonTools.BackgroundColor2);
         JLabel lblHelloUser = new JLabel();
         lblHelloUser.setFont(GUICommonTools.TAHOMA_BOLD_16);
-        lblHelloUser.setText("Hello "+ currentuser.getUserName() +
-                "   userid: " + currentuser.getUserID());
+        lblHelloUser.setText("Hello "+ currentuser.getFirstname() + "   userid: " + currentuser.getUserID());
 
         userInfoPanel.add(lblHelloUser);
 
-        // upload panel
+        // upload mainPanel
         openFilePanel = new JPanel(new FlowLayout());
 
         lblupload = new JLabel("Select file to upload");
@@ -97,19 +118,18 @@ public class WelcomeFrame extends JFrame{
         openFilePanel.add(fileNameTextField);
         openFilePanel.add(openButton);
 
-        JPanel previousUploadsPanel = new JPanel();
-        JLabel lblpreviousPanel = new JLabel("Your previous uploads");
-        previousUploadsPanel.add(lblpreviousPanel);
-
         uploadPanel.add(openFilePanel);
         uploadPanel.add(uploadButton);
 
-        panel.add(logoPanel);
-        panel.add(userInfoPanel);
-        panel.add(uploadPanel);
-        panel.add(previousUploadsPanel);
+        userHistoryPanel.add(userTestScrollPane);
 
-        add(panel);
+        mainPanel.add(logoPanel);
+        mainPanel.add(userInfoPanel);
+        mainPanel.add(uploadPanel);
+        mainPanel.add(userHistoryPanel);
+
+
+        add(mainPanel);
     }
 
     private void activateComponents(){

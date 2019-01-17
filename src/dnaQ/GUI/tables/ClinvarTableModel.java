@@ -22,46 +22,47 @@ public class ClinvarTableModel extends CommonTableModel{
         columns.add(new CommonTableModelColumn("id",
                 "id",
                 Integer.class,
-                (Sample request) -> request.id));
+                (Sample sample) -> sample.id));
 
         columns.add(new CommonTableModelColumn("chromosome",
                 "chr",
                 String.class,
-                (Sample request) -> request.chr));
+                (Sample sample) -> sample.chr));
 
         columns.add(new CommonTableModelColumn("position",
                 "pos",
                 Integer.class,
-                (Sample request) -> request.pos));
+                (Sample sample) -> sample.pos));
 
         columns.add(new CommonTableModelColumn("ref",
                 "ref",
                 String.class,
-                (Sample request) -> request.ref));
+                (Sample sample) -> sample.ref));
 
         columns.add(new CommonTableModelColumn("alt",
                 "alt",
                 String.class,
-                (Sample request) -> request.alt));
+                (Sample sample) -> sample.alt));
+
         columns.add(new CommonTableModelColumn("clndn",
                 "clndn",
                 String.class,
-                (Sample request) -> request.clndn));
+                (Sample sample) -> sample.clndn));
 
         columns.add(new CommonTableModelColumn("clnsig",
                 "clnsig",
                 String.class,
-                (Sample request) -> request.clnsig));
+                (Sample sample) -> sample.clnsig));
 
         columns.add(new CommonTableModelColumn("mc",
                 "mc",
                 String.class,
-                (Sample request) -> request.mc));
+                (Sample sample) -> sample.mc));
 
         columns.add(new CommonTableModelColumn("origin",
                 "origin",
                 String.class,
-                (Sample request) -> request.origin));
+                (Sample sample) -> sample.origin));
     }
 
     @Override
@@ -91,7 +92,7 @@ public class ClinvarTableModel extends CommonTableModel{
 
     @Override
     public Object getValueAt(int row, int column) {
-        Sample request = samples.get(row);
-        return columns.get(column).getValue(request);
+        Sample sample = samples.get(row);
+        return columns.get(column).getValue(sample);
     }
 }

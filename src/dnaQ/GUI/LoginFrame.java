@@ -7,12 +7,9 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.util.ArrayList;
 
-import dnaQ.Models.Sample;
-import dnaQ.Models.SampleList;
+import dnaQ.Models.*;
 import dnaQ.Connections.SSHConnection;
 import dnaQ.Connections.DatabaseConnections;
-import dnaQ.Models.User;
-import dnaQ.Models.UserQueue;
 
 
 public class LoginFrame extends JFrame {
@@ -144,9 +141,9 @@ public class LoginFrame extends JFrame {
 			System.out.println("Login Successful");
 
 			//add upload file before moving to welcome frame
-			ArrayList<UserQueue> userQueue = DatabaseConnections.getAllUserQueue(currentuser.getUserID().toString());
+			ArrayList<Test> userTest = DatabaseConnections.getAllUserTest(currentuser.getUserID().toString());
 
-			WelcomeFrame welcomeFrame = new WelcomeFrame(this, currentuser,userQueue);
+			WelcomeFrame welcomeFrame = new WelcomeFrame(this, currentuser,userTest);
 
 			dispose();
 			welcomeFrame.setVisible(true);

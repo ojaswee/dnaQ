@@ -20,7 +20,7 @@ public class CommonTableModelColumn {
 		this.columnClass= columnClass;
 		this.operation = operation;
 	}
-	
+
 	/**
 	 * Lambda expression function
 	 */
@@ -34,6 +34,6 @@ public class CommonTableModelColumn {
 	 */
 	public interface SampleGetValueAtOperation{
 		Object getValue(Sample sample);
-}
+	}
 
 }
