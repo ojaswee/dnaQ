@@ -1,6 +1,6 @@
 package dnaQ.GUI.tables;
 
-import dnaQ.Models.Sample;
+import dnaQ.Models.Mutation;
 
 public class CommonTableModelColumn {
 	
@@ -24,8 +24,8 @@ public class CommonTableModelColumn {
 	/**
 	 * Lambda expression function
 	 */
-	public Object getValue(Sample sample){
-		return operation.getValue(sample);
+	public Object getValue(Mutation mutation){
+		return operation.getValue(mutation);
 	}
 	
 	/**
@@ -33,7 +33,7 @@ public class CommonTableModelColumn {
 	 *
 	 */
 	public interface SampleGetValueAtOperation{
-		Object getValue(Sample sample);
+		Object getValue(Mutation mutation);
 	}
 
 }

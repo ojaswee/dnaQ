@@ -1,6 +1,6 @@
 package dnaQ.GUI.tables;
 
-import dnaQ.Models.Sample;
+import dnaQ.Models.Mutation;
 
 import java.util.ArrayList;
 
@@ -8,11 +8,11 @@ public class OncokbTableModel extends CommonTableModel {
 
     private static final long serialVersionUID = 1L;
 
-    private ArrayList<Sample> samples;
+    private ArrayList<Mutation> mutations;
     private ArrayList<CommonTableModelColumn> columns;
 
-    public OncokbTableModel(ArrayList<Sample> samples) {
-        this.samples = samples;
+    public OncokbTableModel(ArrayList<Mutation> mutations) {
+        this.mutations = mutations;
         constructColumns();
     }
 
@@ -22,44 +22,44 @@ public class OncokbTableModel extends CommonTableModel {
         columns.add(new CommonTableModelColumn("drugs",
                 "drugs",
                 String.class,
-                (Sample request) -> request.drugs));
+                (Mutation request) -> request.drugs));
 
         columns.add(new CommonTableModelColumn("clinicalSignificance",
                 "clinicalSignificance",
                 String.class,
-                (Sample request) -> request.clinicalSignificance));
+                (Mutation request) -> request.clinicalSignificance));
 
         columns.add(new CommonTableModelColumn("evidenceStatement",
                 "evidenceStatement",
                 String.class,
-                (Sample request) -> request.evidenceStatement));
+                (Mutation request) -> request.evidenceStatement));
 
 
         columns.add(new CommonTableModelColumn("variantSummary",
                 "variantSummary",
                 String.class,
-                (Sample request) -> request.variantSummary));
+                (Mutation request) -> request.variantSummary));
 
         columns.add(new CommonTableModelColumn("gene",
                 "gene",
                 String.class,
-                (Sample request) -> request.gene));
+                (Mutation request) -> request.gene));
 
         columns.add(new CommonTableModelColumn("proteinChange",
                 "proteinChange",
                 String.class,
-                (Sample request) -> request.proteinChange));
+                (Mutation request) -> request.proteinChange));
 
         columns.add(new CommonTableModelColumn("oncogenecity",
                 "oncogenecity",
                 String.class,
-                (Sample request) -> request.oncogenecity));
+                (Mutation request) -> request.oncogenecity));
 
 
         columns.add(new CommonTableModelColumn("mutationEffect",
                 "mutationEffect",
                 String.class,
-                (Sample request) -> request.mutationEffect));
+                (Mutation request) -> request.mutationEffect));
     }
 
     @Override
@@ -79,7 +79,7 @@ public class OncokbTableModel extends CommonTableModel {
 
     @Override
     public int getRowCount() {
-        return samples.size();
+        return mutations.size();
     }
 
     @Override
@@ -89,7 +89,7 @@ public class OncokbTableModel extends CommonTableModel {
 
     @Override
     public Object getValueAt(int row, int column) {
-        Sample request = samples.get(row);
+        Mutation request = mutations.get(row);
         return columns.get(column).getValue(request);
     }
 }

@@ -4,19 +4,19 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
-import dnaQ.Models.Sample;
+import dnaQ.Models.Mutation;
 
 public class CommonTableModel extends AbstractTableModel {
 	
 	private static final long serialVersionUID = 1L;
 
-	private ArrayList<Sample> samples;
+	private ArrayList<Mutation> mutations;
 	private ArrayList<CommonTableModelColumn> columns;
 
 	public CommonTableModel(){}
 
-	public CommonTableModel(ArrayList<Sample> samples){
-		this.samples = samples;
+	public CommonTableModel(ArrayList<Mutation> mutations){
+		this.mutations = mutations;
 		constructColumns();
 	}
 
@@ -26,61 +26,61 @@ public class CommonTableModel extends AbstractTableModel {
 		columns.add(new CommonTableModelColumn("id",
 				"id",
 				Integer.class,
-				(Sample request) -> request.id));
+				(Mutation request) -> request.id));
 
 		columns.add(new CommonTableModelColumn("chromosome",
 				"chr",
 				String.class,
-				(Sample request) -> request.chr));
+				(Mutation request) -> request.chr));
 
 		columns.add(new CommonTableModelColumn("position",
 				"pos",
 				Integer.class,
-				(Sample request) -> request.pos));
+				(Mutation request) -> request.pos));
 
 		columns.add(new CommonTableModelColumn("ref",
 				"ref",
 				String.class,
-				(Sample request) -> request.ref));
+				(Mutation request) -> request.ref));
 
 		columns.add(new CommonTableModelColumn("alt",
 				"alt",
 				String.class,
-				(Sample request) -> request.alt));
+				(Mutation request) -> request.alt));
 
 		columns.add(new CommonTableModelColumn("cosmicid",
 				"cosmicid",
 				String.class,
-				(Sample request) -> request.cosmicid));
+				(Mutation request) -> request.cosmicid));
 
 		columns.add(new CommonTableModelColumn("clinvarid",
 				"clinvarid",
 				String.class,
-				(Sample request) -> request.clinvarid));
+				(Mutation request) -> request.clinvarid));
 
 		columns.add(new CommonTableModelColumn("g1000id",
 				"g1000id",
 				String.class,
-				(Sample request) -> request.g1000id));
+				(Mutation request) -> request.g1000id));
 
 		columns.add(new CommonTableModelColumn("altGlobalFreq",
 				"globalFreq",
 				String.class,
-				(Sample request) -> request.altGlobalFreq));
+				(Mutation request) -> request.altGlobalFreq));
 
 		columns.add(new CommonTableModelColumn("disease",
 				"disease",
 				String.class,
-				(Sample request) -> request.disease));
+				(Mutation request) -> request.disease));
 
 		columns.add(new CommonTableModelColumn("comment",
 				"comment",
 				String.class,
-				(Sample sample) -> sample.comment));
+				(Mutation mutation) -> mutation.comment));
 
 		}
 
-	@Override 
+	@Override
 	public boolean isCellEditable(int row, int column) {
 		return false;
 	}
@@ -97,7 +97,7 @@ public class CommonTableModel extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		return samples.size();
+		return mutations.size();
 	}
 
 	@Override
@@ -107,7 +107,7 @@ public class CommonTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int row, int column) {
-		Sample request = samples.get(row);
+		Mutation request = mutations.get(row);
 		return columns.get(column).getValue(request);
 	}
 

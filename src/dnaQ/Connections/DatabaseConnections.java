@@ -3,7 +3,7 @@ package dnaQ.Connections;
 import java.sql.*;
 import java.util.ArrayList;
 
-import dnaQ.Models.Sample;
+import dnaQ.Models.Mutation;
 import dnaQ.Models.Test;
 import dnaQ.Models.User;
 
@@ -49,41 +49,71 @@ public class DatabaseConnections {
 	}
 
 
-	public static Test getUserTest (ResultSet row) throws SQLException{
+	public static Test getTest (ResultSet row) throws SQLException{
 		Test test = new Test(
 				getValueOREmpty(row.getString("testid")),
 				getValueOREmpty(row.getString ("name")),
 				getValueOREmpty(row.getString ("type")),
 				getValueOREmpty(row.getString ("run")),
 				getValueOREmpty(row.getString ("usertestid")),
-				getValueOREmpty(row.getString ("status"))
+				getValueOREmpty(row.getString ("status")),
+				getValueOREmpty(row.getString("createdon"))
 		);
 		return test;
 	}
 
-	public static ArrayList<Test> getAllUserTest (String userid) throws Exception{
-		String query = String.format("SELECT t.testid,t.name, t.type, ut.run, ut.usertestid,q.status\n" +
+	public static ArrayList<Test> getAllTest (String userid) throws Exception{
+		String query = String.format("SELECT t.testid,t.name, t.type, ut.run, ut.usertestid,q.status, q.createdon\n" +
 				"FROM usertest ut\n" +
 				"INNER JOIN user u ON u.userid = ut.userid \n" +
 				"INNER JOIN test t ON t.testid = ut.testid \n" +
 				"INNER JOIN queue q ON q.usertestid = ut.usertestid\n" +
-				"WHERE ut.userid = '%s';" ,userid);
+				"WHERE ut.userid = '%s'" +
+				"ORDER BY q.status DESC;" ,userid);
 		PreparedStatement preparedStatement = databaseConnection.prepareStatement(query);
 		ResultSet rs = preparedStatement.executeQuery();
 
-		ArrayList<Test> userTest = new ArrayList<Test>();
+		ArrayList<Test> tests = new ArrayList<Test>();
 
 		while(rs.next()){
-			Test t = getUserTest(rs);
-			userTest.add(t);
+			Test t = getTest(rs);
+			tests.add(t);
 		}
 		preparedStatement.close();
 
-		return userTest;
+		return tests;
 	}
 
-	private static Sample getSample(ResultSet row) throws SQLException{
-		Sample sample = new Sample(
+	public static ArrayList<String> getAllAvailableNameofTest()throws SQLException{
+
+		String query = "SELECT DISTINCT (name) FROM test;";
+
+		PreparedStatement pstm = databaseConnection.prepareStatement(query);
+		ResultSet rs = pstm.executeQuery();
+
+		ArrayList<String> name = new ArrayList<String>();
+		while(rs.next()) {
+			name.add(rs.getString(1));
+		}
+		return name;
+	}
+
+	public static ArrayList<String> getAllAvailableTypeofTest()throws SQLException{
+
+		String query = "SELECT DISTINCT (type) FROM test;";
+
+		PreparedStatement pstm = databaseConnection.prepareStatement(query);
+		ResultSet rs = pstm.executeQuery();
+
+		ArrayList<String> type = new ArrayList<String>();
+		while(rs.next()) {
+			type.add(rs.getString(1));
+		}
+		return type;
+	}
+
+	private static Mutation getSample(ResultSet row) throws SQLException{
+		Mutation mutation = new Mutation(
 				row.getInt("id"),
                 getValueOREmpty(row.getString("chr")),
                 row.getInt("pos"),
@@ -117,23 +147,23 @@ public class DatabaseConnections {
                 getValueOREmpty(row.getString("mutationEffect"))
 				);
 
-		return sample;
+		return mutation;
 	}
 
-	public static ArrayList<Sample> getAllSample() throws Exception {
-		String query = "Select * from sample;";
+	public static ArrayList<Mutation> getAllSample() throws Exception {
+		String query = "Select * from mutation;";
 		PreparedStatement preparedStatement = databaseConnection.prepareStatement(query);
 		ResultSet rs = preparedStatement.executeQuery();
 
-		ArrayList<Sample> samples = new ArrayList<Sample>();
+		ArrayList<Mutation> mutations = new ArrayList<Mutation>();
 
 		while(rs.next()){
-			Sample s = getSample(rs);
-			samples.add(s);
+			Mutation s = getSample(rs);
+			mutations.add(s);
 		}
 		preparedStatement.close();
 
-		return samples;
+		return mutations;
 	}
 
 	private static String getValueOREmpty(String value){

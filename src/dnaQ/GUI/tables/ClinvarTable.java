@@ -1,24 +1,19 @@
 package dnaQ.GUI.tables;
 
-import dnaQ.GUI.SampleListFrame;
+import dnaQ.GUI.MutationListFrame;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-import java.awt.*;
 
 public class ClinvarTable extends CommonTable{
 
         private static final long serialVersionUID = 1L;
 
-        protected SampleListFrame parent;
+        protected MutationListFrame parent;
 
         protected ClinvarTableModel clinvarTableModel;
 
 
-        public ClinvarTable (SampleListFrame parent, ClinvarTableModel clinvarTableModel){
+        public ClinvarTable (MutationListFrame parent, ClinvarTableModel clinvarTableModel){
             super();
             this.parent = parent;
             this.clinvarTableModel = clinvarTableModel;

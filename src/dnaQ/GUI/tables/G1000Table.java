@@ -1,24 +1,19 @@
 package dnaQ.GUI.tables;
 
-import dnaQ.GUI.SampleListFrame;
+import dnaQ.GUI.MutationListFrame;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-import java.awt.*;
 
 public class G1000Table extends CommonTable {
 
     private static final long serialVersionUID = 1L;
 
-    protected SampleListFrame parent;
+    protected MutationListFrame parent;
 
     protected G1000TableModel g1000TableModel;
 
 
-    public G1000Table(SampleListFrame parent, G1000TableModel g1000TableModel){
+    public G1000Table(MutationListFrame parent, G1000TableModel g1000TableModel){
         super();
         this.parent = parent;
         this.g1000TableModel = g1000TableModel;

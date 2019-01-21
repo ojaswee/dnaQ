@@ -1,6 +1,6 @@
 package dnaQ.GUI.tables;
 
-import dnaQ.GUI.SampleListFrame;
+import dnaQ.GUI.MutationListFrame;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -14,14 +14,14 @@ public class CommonTable extends JTable {
 
     private static final long serialVersionUID = 1L;
 
-    protected SampleListFrame parent;
+    protected MutationListFrame parent;
 
     protected CommonTableModel commonTableModel;
 
 
     public CommonTable(){}
 
-    public CommonTable (SampleListFrame parent, CommonTableModel commonTableModel){
+    public CommonTable (MutationListFrame parent, CommonTableModel commonTableModel){
         super();
         this.parent = parent;
         this.commonTableModel = commonTableModel;

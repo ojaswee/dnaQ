@@ -1,6 +1,6 @@
 package dnaQ.GUI.tables;
 
-import dnaQ.Models.Sample;
+import dnaQ.Models.Mutation;
 
 import java.util.ArrayList;
 
@@ -8,11 +8,11 @@ public class G1000TableModel extends CommonTableModel {
 
     private static final long serialVersionUID = 1L;
 
-    private ArrayList<Sample> samples;
+    private ArrayList<Mutation> mutations;
     private ArrayList<CommonTableModelColumn> columns;
 
-    public G1000TableModel(ArrayList<Sample> samples) {
-        this.samples = samples;
+    public G1000TableModel(ArrayList<Mutation> mutations) {
+        this.mutations = mutations;
         constructColumns();
     }
 
@@ -22,67 +22,67 @@ public class G1000TableModel extends CommonTableModel {
         columns.add(new CommonTableModelColumn("id",
                 "id",
                 Integer.class,
-                (Sample request) -> request.id));
+                (Mutation request) -> request.id));
 
         columns.add(new CommonTableModelColumn("chromosome",
                 "chr",
                 String.class,
-                (Sample request) -> request.chr));
+                (Mutation request) -> request.chr));
 
         columns.add(new CommonTableModelColumn("position",
                 "pos",
                 Integer.class,
-                (Sample request) -> request.pos));
+                (Mutation request) -> request.pos));
 
         columns.add(new CommonTableModelColumn("ref",
                 "ref",
                 String.class,
-                (Sample request) -> request.ref));
+                (Mutation request) -> request.ref));
 
         columns.add(new CommonTableModelColumn("alt",
                 "alt",
                 String.class,
-                (Sample request) -> request.alt));
+                (Mutation request) -> request.alt));
 
         columns.add(new CommonTableModelColumn("g1000id",
                 "g1000id",
                 String.class,
-                (Sample request) -> request.g1000id));
+                (Mutation request) -> request.g1000id));
 
         columns.add(new CommonTableModelColumn("altCount",
                 "altCount",
                 String.class,
-                (Sample request) -> request.altCount));
+                (Mutation request) -> request.altCount));
 
         columns.add(new CommonTableModelColumn("totalCount",
                 "totalCount",
                 String.class,
-                (Sample request) -> request.totalCount));
+                (Mutation request) -> request.totalCount));
 
         columns.add(new CommonTableModelColumn("altGlobalFreq",
                 "globalFreq",
                 String.class,
-                (Sample request) -> request.altGlobalFreq));
+                (Mutation request) -> request.altGlobalFreq));
 
         columns.add(new CommonTableModelColumn("americanFreq",
                 "americanFreq",
                 String.class,
-                (Sample request) -> request.americanFreq));
+                (Mutation request) -> request.americanFreq));
 
         columns.add(new CommonTableModelColumn("asianFreq",
                 "asianFreq",
                 String.class,
-                (Sample request) -> request.asianFreq));
+                (Mutation request) -> request.asianFreq));
 
         columns.add(new CommonTableModelColumn("afrFreq",
                 "afrFreq",
                 String.class,
-                (Sample request) -> request.afrFreq));
+                (Mutation request) -> request.afrFreq));
 
         columns.add(new CommonTableModelColumn("eurFreq",
                 "eurFreq",
                 String.class,
-                (Sample request) -> request.eurFreq));
+                (Mutation request) -> request.eurFreq));
     }
     @Override
     public boolean isCellEditable(int row, int column) {
@@ -101,7 +101,7 @@ public class G1000TableModel extends CommonTableModel {
 
     @Override
     public int getRowCount() {
-        return samples.size();
+        return mutations.size();
     }
 
     @Override
@@ -111,7 +111,7 @@ public class G1000TableModel extends CommonTableModel {
 
     @Override
     public Object getValueAt(int row, int column) {
-        Sample request = samples.get(row);
+        Mutation request = mutations.get(row);
         return columns.get(column).getValue(request);
     }
 }

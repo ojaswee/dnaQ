@@ -1,6 +1,6 @@
 package dnaQ.GUI.tables;
 
-import dnaQ.Models.Sample;
+import dnaQ.Models.Mutation;
 
 import java.util.ArrayList;
 
@@ -8,11 +8,11 @@ public class ClinvarTableModel extends CommonTableModel{
 
     private static final long serialVersionUID = 1L;
 
-    private ArrayList<Sample> samples;
+    private ArrayList<Mutation> mutations;
     private ArrayList<CommonTableModelColumn> columns;
 
-    public ClinvarTableModel(ArrayList<Sample> samples){
-        this.samples = samples;
+    public ClinvarTableModel(ArrayList<Mutation> mutations){
+        this.mutations = mutations;
         constructColumns();
     }
 
@@ -22,47 +22,47 @@ public class ClinvarTableModel extends CommonTableModel{
         columns.add(new CommonTableModelColumn("id",
                 "id",
                 Integer.class,
-                (Sample sample) -> sample.id));
+                (Mutation mutation) -> mutation.id));
 
         columns.add(new CommonTableModelColumn("chromosome",
                 "chr",
                 String.class,
-                (Sample sample) -> sample.chr));
+                (Mutation mutation) -> mutation.chr));
 
         columns.add(new CommonTableModelColumn("position",
                 "pos",
                 Integer.class,
-                (Sample sample) -> sample.pos));
+                (Mutation mutation) -> mutation.pos));
 
         columns.add(new CommonTableModelColumn("ref",
                 "ref",
                 String.class,
-                (Sample sample) -> sample.ref));
+                (Mutation mutation) -> mutation.ref));
 
         columns.add(new CommonTableModelColumn("alt",
                 "alt",
                 String.class,
-                (Sample sample) -> sample.alt));
+                (Mutation mutation) -> mutation.alt));
 
         columns.add(new CommonTableModelColumn("clndn",
                 "clndn",
                 String.class,
-                (Sample sample) -> sample.clndn));
+                (Mutation mutation) -> mutation.clndn));
 
         columns.add(new CommonTableModelColumn("clnsig",
                 "clnsig",
                 String.class,
-                (Sample sample) -> sample.clnsig));
+                (Mutation mutation) -> mutation.clnsig));
 
         columns.add(new CommonTableModelColumn("mc",
                 "mc",
                 String.class,
-                (Sample sample) -> sample.mc));
+                (Mutation mutation) -> mutation.mc));
 
         columns.add(new CommonTableModelColumn("origin",
                 "origin",
                 String.class,
-                (Sample sample) -> sample.origin));
+                (Mutation mutation) -> mutation.origin));
     }
 
     @Override
@@ -82,7 +82,7 @@ public class ClinvarTableModel extends CommonTableModel{
 
     @Override
     public int getRowCount() {
-        return samples.size();
+        return mutations.size();
     }
 
     @Override
@@ -92,7 +92,7 @@ public class ClinvarTableModel extends CommonTableModel{
 
     @Override
     public Object getValueAt(int row, int column) {
-        Sample sample = samples.get(row);
-        return columns.get(column).getValue(sample);
+        Mutation mutation = mutations.get(row);
+        return columns.get(column).getValue(mutation);
     }
 }
