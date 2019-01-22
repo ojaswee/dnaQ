@@ -29,8 +29,7 @@ public class TestTable extends JTable {
     }
 
 
-    public class YourTableCellRenderer
-            extends DefaultTableCellRenderer {
+    public class YourTableCellRenderer extends DefaultTableCellRenderer {
         public Component getTableCellRendererComponent(JTable table,
                                                        Object value,
                                                        boolean isSelected,
@@ -41,12 +40,16 @@ public class TestTable extends JTable {
                     isSelected, hasFocus, row, column);
 
 
-            if (column == 3) {
-                c.setForeground(Color.BLUE);
+            if (column == 4) {
+                Object o = getValueAt(row, 4).toString();
+                if (((String) o).matches("1")) {
+                    c.setForeground(Color.BLUE);
+                }
             }
-            else{
-                c.setForeground(Color.BLACK);
-            }
+            else {
+                    c.setForeground(Color.BLACK);
+                }
+
             return c;
         }
     }

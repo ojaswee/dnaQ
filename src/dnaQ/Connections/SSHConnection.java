@@ -19,6 +19,9 @@ import java.util.ArrayList;
 public class SSHConnection {
 
     private static Session sshSession;
+    private static String serverFileSender = "/home/ojaswee/masters_project/08_server_report_generator/04_file_sender/";
+    private static String clientFileReceiver = "/home/ojaswee/masters_project/08_server_report_generator/05_file_receiver/";
+
 
     private SSHConnection() {
     }
@@ -37,6 +40,7 @@ public class SSHConnection {
     }
 
     private static CommandResponse executeCommandAndGetOutput(String command) throws Exception{
+        connect();
         StringBuilder result = new StringBuilder();
         ChannelExec exechannel = null;
 
@@ -76,26 +80,15 @@ public class SSHConnection {
         }
     }
 
-    public static void transferSampleFromLocal(String name) throws JSchException, SftpException {
+    //user uploads test file
+    public static void transferSampleFromLocalToServer(String name) throws JSchException, SftpException {
 
         ChannelSftp sftpChannel = (ChannelSftp) sshSession.openChannel("sftp");
         sftpChannel.connect();
 
         String source_path = name;
-        String destination_path = "/home/ojaswee/masters_project/08_server_report_generator/04_uploaded_sample_file/" + name;
-
-        sftpChannel.put(source_path, destination_path);
-
-        sftpChannel.exit();
-    }
-
-    public static void transferReportFromServer(String name) throws JSchException, SftpException {
-
-        ChannelSftp sftpChannel = (ChannelSftp) sshSession.openChannel("sftp");
-        sftpChannel.connect();
-
-        String source_path = "/home/ojaswee/masters_project/08_server_report_generator/05_file_sender/" + name +".pdf";
-        String destination_path = "/home/ojaswee/masters_project/08_server_report_generator/06_file_receiver/";
+        //TODO what is file location for uploads file
+        String destination_path = " "+ name;
 
         sftpChannel.put(source_path, destination_path);
 
@@ -105,10 +98,9 @@ public class SSHConnection {
 
     public static void generateReport(String name) throws Exception {
 
-
-
         String command = "bash /home/ojaswee/masters_project/08_server_report_generator/01_test_bash.sh -f " + name;
 
+//        connect();
         CommandResponse rs = executeCommandAndGetOutput(command);
 
         if(rs.exitStatus != 0) {
@@ -116,5 +108,20 @@ public class SSHConnection {
         }
         System.out.println(rs.responseLines);
 
+    }    
+    
+    
+    //user report is transfered from server to client
+    public static void transferReportFromServer(String name) throws JSchException, SftpException {
+
+        ChannelSftp sftpChannel = (ChannelSftp) sshSession.openChannel("sftp");
+        sftpChannel.connect();
+
+        String source_path = serverFileSender+ name +".pdf";
+        String destination_path = clientFileReceiver;
+
+        sftpChannel.put(source_path, destination_path);
+
+        sftpChannel.exit();
     }
 }

@@ -20,6 +20,11 @@ public class TestTableModel extends AbstractTableModel {
     private void constructColumns() {
         columns = new ArrayList<TestTableModelColumn>();
 
+        columns.add(new TestTableModelColumn("usertestid",
+                "usertestid",
+                String.class,
+                (Test test) -> test.usertestid));
+
         columns.add(new TestTableModelColumn("testname",
                 "testname",
                 String.class,
@@ -34,6 +39,7 @@ public class TestTableModel extends AbstractTableModel {
                 "testrun",
                 String.class,
                 (Test test) -> test.testrun));
+
 
         columns.add(new TestTableModelColumn("status",
                 "status",
