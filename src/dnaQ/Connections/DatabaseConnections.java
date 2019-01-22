@@ -114,7 +114,7 @@ public class DatabaseConnections {
 
 	private static Mutation getSample(ResultSet row) throws SQLException{
 		Mutation mutation = new Mutation(
-				row.getInt("id"),
+				row.getInt("usertestid"),
                 getValueOREmpty(row.getString("chr")),
                 row.getInt("pos"),
                 getValueOREmpty(row.getString("ref")),
@@ -150,8 +150,8 @@ public class DatabaseConnections {
 		return mutation;
 	}
 
-	public static ArrayList<Mutation> getAllSample() throws Exception {
-		String query = "Select * from mutation;";
+	public static ArrayList<Mutation> getAllSample(String usertestid) throws Exception {
+		String query = "Select * from mutation where usertestid = " +usertestid +";";
 		PreparedStatement preparedStatement = databaseConnection.prepareStatement(query);
 		ResultSet rs = preparedStatement.executeQuery();
 
@@ -180,7 +180,6 @@ public class DatabaseConnections {
 	public static ArrayList<String> getReportOptions() throws Exception{
 
 		ArrayList<String> report = new ArrayList<String>();
-
 
 		//Check reports name
 		String query = "select name from report ;" ;

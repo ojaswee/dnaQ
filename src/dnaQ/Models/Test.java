@@ -7,12 +7,13 @@ public class Test {
     public String testrun;
     public String usertestid;
     public String status;
+    public String createdon;
 
     public Test() {
         super();
     }
 
-    public Test (String testid,String testname,String type,String testrun,String usertestid,String status) {
+    public Test (String testid,String testname,String type,String testrun,String usertestid,String status, String createdon) {
         super();
         this.testid = testid;
         this.testname = testname;
@@ -20,6 +21,7 @@ public class Test {
         this.testrun = testrun;
         this.usertestid = usertestid;
         this.status = status;
+        this.createdon = createdon;
     }
 
 
@@ -54,6 +56,7 @@ public class Test {
     public void setTestrun(String testrun) {
         this.testrun = testrun;
     }
+
     public String getStatus() {
         return status;
     }
@@ -70,5 +73,13 @@ public class Test {
         this.usertestid = usertestid;
     }
 
+
+    public String getCreatedon() {
+        return createdon;
+    }
+
+    public void setCreatedon(String createdon) {
+        this.createdon = createdon;
+    }
 
 }

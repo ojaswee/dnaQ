@@ -1,6 +1,6 @@
 package dnaQ.Models;
 
-public class Sample {
+public class Mutation {
 
 //	everything string except for id and position
 
@@ -46,10 +46,10 @@ public class Sample {
 	public boolean isSelected;
 
 
-	public Sample(Integer id,String chr, Integer pos, String ref, String alt, String cosmicid, String cds, String aa, String count, String clinvarid, String clndn,
-				  String clnsig, String mc, String origin, String g1000id,String altCount, String totalCount, String altGlobalFreq, String americanFreq,
-				  String asianFreq, String afrFreq, String eurFreq,String disease, String drugs,String clinicalSignificance, String evidenceStatement,
-				  String variantSummary,String gene, String proteinChange,String oncogenecity, String mutationEffect) {
+	public Mutation(Integer id, String chr, Integer pos, String ref, String alt, String cosmicid, String cds, String aa, String count, String clinvarid, String clndn,
+					String clnsig, String mc, String origin, String g1000id, String altCount, String totalCount, String altGlobalFreq, String americanFreq,
+					String asianFreq, String afrFreq, String eurFreq, String disease, String drugs, String clinicalSignificance, String evidenceStatement,
+					String variantSummary, String gene, String proteinChange, String oncogenecity, String mutationEffect) {
 		this.id = id;
 		this.chr = chr;
 		this.pos = pos;

@@ -15,17 +15,17 @@ public class FilterList {
         sampleFilters.add(sampleFilter);
     }
 
-    public void filterSamples(ArrayList<Sample> samples,ArrayList<Sample> filtered_samples){
+    public void filterSamples(ArrayList<Mutation> mutations, ArrayList<Mutation> filtered_mutations){
 
-        ArrayList<Sample> allsamples = new ArrayList<Sample>(samples.size()+filtered_samples.size());
-        allsamples.addAll(samples);
-        allsamples.addAll(filtered_samples);
+        ArrayList<Mutation> allsamples = new ArrayList<Mutation>(mutations.size()+ filtered_mutations.size());
+        allsamples.addAll(mutations);
+        allsamples.addAll(filtered_mutations);
 
-        ArrayList<Sample> tempfiltersamples = new ArrayList<Sample>();
+        ArrayList<Mutation> tempfiltersamples = new ArrayList<Mutation>();
 
         for(int i=0;i<allsamples.size();i++){
 
-            Sample currentsample = allsamples.get(i);
+            Mutation currentsample = allsamples.get(i);
 
             for (SampleFilter f:sampleFilters){
 
@@ -41,10 +41,10 @@ public class FilterList {
         }
 
         allsamples.removeAll(tempfiltersamples);
-        samples.clear();
-        samples.addAll(allsamples);
-        filtered_samples.clear();
-        filtered_samples.addAll(tempfiltersamples);
+        mutations.clear();
+        mutations.addAll(allsamples);
+        filtered_mutations.clear();
+        filtered_mutations.addAll(tempfiltersamples);
 
     }
 
@@ -76,7 +76,7 @@ class SampleFilter {
 
     SampleFilter(){}
 
-    public boolean exclude(Sample sample){return true;}
+    public boolean exclude(Mutation mutation){return true;}
 }
 
 class CosmicIDSampleFilter extends SampleFilter {
@@ -89,10 +89,10 @@ class CosmicIDSampleFilter extends SampleFilter {
     }
 
     @Override
-    public boolean exclude(Sample sample) {
+    public boolean exclude(Mutation mutation) {
 
         if (cosmicIDCheckBox.isSelected()) {
-            if (sample.getCosmicid().equals("")) {
+            if (mutation.getCosmicid().equals("")) {
                 return true;
             } else {
                 return false;
@@ -113,10 +113,10 @@ class ClinvarIDSampleFilter extends SampleFilter {
         }
 
         @Override
-        public boolean exclude(Sample sample) {
+        public boolean exclude(Mutation mutation) {
 
             if (clinvarIDCheckBox.isSelected()) {
-                if (sample.getClinvarid().equals("")) {
+                if (mutation.getClinvarid().equals("")) {
                     return true;
                 } else {
                     return false;
@@ -137,10 +137,10 @@ class G1000IDSampleFilter extends SampleFilter {
     }
 
     @Override
-    public boolean exclude(Sample sample) {
+    public boolean exclude(Mutation mutation) {
 
         if (g1000IDCheckbox.isSelected()) {
-            if (sample.getG1000id().equals("")) {
+            if (mutation.getG1000id().equals("")) {
                 return true;
             } else {
                 return false;
@@ -161,10 +161,10 @@ class GlobalFreqSampleFilter extends SampleFilter {
     }
 
     @Override
-    public boolean exclude(Sample sample) {
+    public boolean exclude(Mutation mutation) {
 
         if (globalFreqCheckbox.isSelected()) {
-            if (sample.getAltGlobalFreq().equals("")) {
+            if (mutation.getAltGlobalFreq().equals("")) {
                 return true;
             } else {
                 return false;
