@@ -1,26 +1,20 @@
 package dnaQ.Models;
 
-public class Test {
+public class TestQueue {
+
     public String testid;
     public String testname;
     public String type;
-    public String testrun;
-    public String usertestid;
 
-
-    public Test() {
-        super();
-    }
-
-    public Test (String testid,String testname,String type,String testrun,String usertestid) {
+    public TestQueue() {
+            super();
+        }
+    public TestQueue (String testid,String testname,String type) {
         super();
         this.testid = testid;
         this.testname = testname;
         this.type = type;
-        this.testrun = testrun;
-        this.usertestid = usertestid;
-    }
-
+        }
 
     public String getTestid() {
         return testid;
@@ -45,21 +39,4 @@ public class Test {
     public void setType(String type) {
         this.type = type;
     }
-
-    public String getTestrun() {
-        return testrun;
-    }
-
-    public void setTestrun(String testrun) {
-        this.testrun = testrun;
-    }
-
-    public String getUsertestid() {
-        return usertestid;
-    }
-
-    public void setUsertestid(String usertestid) {
-        this.usertestid = usertestid;
-    }
-
 }

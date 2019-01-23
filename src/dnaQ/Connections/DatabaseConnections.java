@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import dnaQ.Models.Mutation;
 import dnaQ.Models.Test;
+import dnaQ.Models.TestQueue;
 import dnaQ.Models.User;
 
 public class DatabaseConnections {
@@ -49,36 +50,7 @@ public class DatabaseConnections {
 	}
 
 
-	public static Test getTest (ResultSet row) throws SQLException{
-		Test test = new Test(
-				getValueOREmpty(row.getString("testid")),
-				getValueOREmpty(row.getString ("name")),
-				getValueOREmpty(row.getString ("type")),
-				getValueOREmpty(row.getString ("run")),
-				getValueOREmpty(row.getString ("usertestid"))
-		);
-		return test;
-	}
 
-	public static ArrayList<Test> getAllCompletedTest (String userid) throws Exception{
-		String query = String.format("SELECT t.testid,t.name, t.type, ut.run, ut.usertestid\n" +
-				"FROM usertest ut\n" +
-				"INNER JOIN user u ON u.userid = ut.userid \n" +
-				"INNER JOIN test t ON t.testid = ut.testid \n" +
-				"WHERE ut.userid = '%s'",userid);
-		PreparedStatement preparedStatement = databaseConnection.prepareStatement(query);
-		ResultSet rs = preparedStatement.executeQuery();
-
-		ArrayList<Test> tests = new ArrayList<Test>();
-
-		while(rs.next()){
-			Test t = getTest(rs);
-			tests.add(t);
-		}
-		preparedStatement.close();
-
-		return tests;
-	}
 
 	public static ArrayList<String> getAllAvailableNameofTest()throws SQLException{
 
@@ -106,6 +78,62 @@ public class DatabaseConnections {
 			type.add(rs.getString(1));
 		}
 		return type;
+	}
+
+	public static Test getCompletedTest (ResultSet row) throws SQLException{
+		Test test = new Test(
+				getValueOREmpty(row.getString("testid")),
+				getValueOREmpty(row.getString ("name")),
+				getValueOREmpty(row.getString ("type")),
+				getValueOREmpty(row.getString ("run")),
+				getValueOREmpty(row.getString ("usertestid"))
+		);
+		return test;
+	}
+
+	public static ArrayList<Test> getAllCompletedTest (String userid) throws Exception{
+		String query = String.format("SELECT t.testid,t.name, t.type, ut.run, ut.usertestid\n" +
+				"FROM usertest ut\n" +
+				"INNER JOIN user u ON u.userid = ut.userid \n" +
+				"INNER JOIN test t ON t.testid = ut.testid \n" +
+				"WHERE ut.userid = '%s'",userid);
+		PreparedStatement preparedStatement = databaseConnection.prepareStatement(query);
+		ResultSet rs = preparedStatement.executeQuery();
+
+		ArrayList<Test> tests = new ArrayList<Test>();
+
+		while(rs.next()){
+			Test t = getCompletedTest(rs);
+			tests.add(t);
+		}
+		preparedStatement.close();
+
+		return tests;
+	}
+
+	public static ArrayList<TestQueue> getAllProcessingTest(String userid)throws SQLException{
+		String query = String.format("SELECT q.testid, t.name, t.type\n" +
+				"FROM test t\n" +
+				"INNER JOIN queue q ON q.testid= t.testid \n" +
+				"WHERE q.userid = '%s' AND q.status = 0",userid);
+		PreparedStatement preparedStatement = databaseConnection.prepareStatement(query);
+		ResultSet rs = preparedStatement.executeQuery();
+
+
+		ArrayList<TestQueue> testQ = new ArrayList<TestQueue>();
+
+		while(rs.next()){
+			TestQueue q = new TestQueue(
+					getValueOREmpty(rs.getString("testid")),
+					getValueOREmpty(rs.getString ("name")),
+					getValueOREmpty(rs.getString ("type"))
+			);
+
+			testQ.add(q);
+		}
+		preparedStatement.close();
+
+		return testQ;
 	}
 
 	private static Mutation getMutation(ResultSet row) throws SQLException{

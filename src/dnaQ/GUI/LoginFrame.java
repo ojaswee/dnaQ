@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 import dnaQ.Models.*;
-import dnaQ.Connections.SSHConnection;
 import dnaQ.Connections.DatabaseConnections;
 
 
@@ -22,9 +21,9 @@ public class LoginFrame extends JFrame {
 	private JPasswordField passwordTextField;
     private JButton loginButton;
 
-	public ArrayList<Sample> samples;
+	public ArrayList<Mutation> mutations;
 
-	public SampleList sampleList;
+	public MutationList mutationList;
 
 
 	/**
@@ -120,6 +119,10 @@ public class LoginFrame extends JFrame {
 		email = "admin@dnaq.com";
 		passwd = "admin";
 
+		//User with no userHistory
+//		email = "maryanderson@dnaq.com";
+//		passwd = "mary";
+
 		User currentuser = null;
 
 		if (!(email.isEmpty()) && !(passwd.isEmpty())) {
@@ -137,21 +140,21 @@ public class LoginFrame extends JFrame {
 
 		if (currentuser.getUserID().length()>0){
 
-//			SSHConnection.connect();
 			System.out.println("Login Successful");
 
 			//add upload file before moving to welcome frame
-			ArrayList<Test> userTest = DatabaseConnections.getAllUserTest(currentuser.getUserID().toString());
+			ArrayList<Test> completedTest = DatabaseConnections.getAllCompletedTest(currentuser.getUserID().toString());
+			ArrayList <TestQueue> processingTest = DatabaseConnections.getAllProcessingTest(currentuser.getUserID().toString());
 
-			WelcomeFrame welcomeFrame = new WelcomeFrame(this, currentuser,userTest);
+			WelcomeFrame welcomeFrame = new WelcomeFrame(this, currentuser,completedTest,processingTest);
 
 			dispose();
 			welcomeFrame.setVisible(true);
 
 //// previously working code
-//			samples = DatabaseConnections.getAllSample();
-//			sampleList = new SampleList(samples);
-//			SampleListFrame samplelistframe = new SampleListFrame(this,sampleList);
+//			mutations = DatabaseConnections.getAllSample();
+//			mutationList = new MutationList(mutations);
+//			MutationListFrame samplelistframe = new MutationListFrame(this,mutationList);
 //			dispose();
 //			samplelistframe.setVisible(true);
 		}
