@@ -55,21 +55,17 @@ public class DatabaseConnections {
 				getValueOREmpty(row.getString ("name")),
 				getValueOREmpty(row.getString ("type")),
 				getValueOREmpty(row.getString ("run")),
-				getValueOREmpty(row.getString ("usertestid")),
-				getValueOREmpty(row.getString ("status")),
-				getValueOREmpty(row.getString("createdon"))
+				getValueOREmpty(row.getString ("usertestid"))
 		);
 		return test;
 	}
 
-	public static ArrayList<Test> getAllTest (String userid) throws Exception{
-		String query = String.format("SELECT t.testid,t.name, t.type, ut.run, ut.usertestid,q.status, q.createdon\n" +
+	public static ArrayList<Test> getAllCompletedTest (String userid) throws Exception{
+		String query = String.format("SELECT t.testid,t.name, t.type, ut.run, ut.usertestid\n" +
 				"FROM usertest ut\n" +
 				"INNER JOIN user u ON u.userid = ut.userid \n" +
 				"INNER JOIN test t ON t.testid = ut.testid \n" +
-				"INNER JOIN queue q ON q.usertestid = ut.usertestid\n" +
-				"WHERE ut.userid = '%s'" +
-				"ORDER BY q.status DESC;" ,userid);
+				"WHERE ut.userid = '%s'",userid);
 		PreparedStatement preparedStatement = databaseConnection.prepareStatement(query);
 		ResultSet rs = preparedStatement.executeQuery();
 
@@ -112,7 +108,7 @@ public class DatabaseConnections {
 		return type;
 	}
 
-	private static Mutation getSample(ResultSet row) throws SQLException{
+	private static Mutation getMutation(ResultSet row) throws SQLException{
 		Mutation mutation = new Mutation(
 				row.getInt("usertestid"),
                 getValueOREmpty(row.getString("chr")),
@@ -150,7 +146,7 @@ public class DatabaseConnections {
 		return mutation;
 	}
 
-	public static ArrayList<Mutation> getAllSample(String usertestid) throws Exception {
+	public static ArrayList<Mutation> getAllMutation(String usertestid) throws Exception {
 		String query = "Select * from mutation where usertestid = " +usertestid +";";
 		PreparedStatement preparedStatement = databaseConnection.prepareStatement(query);
 		ResultSet rs = preparedStatement.executeQuery();
@@ -158,8 +154,8 @@ public class DatabaseConnections {
 		ArrayList<Mutation> mutations = new ArrayList<Mutation>();
 
 		while(rs.next()){
-			Mutation s = getSample(rs);
-			mutations.add(s);
+			Mutation m = getMutation(rs);
+			mutations.add(m);
 		}
 		preparedStatement.close();
 

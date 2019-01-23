@@ -40,8 +40,8 @@ public class TestTable extends JTable {
                     isSelected, hasFocus, row, column);
 
 
-            if (column == 4) {
-                Object o = getValueAt(row, 4).toString();
+            if (column == 3) {
+                Object o = getValueAt(row, 3).toString();
                 if (((String) o).matches("1")) {
                     c.setForeground(Color.BLUE);
                 }

@@ -39,13 +39,6 @@ public class TestTableModel extends AbstractTableModel {
                 "testrun",
                 String.class,
                 (Test test) -> test.testrun));
-
-
-        columns.add(new TestTableModelColumn("status",
-                "status",
-                String.class,
-                (Test test) -> test.status));
-
     }
 
     @Override
