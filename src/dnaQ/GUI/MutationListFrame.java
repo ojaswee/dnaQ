@@ -9,9 +9,9 @@ import java.awt.event.ActionListener;
 
 import dnaQ.GUI.tables.*;
 import dnaQ.Models.FilterList;
-import dnaQ.Models.SampleList;
+import dnaQ.Models.MutationList;
 
-public class SampleListFrame extends JFrame  {
+public class MutationListFrame extends JFrame  {
 
 	private static final long serialVersionUID = 1L;
 
@@ -36,9 +36,9 @@ public class SampleListFrame extends JFrame  {
 	private JScrollPane g1000ScrollPane;
 	private JScrollPane oncokbScrollPane;
 
-	private LoginFrame parent;
+	private WelcomeFrame parent;
 
-	private SampleList sampleList;
+	private MutationList mutationList;
 	private FilterList filterList;
 
 	private JPanel panel;
@@ -61,20 +61,22 @@ public class SampleListFrame extends JFrame  {
 
 
 
-	public SampleListFrame(LoginFrame parent, SampleList sampleList )  {
-		this.sampleList=sampleList;
+	public MutationListFrame(WelcomeFrame parent, MutationList mutationList)  {
+
+		super ("Mutation List");
+		this.mutationList = mutationList;
 		this.filterList=new FilterList();
 		this.parent = parent;
 
-		this.commonTableModel = new CommonTableModel(sampleList.getSamples());
-		this.cosmicTableModel = new CosmicTableModel(sampleList.getSamples());
-		this.clinvarTableModel = new ClinvarTableModel(sampleList.getSamples());
-		this.g1000TableModel = new G1000TableModel(sampleList.getSamples());
-		this.oncokbTableModel = new OncokbTableModel(sampleList.getSamples());
+		this.commonTableModel = new CommonTableModel(mutationList.getMutations());
+		this.cosmicTableModel = new CosmicTableModel(mutationList.getMutations());
+		this.clinvarTableModel = new ClinvarTableModel(mutationList.getMutations());
+		this.g1000TableModel = new G1000TableModel(mutationList.getMutations());
+		this.oncokbTableModel = new OncokbTableModel(mutationList.getMutations());
 
-		this.datachart = new DataChart(this,this.sampleList);
+		this.datachart = new DataChart(this,this.mutationList);
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		createComponents();
 		layoutComponents();
@@ -109,7 +111,6 @@ public class SampleListFrame extends JFrame  {
 		oncokbTable = new OncokbTable(this,oncokbTableModel);
 		oncokbScrollPane = new JScrollPane(oncokbTable);
 		oncokbScrollPane.setViewportView(oncokbTable);
-
 
 		cosmicIDCheckbox = new JCheckBox("Cosmic");
 		clinvarIDCheckbox = new JCheckBox("Clinvar");
@@ -303,7 +304,7 @@ public class SampleListFrame extends JFrame  {
 	}
 
 	private void handleCheckBoxClick() {
-			sampleList.filterSamples(filterList);
+			mutationList.filterSamples(filterList);
 			cosmicTableModel.fireTableDataChanged();
 			datachart.updateCharts();
 	}
@@ -311,7 +312,7 @@ public class SampleListFrame extends JFrame  {
 
 	private void handleChartButtonClick() {
 
-		AnalysisFrame analysisFrame = new AnalysisFrame(SampleListFrame.this, sampleList,datachart);
+		DashboardFrame analysisFrame = new DashboardFrame(MutationListFrame.this, mutationList,datachart);
 		analysisFrame.setVisible(true);
 	}
 

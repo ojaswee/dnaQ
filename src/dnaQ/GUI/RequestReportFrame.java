@@ -18,12 +18,12 @@ public class RequestReportFrame extends JFrame {
     public JComboBox reportChoicesBox;
     public JButton reportSubmitButton;
 
-    public SampleListFrame parent;
+    public MutationListFrame parent;
 
 
     public JProgressBar progressBar;
 
-    public RequestReportFrame(SampleListFrame samplelistframe) throws Exception {
+    public RequestReportFrame(MutationListFrame samplelistframe) throws Exception {
 
         super ("Request Report");
         this.parent = samplelistframe;
@@ -99,7 +99,7 @@ public class RequestReportFrame extends JFrame {
                     reportSubmission();
 
                 }catch (Exception e){
-                    JOptionPane.showMessageDialog(RequestReportFrame.this, e.getMessage());
+                    JOptionPane.showMessageDialog(RequestReportFrame.this, "Report not submitted");
                 }
             }
         });
@@ -116,8 +116,6 @@ public class RequestReportFrame extends JFrame {
         progressBar.setValue(80);
         SSHConnection.transferReportFromServer(name);
         progressBar.setValue(100);
-
-//        displayReport();
     }
 
     private void runProgressBar(){
@@ -125,15 +123,4 @@ public class RequestReportFrame extends JFrame {
             progressBar.setValue(10);
     }
 
-/* this function activates ReportFrame which is not being used right now
-//    private void displayReport(){
-//        ReportFrame report = null;
-//        try {
-//            report = new ReportFrame(this);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        report.setVisible(true);
-//    }
-*/
 }

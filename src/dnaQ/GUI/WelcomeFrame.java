@@ -1,9 +1,12 @@
 package dnaQ.GUI;
 
-import dnaQ.Models.Test;
-import dnaQ.Models.User;
+import dnaQ.Connections.DatabaseConnections;
+import dnaQ.Connections.SSHConnection;
+import dnaQ.Models.*;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,29 +22,45 @@ public class WelcomeFrame extends JFrame{
     private JPanel userInfoPanel;
     private JPanel openFilePanel;
     private JPanel uploadPanel;
-    private JPanel userHistoryPanel;
+    private JPanel completedTestPanel;
+    private JPanel processingTestPanel;
 
     private LoginFrame parent;
 
     private User currentuser;
-    private ArrayList<Test> userTest;
+    private ArrayList<Test> completedTest;
+    private TestTable completedTestTable;
+    private TestTableModel completedTestTableModel;
 
-    private TestTable userTestTable;
-    private TestTableModel userTestTableModel;
+    private ArrayList<TestQueue>processingTest;
+    private JTextArea processingTestTextArea;
 
     private JButton openButton;
     private JTextField fileNameTextField;
     private JLabel lblupload;
-    private JButton uploadButton;
     private JFileChooser fs;
+    private JComboBox testNameComboBox;
+    private JComboBox testTypeComboBox;
+
+
+    private JButton uploadButton;
+
 
     private JScrollPane userTestScrollPane;
 
+    public ArrayList<Mutation> mutations;
 
-    public WelcomeFrame(LoginFrame parent, User currentuser, ArrayList<Test> userTest){
+    public MutationList mutationList;
+
+
+    public WelcomeFrame(LoginFrame parent, User currentuser, ArrayList<Test> completedTest,
+                        ArrayList<TestQueue>processingTest) throws Exception {
+
+        super ("Welcome to dnaQ");
         this.parent = parent;
         this.currentuser = currentuser;
-        this.userTest = userTest;
+        this.completedTest = completedTest;
+        this.processingTest= processingTest;
 
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,7 +68,15 @@ public class WelcomeFrame extends JFrame{
 
         createComponents();
         layoutComponents();
+
+        getAllAvailableTestsName();
+        getAllAvailableTestsType();
+
         activateComponents();
+
+        pack();
+        setResizable(true);
+        setLocationRelativeTo(parent);
     }
 
     private void createComponents(){
@@ -63,19 +90,24 @@ public class WelcomeFrame extends JFrame{
         openFilePanel = new JPanel();
         lblupload = new JLabel();
         fileNameTextField = new JTextField();
-        
+
+        testNameComboBox = new JComboBox();
+        testTypeComboBox = new JComboBox();
+
         openButton = new JButton("Open");
         uploadButton = new JButton("Upload");
 
-        userHistoryPanel = new JPanel();
+        completedTestPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-        userTestTableModel = new TestTableModel(userTest);
+        completedTestTableModel = new TestTableModel(completedTest);
 
-        userTestTable = new TestTable(this,userTestTableModel);
+        completedTestTable = new TestTable(this,completedTestTableModel);
 
-        userTestScrollPane = new JScrollPane(userTestTable);
-        userTestScrollPane.setViewportView(userTestTable);
+        userTestScrollPane = new JScrollPane(completedTestTable);
+        userTestScrollPane.setViewportView(completedTestTable);
 
+        processingTestPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        processingTestTextArea = new JTextArea();
     }
 
     private void layoutComponents() {
@@ -83,7 +115,7 @@ public class WelcomeFrame extends JFrame{
         int widthPanel, heightPanel;
 
         widthPanel = 600;
-        heightPanel = 600;
+        heightPanel = 500;
 
         setSize(widthPanel, heightPanel);
 
@@ -118,16 +150,35 @@ public class WelcomeFrame extends JFrame{
         openFilePanel.add(fileNameTextField);
         openFilePanel.add(openButton);
 
-        uploadPanel.add(openFilePanel);
+        JLabel lblTestType = new JLabel("Select test type");
+        uploadPanel.add(lblTestType);
+        uploadPanel.add(testNameComboBox);
+        uploadPanel.add(testTypeComboBox);
+
         uploadPanel.add(uploadButton);
 
-        userHistoryPanel.add(userTestScrollPane);
+        //completed tests
+        completedTestPanel.add(userTestScrollPane);
+
+
+
+        //for tests that are in queue
+        for (TestQueue a: processingTest){
+            processingTestTextArea.append("("+a.testname +" , " + a.type + ")\n");
+            processingTestTextArea.setFont(GUICommonTools.TAHOMA_BOLD_14);
+        }
+        processingTestTextArea.setEditable(false);
+        processingTestTextArea.setPreferredSize(new Dimension(450,heightPanel/5));
+        processingTestPanel.add(processingTestTextArea);
+
+
 
         mainPanel.add(logoPanel);
         mainPanel.add(userInfoPanel);
+        mainPanel.add (openFilePanel);
         mainPanel.add(uploadPanel);
-        mainPanel.add(userHistoryPanel);
-
+        mainPanel.add(completedTestPanel);
+        mainPanel.add (processingTestPanel);
 
         add(mainPanel);
     }
@@ -154,10 +205,12 @@ public class WelcomeFrame extends JFrame{
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 try {
+                    String testName = testNameComboBox.getSelectedItem().toString();
+                    String testType = testTypeComboBox.getSelectedItem().toString();
+
                     String filePath = fs.getSelectedFile().getAbsolutePath();
 
-        // TODO send to server from local computer
-                    JOptionPane.showMessageDialog(null, filePath);
+                    new Uploads(currentuser.getUserID(),testName,testType,filePath);
 
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null,"Please select a file");
@@ -165,5 +218,57 @@ public class WelcomeFrame extends JFrame{
                 }
             }
         });
+
+        completedTestTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            public void valueChanged(ListSelectionEvent event) {
+                String testname = completedTestTable.getValueAt(completedTestTable.getSelectedRow(), 0).toString();
+                String testtype = completedTestTable.getValueAt(completedTestTable.getSelectedRow(), 1).toString();
+
+                String testrun = completedTestTable.getValueAt(completedTestTable.getSelectedRow(), 2).toString();
+
+                System.out.println(testname+"_"+testtype+"_"+testrun);
+
+                if (! event.getValueIsAdjusting()) {
+
+                    show2();
+                }
+
+            }
+        });
+    }
+
+    private void show2(){
+
+        try {
+            mutations = DatabaseConnections.getAllMutation(completedTestTable.getValueAt(completedTestTable.getSelectedRow(),0).toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            mutationList = new MutationList(mutations);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        MutationListFrame mutationlistframe = new MutationListFrame(this,mutationList);
+        mutationlistframe.setVisible(true);
+
+    }
+
+    private void getAllAvailableTestsName() throws Exception {
+
+        ArrayList<String> name = DatabaseConnections.getAllAvailableNameofTest();
+
+        for(int i =0; i < name.size(); i++){
+            testNameComboBox.addItem(name.get(i));
+        }
+    }
+
+    private void getAllAvailableTestsType() throws Exception {
+
+        ArrayList<String> type = DatabaseConnections.getAllAvailableTypeofTest();
+
+        for(int i =0; i < type.size(); i++){
+            testTypeComboBox.addItem(type.get(i));
+        }
     }
 }

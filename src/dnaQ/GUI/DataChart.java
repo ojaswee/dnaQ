@@ -1,7 +1,7 @@
 package dnaQ.GUI;
 
-import dnaQ.Models.Sample;
-import dnaQ.Models.SampleList;
+import dnaQ.Models.MutationList;
+import dnaQ.Models.Mutation;
 
 import javax.swing.*;
 
@@ -13,7 +13,6 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import java.util.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,14 +21,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class DataChart extends JDialog {
 
-    private SampleListFrame parent;
-    private SampleList sampleList;
+    private MutationListFrame parent;
+    private MutationList mutationList;
     private ArrayList<JFreeChart> charts;
 
-    public DataChart(SampleListFrame parent, SampleList sampleList){
+    public DataChart(MutationListFrame parent, MutationList mutationList){
 
         this.parent= parent;
-        this.sampleList = sampleList;
+        this.mutationList = mutationList;
         this.charts = new ArrayList<JFreeChart>();
 
         createCharts();
@@ -51,13 +50,13 @@ public class DataChart extends JDialog {
 
     private JFreeChart createChromosomeMutationPlot() {
 
-        ArrayList<Sample> samples = sampleList.getSamples();
+        ArrayList<Mutation> mutations = mutationList.getMutations();
 
         Map<String, AtomicInteger> map = new HashMap<String, AtomicInteger>();
 
-        for (int i = 0; i<samples.size(); i++){
+        for (int i = 0; i< mutations.size(); i++){
 
-            String tempKey = samples.get(i).getChr();
+            String tempKey = mutations.get(i).getChr();
 
             if(map.containsKey(tempKey)){
                 map.get(tempKey).incrementAndGet();
@@ -74,7 +73,7 @@ public class DataChart extends JDialog {
 
 
         JFreeChart chart = ChartFactory.createBarChart(
-                "Chromosomes Bar Chart", "Chromosomes", "Share", dataset,
+                "Chromosomes Bar Chart", "Chromosomes", "Count", dataset,
                 PlotOrientation.VERTICAL, false, true, false);
 
         return chart;
@@ -83,7 +82,7 @@ public class DataChart extends JDialog {
 
     private JFreeChart createLinePlot(){
 
-        XYSeries series = new XYSeries("Sample");
+        XYSeries series = new XYSeries("Mutation");
 
         series.add(1, 1);
         series.add(2, 2);
@@ -98,10 +97,10 @@ public class DataChart extends JDialog {
 
     private JFreeChart createStackChart() {
 
-        ArrayList<Sample> samples = sampleList.getSamples();
+        ArrayList<Mutation> mutations = mutationList.getMutations();
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        String tempChr = samples.get(0).getChr();
+        String tempChr = mutations.get(0).getChr();
 
         int countCos =0, countCli=0,countG1000 = 0;
 
@@ -135,7 +134,7 @@ public class DataChart extends JDialog {
         JFreeChart chart = ChartFactory.createPieChart(
                 "Mobile Sales",   // chart title
                 dataset,          // data
-                true,             // include legend
+                true,      // include legend
                 true,
                 false);
 
