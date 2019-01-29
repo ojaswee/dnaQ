@@ -27,6 +27,7 @@ public class DatabaseConnections {
 		}
 	}
 
+	//check credentials
 	public static User connectLogin(String email, String passwd) throws Exception {
 		connect();
 		User user = null;
@@ -49,9 +50,7 @@ public class DatabaseConnections {
 		return user;
 	}
 
-
-
-
+	//get name of test for combobox in welcomeFrame
 	public static ArrayList<String> getAllAvailableNameofTest()throws SQLException{
 
 		String query = "SELECT DISTINCT (name) FROM test;";
@@ -66,9 +65,10 @@ public class DatabaseConnections {
 		return name;
 	}
 
-	public static ArrayList<String> getAllAvailableTypeofTest()throws SQLException{
+	//get type of test
+	public static ArrayList<String> getAllAvailableTypeofTest(String name)throws SQLException{
 
-		String query = "SELECT DISTINCT (type) FROM test;";
+		String query = String.format("SELECT DISTINCT (type) FROM test where name = '%s';", name);
 
 		PreparedStatement pstm = databaseConnection.prepareStatement(query);
 		ResultSet rs = pstm.executeQuery();
@@ -80,6 +80,7 @@ public class DatabaseConnections {
 		return type;
 	}
 
+	//get completed test one by one
 	public static Test getCompletedTest (ResultSet row) throws SQLException{
 		Test test = new Test(
 				getValueOREmpty(row.getString("testid")),
@@ -91,6 +92,7 @@ public class DatabaseConnections {
 		return test;
 	}
 
+	//make an arraylist of completed test
 	public static ArrayList<Test> getAllCompletedTest (String userid) throws Exception{
 		String query = String.format("SELECT t.testid,t.name, t.type, ut.run, ut.usertestid\n" +
 				"FROM usertest ut\n" +
@@ -111,6 +113,7 @@ public class DatabaseConnections {
 		return tests;
 	}
 
+	//make an arraylist of tests that are processing
 	public static ArrayList<TestQueue> getAllProcessingTest(String userid)throws SQLException{
 		String query = String.format("SELECT q.testid, t.name, t.type\n" +
 				"FROM test t\n" +
@@ -135,6 +138,37 @@ public class DatabaseConnections {
 
 		return testQ;
 	}
+
+	//get testid for newly uploaded file
+	public static String getTestid(String name, String type)throws SQLException{
+        String query = String.format("SELECT testid FROM test WHERE name = '%s' AND type = '%s'", name, type);
+
+        PreparedStatement preparedStatement = databaseConnection.prepareStatement(query);
+        ResultSet rs = preparedStatement.executeQuery();
+
+        String testid= "";
+        while(rs.next()) {
+            testid = getValueOREmpty(rs.getString("testid"));
+        }
+	    return testid;
+    }
+
+    //get run count for newly uploded file
+    public static String getRun (String userid,String testid)throws SQLException{
+		String run="";
+		String query = String.format("SELECT count(testid)AS run FROM usertest WHERE userid = '%s' AND testid = '%s'", userid, testid);
+
+		PreparedStatement preparedStatement = databaseConnection.prepareStatement(query);
+		ResultSet rs = preparedStatement.executeQuery();
+
+		Integer i = 0;
+		while(rs.next()) {
+			i = rs.getInt("run") +1 ;
+		}
+		run = i.toString();
+		return run;
+	}
+
 
 	private static Mutation getMutation(ResultSet row) throws SQLException{
 		Mutation mutation = new Mutation(
