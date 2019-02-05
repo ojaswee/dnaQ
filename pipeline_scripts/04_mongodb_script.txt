@@ -1,0 +1,17 @@
+#create database
+use dnaq
+
+#create a collection named useruploads
+db.createCollection("mutation")
+
+
+#import files from terminal in mongodb mutation collection
+mongoimport --db dnaq --collection mutation --type csv --headerline --file /home/ojaswee/masters_project/01_data/sample1.filter.vcf
+
+
+# display documents in collection
+use dnaq;
+db.mutation.find( {} ).limit( 10 );
+
+
+db.mutation.drop()
