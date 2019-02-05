@@ -1,10 +1,11 @@
 /*
 SSHConnection.java
 -connects to remove server
+-using stfp channel transfer files from local to remote server
 - executes bash
     - bash runs python file
-    - python files make a txt files
-- using stfp channel transfer files from server to local computer
+    - python files make a txt files, charts and convert to pdf
+- using stfp channel transfer pdf from server to local computer
 - ends
 
 */
@@ -19,8 +20,9 @@ import java.util.ArrayList;
 public class SSHConnection {
 
     private static Session sshSession;
-    private static String serverFileSender = "/home/ojaswee/masters_project/08_server_report_generator/04_file_sender/";
-    private static String clientFileReceiver = "/home/ojaswee/masters_project/08_server_report_generator/05_file_receiver/";
+    private static String userUploads = "/home/ojaswee/dnaq/analysis/";
+    private static String serverFileSender = "/home/ojaswee/masters_project/08_server_report_generator/04_server_report_sender/";
+    private static String clientFileReceiver = "/home/ojaswee/masters_project/08_server_report_generator/05_client_report_receiver/";
 
 
     private SSHConnection() {
@@ -80,27 +82,43 @@ public class SSHConnection {
         }
     }
 
-    //user uploads test file
-    public static void transferSampleFromLocalToServer(String name) throws JSchException, SftpException {
+    //generate user directory in server
+    public static void createUserDir (String d,String userid, String testid, String run)throws Exception{
 
+        String command = String.format("bash /home/ojaswee/masters_project/05_scripts/01_user_dir_creator.sh -d'%s' -u'%s' -t'%s' -r'%s'" ,d,userid, testid, run);
+
+        CommandResponse rs = executeCommandAndGetOutput(command);
+
+        if(rs.exitStatus != 0) {
+            throw new Exception("Error creating file on server.");
+        }
+        System.out.println(rs.responseLines);
+
+    }
+
+    //user uploads test file
+    public static void transferSampleFromLocalToServer(String fileLocation,String oldname, String newname) throws Exception {
+        connect();
         ChannelSftp sftpChannel = (ChannelSftp) sshSession.openChannel("sftp");
         sftpChannel.connect();
 
-        String source_path = name;
-        //TODO what is file location for uploads file
-        String destination_path = " "+ name;
+        String source_path = fileLocation;
+        String destination_path = userUploads + newname;
 
         sftpChannel.put(source_path, destination_path);
+        String currentfolder = userUploads+newname+"/";
 
+        String [] extension = oldname.split(".");
+
+        sftpChannel.rename(currentfolder+oldname,currentfolder+newname+"_UPLOAD");
         sftpChannel.exit();
     }
 
 
     public static void generateReport(String name) throws Exception {
 
-        String command = "bash /home/ojaswee/masters_project/08_server_report_generator/01_test_bash.sh -f " + name;
+        String command = "bash /home/ojaswee/masters_project/08_server_report_generator/01_generate_report.sh -f " + name;
 
-//        connect();
         CommandResponse rs = executeCommandAndGetOutput(command);
 
         if(rs.exitStatus != 0) {

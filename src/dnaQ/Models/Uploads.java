@@ -19,6 +19,7 @@ public class Uploads {
     private String clientfileName;
     private String serverfileName;
     private String run;
+    private String d;
 
 
     public Uploads(String userid, String testName, String testType, String filePath,String clientfileName) throws Exception {
@@ -28,9 +29,13 @@ public class Uploads {
         this.filePath = filePath;
         this.clientfileName = clientfileName;
 
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date();
+        d = dateFormat.format(date);
+
         getTestidAndRun();
         createFileName();
-        transerFileAndQueue();
+        transferFileAndQueue();
     }
     
     private void getTestidAndRun() throws SQLException {
@@ -41,19 +46,16 @@ public class Uploads {
     }
 
     private void createFileName() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-        Date date = new Date();
-        String d = dateFormat.format(date);
-
-        String newClientfilename = clientfileName.replaceAll("\\s+","_");
-
-        serverfileName = userid + "_" + testid + "_" +run + "_"+ d +"_"+newClientfilename;
+        serverfileName = d+ "_"+userid + "_" + testid + "_RUN" +run ;
     }
 
-    public void transerFileAndQueue() throws Exception {
+    public void transferFileAndQueue() throws Exception {
+
+        SSHConnection.createUserDir(d,userid,testid,run);
+
         SSHConnection.transferSampleFromLocalToServer(filePath,clientfileName,serverfileName);
 
-        DatabaseConnections.insertInQueue(userid,testid);
+        DatabaseConnections.insertInQueue(userid,testid,run);
 
         JOptionPane.showMessageDialog(null, filePath);
         }

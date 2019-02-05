@@ -209,8 +209,9 @@ public class WelcomeFrame extends JFrame{
                     String testType = testTypeComboBox.getSelectedItem().toString();
 
                     String filePath = fs.getSelectedFile().getAbsolutePath();
+                    String fileName = fileNameTextField.getText();
 
-                    new Uploads(currentuser.getUserID(),testName,testType,filePath);
+                    new Uploads(currentuser.getUserID(),testName,testType,filePath,fileName);
 
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null,"Please select a file");
@@ -265,7 +266,7 @@ public class WelcomeFrame extends JFrame{
 
     private void getAllAvailableTestsType() throws Exception {
 
-        ArrayList<String> type = DatabaseConnections.getAllAvailableTypeofTest();
+        ArrayList<String> type = DatabaseConnections.getAllAvailableTypeofTest(testNameComboBox.getSelectedItem().toString());
 
         for(int i =0; i < type.size(); i++){
             testTypeComboBox.addItem(type.get(i));

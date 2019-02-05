@@ -65,6 +65,15 @@ public class DatabaseConnections {
 		return name;
 	}
 
+
+	//insert new record in queue
+    public static void insertInQueue(String userid,String testid ,String run)throws SQLException{
+        String query = String.format("INSERT INTO queue (userid,testid,run,status,createdon)values ('%s','%s','%s',0,NOW());",userid,testid,run);
+
+        PreparedStatement pstm = databaseConnection.prepareStatement(query);
+        pstm.executeUpdate();
+    }
+
 	//get type of test
 	public static ArrayList<String> getAllAvailableTypeofTest(String name)throws SQLException{
 
@@ -153,7 +162,7 @@ public class DatabaseConnections {
 	    return testid;
     }
 
-    //get run count for newly uploded file
+    //get run count for newly uploaded file
     public static String getRun (String userid,String testid)throws SQLException{
 		String run="";
 		String query = String.format("SELECT count(testid)AS run FROM usertest WHERE userid = '%s' AND testid = '%s'", userid, testid);
