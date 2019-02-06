@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
-# this bash program
+# this bash program is run from cronjob, it
 # 1) gets all the queue items where status is zero from database
 # 2) stores it in txt file
 #	3) makes these queue items status=1
 # 4) reading each line from text file send it to
 
+# test from gedit /home/ojaswee/dnaq/analysis/2_1_RUN1/2_1_RUN1_UPLOAD_COMBINED.csv
+
 OUTPUT_DIR="/home/ojaswee/dnaq/analysis/"
 JOB_DIR="/home/ojaswee/dnaq/queuedjob/"
+PIPELINE_SCRIPTS="/home/ojaswee/masters_project/05_pipeline_scripts/"
 
 #################################################
 # Parsing arguments
@@ -33,20 +36,30 @@ while read -r queueid userid testid run status; do
 done < <( mysql --user="root" --password="main" --database="dnaq" --execute="$selectstatement" -N)
 
 ############################################################################
-#get userid,testid, run from queuedjob one by one and insert combined 
+#get userid,testid, run from queuedjob one by one and insert combined
 ###########################################################################
 
 while IFS=';' read queueid userid testid run status; do
 		echo $userid $testid $run
 
- 		#look for folder under OUTPUT_DIR and find folder with name = anydate_$userid_$testid_$run and combinedfile
-		DIRS=`ls -l $OUTPUT_DIR | grep '^d' | awk '{print $9}'`
-		#
-		for DIR in $DIRS
-		do
-			if [[ $DIR == *"_${userid}_${testid}_RUN${run}"* ]];then
-				echo ${DIR}
-				combinedfile="${OUTPUT_DIR}${DIR}/${DIR}_COMBINED.csv"
+		CURRENT_DIR="${OUTPUT_DIR}${userid}_${testid}_RUN${run}/"
+		uploadedfile="${CURRENT_DIR}${userid}_${testid}_RUN${run}_UPLOAD"
+
+		chmod 777 *
+		#if uploadedfile exist send to python to parse file
+		if [ -f "${uploadedfile}" ];then
+			echo $uploadedfile
+			/opt/python3/bin/python3.4 "${PIPELINE_SCRIPTS}03_parser_userfile_mongo.py" -i $uploadedfile
+			# /opt/python3/bin/python3.4 /home/ojaswee/masters_project/05_pipeline_scripts/03_parser_userfile_mongo.py -i /home/ojaswee/dnaq/analysis/2_1_RUN1/2_1_RUN1_UPLOAD
+
+			chmod 777 *
+
+			echo $parserdfile
+			if [ -f "${uploadedfile}_PARSED" ];then
+				echo "${uploadedfile}_PARSED"
+
+				/opt/python3/bin/python3.4 ${PIPELINE_SCRIPTS}07_sample_dbs_join.py -i $uploadedfile_PARSED
+ 				combinedfile="${uploadedfile}_PARSED_COMBINED.csv"
 
 				#if file is found then trigger usertest table and insert a new row
 				if [ -f "$combinedfile" ];then
@@ -60,15 +73,17 @@ while IFS=';' read queueid userid testid run status; do
 
 					echo $usertestid
 
-					loadfilestatement="LOAD data local infile '$combinedfile' INTO table mutation FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'(chr,pos,ref,alt,cosmicid,cds,aa,count,clinvarid,clndn,clnsig,mc,origin,g1000id,altCount,totalCount,altGlobalFreq,americanFreq,asianFreq,afrFreq,eurFreq,disease,drugs,clinicalSignificance,evidenceStatement,variantSummary,gene,proteinChange,oncogenecity,mutationEffect)SET usertestid='$usertestid';"
+					loadfilestatement="LOAD data local infile '$combinedfile' INTO table mutation FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n'(chr,pos,ref,alt,cosmicid,cds,aa,count,clinvarid,clndn,clnsig,mc,origin,g1000id,altCount,totalCount,altGlobalFreq,americanFreq,asianFreq,afrFreq,eurFreq,disease,drugs,clinicalSignificance,evidenceStatement,variantSummary,gene,proteinChange,oncogenecity,mutationEffect)SET usertestid='$usertestid';"
 
 					mysql --user="root" --password="main" --database="dnaq" --execute="$loadfilestatement"
+
+					updatequeuestatement = "UPDATE queue set status =2 where queueid='$queueid'"
+					mysql --user="root" --password="main" --database="dnaq" --execute="$updatequeuestatement"
 
 				else
 					echo "combinedfile not found."
 				fi
-
 			fi
-		done
+		fi
 
 done <$JOB_FILE

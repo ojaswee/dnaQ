@@ -1,10 +1,9 @@
-#this python file
-# 1) parse sample data
-# 2) inserts each row of useruploaded file into mongodb
-# 3) adds 3 new key userid, testid and run into the mongodb
+#this python file get name of input filel from 02_check_queue.sh
+# 1) parse useruploaded data to get only 13 aatributes
+# 2) create a userupload_PARSED.csv file and place in same folder as useruploads
 
 # to run this file from terminal
-#  /opt/python3/bin/python3.4 /home/ojaswee/masters_project/05_scripts/03_parser_userfile_mongo.py /home/ojaswee/masters_project/01_data/test_sample.vcf
+# /opt/python3/bin/python3.4 /home/ojaswee/masters_project/05_pipeline_scripts/03_parser_userfile_mongo.py -i /home/ojaswee/dnaq/analysis/2_1_RUN1/2_1_RUN1_UPLOAD
 
 import pandas as pd
 import cyvcf2
@@ -13,7 +12,7 @@ import optparse
 
 
 def fileParser(inputfile):
-    outputfile = inputfile + "_parsed"
+    outputfile = inputfile + "_PARSED"
     df = pd.read_csv(inputfile, sep='\t', skiprows = 2)
     filter=[]
     for indx,row in df.iterrows():
@@ -35,4 +34,4 @@ except TypeError:
 	print ("python 03_parser_userfile_mongo.py -help for help")
 
 
-# mongoimport --db dnaq --collection mutation --type csv --headerline --file /home/ojaswee/masters_project/01_data/sample1.filter.vcf
+# mongoimport --db dnaq --collection mutation --type cs

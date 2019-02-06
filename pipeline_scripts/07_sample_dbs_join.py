@@ -1,18 +1,21 @@
+# this progam gets the parsed file
+# Outputs a table with matching chr, pos, ref,alt with useruploads_PARSED
+# 1) connect to mongdb
+# 2) looking at the 5 columns in client data get values from all collections
+
+# /opt/python3/bin/python3.4 /home/ojaswee/masters_project/05_pipeline_scripts/07_sample_dbs_join.py -i /home/ojaswee/dnaq/analysis/2_1_RUN1/2_1_RUN1_UPLOAD_PARSED.csv
+
 import pymongo
 import optparse
 import pandas as pd
 
-#Output a table with matching chr, pos, ref,alt with sample
-# phase one check in cosmic -> clinvar,
-
 client= pymongo.MongoClient();
-db=client.cancer
+db=client.dnaq
 cosmic=db.cosmic
-clinvar = db.clinvar
+clinvar=db.clinvar
 oncokb=db.oncokb
 civic =db.civic
 g1000=db.g1000
-
 
 def appendResult(cursor,cols):
     res=[]
@@ -25,8 +28,8 @@ def appendResult(cursor,cols):
     return res
 
 
-
-def combineDB(infile, outfile):
+def combineDB(infile):
+    outfile = infile + "_COMBINED.csv"
     sample = pd.read_csv(infile,sep=',')
 
     with open(outfile,"w") as w:
@@ -88,20 +91,13 @@ def combineDB(infile, outfile):
         w.writelines('\t'.join(str(j) for j in i) + '\n' for i in result)
         w.close()
 
-
-
-
 try:
     parser = optparse.OptionParser()
     parser.add_option('-i', '--infile', help = 'provide input file')
-    parser.add_option('-o', '--outfile', help = 'provide output file')
     options,args = parser.parse_args()
     infile = options.infile
-    outfile = options.outfile
-    # infile no need we can pull from mongodb
-    infile = "/home/ojaswee/masters_project/01_data/sample1.filter.vcf"
-    outfile = "/home/ojaswee/masters_project/01_data/combined_data.csv"
-    combineDB(infile, outfile)
+    # infile = "/home/ojaswee/dnaq/analysis/2_1_RUN1/2_1_RUN1_UPLOAD_PARSED"
+    combineDB(infile)
 
 except TypeError:
-	print ("python combineVariantDB.py -help for help")
+	print ("python 07_sample_dbs_join.py -help for help")

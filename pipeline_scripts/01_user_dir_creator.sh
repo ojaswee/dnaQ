@@ -30,7 +30,6 @@ done
 #create folders
 #######################################
 
-# OUTPUT_DIR_CURRENT_UPLOAD="${OUTPUT_DIR}${currentdate}_${USERID}_${TESTID}_RUN${RUN}/"
 OUTPUT_DIR_CURRENT_UPLOAD="${OUTPUT_DIR}${USERID}_${TESTID}_RUN${RUN}/"
 
 if [ ! -d $OUTPUT_DIR_CURRENT_UPLOAD ]
