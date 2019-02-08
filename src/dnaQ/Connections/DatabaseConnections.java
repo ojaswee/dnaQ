@@ -127,7 +127,7 @@ public class DatabaseConnections {
 		String query = String.format("SELECT q.testid, t.name, t.type\n" +
 				"FROM test t\n" +
 				"INNER JOIN queue q ON q.testid= t.testid \n" +
-				"WHERE q.userid = '%s' AND q.status = 0",userid);
+				"WHERE q.userid = '%s' AND q.status <2",userid);
 		PreparedStatement preparedStatement = databaseConnection.prepareStatement(query);
 		ResultSet rs = preparedStatement.executeQuery();
 
@@ -164,17 +164,32 @@ public class DatabaseConnections {
 
     //get run count for newly uploaded file
     public static String getRun (String userid,String testid)throws SQLException{
-		String run="";
-		String query = String.format("SELECT count(testid)AS run FROM usertest WHERE userid = '%s' AND testid = '%s'", userid, testid);
+	    String run = "";
+		Integer userrun = 1;
+		String queryUsertest = String.format("SELECT count(testid)AS run FROM usertest WHERE userid = '%s' AND testid = '%s'", userid, testid);
+		PreparedStatement preparedStatementUT = databaseConnection.prepareStatement(queryUsertest);
+		ResultSet rs1 = preparedStatementUT.executeQuery();
 
-		PreparedStatement preparedStatement = databaseConnection.prepareStatement(query);
-		ResultSet rs = preparedStatement.executeQuery();
-
-		Integer i = 0;
-		while(rs.next()) {
-			i = rs.getInt("run") +1 ;
+		Integer ut = 0;
+		while(rs1.next()) {
+            ut = rs1.getInt("run") +1;
+            System.out.println(ut);
 		}
-		run = i.toString();
+
+        String queryQueue = String.format("SELECT max(run) AS run FROM queue WHERE userid = '%s' AND testid = '%s'", userid, testid);
+        PreparedStatement preparedStatementQ = databaseConnection.prepareStatement(queryQueue);
+        ResultSet rs = preparedStatementQ.executeQuery();
+
+        Integer q = 0;
+        while(rs.next()) {
+            q = rs.getInt("run") +1 ;
+            System.out.println(q);
+        }
+
+		Integer maxrun = Math.max(userrun,Math.max(ut,q));
+
+        run = maxrun.toString();
+
 		return run;
 	}
 

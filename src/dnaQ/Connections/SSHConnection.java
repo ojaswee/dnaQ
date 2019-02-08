@@ -85,7 +85,7 @@ public class SSHConnection {
     //generate user directory in server
     public static void createUserDir (String d,String userid, String testid, String run)throws Exception{
 
-        String command = String.format("bash /home/ojaswee/masters_project/05_scripts/01_user_dir_creator.sh -d'%s' -u'%s' -t'%s' -r'%s'" ,d,userid, testid, run);
+        String command = String.format("bash /home/ojaswee/github/dnaQ/pipeline_scripts/01_user_dir_creator.sh -d'%s' -u'%s' -t'%s' -r'%s'" ,d,userid, testid, run);
 
         CommandResponse rs = executeCommandAndGetOutput(command);
 
@@ -108,8 +108,6 @@ public class SSHConnection {
         sftpChannel.put(source_path, destination_path);
         String currentfolder = userUploads+newname+"/";
 
-        String [] extension = oldname.split(".");
-
         sftpChannel.rename(currentfolder+oldname,currentfolder+newname+"_UPLOAD");
         sftpChannel.exit();
     }
@@ -126,8 +124,7 @@ public class SSHConnection {
         }
         System.out.println(rs.responseLines);
 
-    }    
-    
+    }
     
     //user report is transfered from server to client
     public static void transferReportFromServer(String name) throws JSchException, SftpException {

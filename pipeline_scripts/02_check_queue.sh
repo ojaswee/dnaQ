@@ -5,11 +5,9 @@
 #	3) makes these queue items status=1
 # 4) reading each line from text file send it to
 
-# test from gedit /home/ojaswee/dnaq/analysis/2_1_RUN1/2_1_RUN1_UPLOAD_COMBINED.csv
-
 OUTPUT_DIR="/home/ojaswee/dnaq/analysis/"
 JOB_DIR="/home/ojaswee/dnaq/queuedjob/"
-PIPELINE_SCRIPTS="/home/ojaswee/masters_project/05_pipeline_scripts/"
+PIPELINE_SCRIPTS="/home/ojaswee/github/dnaQ/pipeline_scripts/"
 
 #################################################
 # Parsing arguments
@@ -19,9 +17,9 @@ jobs=()
 queueid=0
 selectstatement="select queueid, userid, testid, run, status from queue where status= 0;"
 
-currentdate=`date '+%Y%m%d%H%M%S'`
-# JOB_FILE="${JOB_DIR}${currentdate}.txt"
-JOB_FILE="${JOB_DIR}"20190203170938.txt
+currentdate=`date "+%Y%m%d%H%M%S"`
+
+JOB_FILE="${JOB_DIR}${currentdate}.txt"
 
 while read -r queueid userid testid run status; do
 
@@ -50,7 +48,6 @@ while IFS=';' read queueid userid testid run status; do
 		if [ -f "${uploadedfile}" ];then
 			echo $uploadedfile
 			/opt/python3/bin/python3.4 "${PIPELINE_SCRIPTS}03_parser_userfile_mongo.py" -i $uploadedfile
-			# /opt/python3/bin/python3.4 /home/ojaswee/masters_project/05_pipeline_scripts/03_parser_userfile_mongo.py -i /home/ojaswee/dnaq/analysis/2_1_RUN1/2_1_RUN1_UPLOAD
 
 			chmod 777 *
 
@@ -58,7 +55,7 @@ while IFS=';' read queueid userid testid run status; do
 			if [ -f "${uploadedfile}_PARSED" ];then
 				echo "${uploadedfile}_PARSED"
 
-				/opt/python3/bin/python3.4 ${PIPELINE_SCRIPTS}07_sample_dbs_join.py -i $uploadedfile_PARSED
+				/opt/python3/bin/python3.4 ${PIPELINE_SCRIPTS}04_parsed_uploads_join_mongodb.py -i "${uploadedfile}_PARSED"
  				combinedfile="${uploadedfile}_PARSED_COMBINED.csv"
 
 				#if file is found then trigger usertest table and insert a new row
@@ -77,7 +74,7 @@ while IFS=';' read queueid userid testid run status; do
 
 					mysql --user="root" --password="main" --database="dnaq" --execute="$loadfilestatement"
 
-					updatequeuestatement = "UPDATE queue set status =2 where queueid='$queueid'"
+					updatequeuestatement="UPDATE queue set status =2 where queueid='$queueid'"
 					mysql --user="root" --password="main" --database="dnaq" --execute="$updatequeuestatement"
 
 				else
