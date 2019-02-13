@@ -1,7 +1,5 @@
 package dnaQ.Models;
 
-import java.util.ArrayList;
-
 public class User {
 	
 	private String userid;

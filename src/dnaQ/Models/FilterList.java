@@ -5,14 +5,14 @@ import java.util.ArrayList;
 
 public class FilterList {
 
-    private ArrayList<SampleFilter> sampleFilters;
+    private ArrayList<MutationFilter> mutationFilters;
 
     public FilterList() {
-        this.sampleFilters = new ArrayList<SampleFilter>();
+        this.mutationFilters = new ArrayList<MutationFilter>();
     }
 
-    private void addFilter(SampleFilter sampleFilter) {
-        sampleFilters.add(sampleFilter);
+    private void addFilter(MutationFilter mutationFilter) {
+        mutationFilters.add(mutationFilter);
     }
 
     public void filterSamples(ArrayList<Mutation> mutations, ArrayList<Mutation> filtered_mutations){
@@ -27,7 +27,7 @@ public class FilterList {
 
             Mutation currentsample = allsamples.get(i);
 
-            for (SampleFilter f:sampleFilters){
+            for (MutationFilter f: mutationFilters){
 
                 if (f.exclude(currentsample)){
 
@@ -50,40 +50,40 @@ public class FilterList {
 
     public void addCosmicIDFilter(JCheckBox cosmicIDCheckBox) {
 
-        addFilter(new CosmicIDSampleFilter(cosmicIDCheckBox));
+        addFilter(new CosmicIDMutationFilter(cosmicIDCheckBox));
     }
 
     public void addClinvarIDFilter(JCheckBox clinvarIDCheckBox) {
 
-        addFilter(new ClinvarIDSampleFilter(clinvarIDCheckBox));
+        addFilter(new ClinvarIDMutationFilter(clinvarIDCheckBox));
     }
 
     public void addG1000IDFilter(JCheckBox g1000IDCheckbox) {
 
-        addFilter(new G1000IDSampleFilter(g1000IDCheckbox));
+        addFilter(new G1000IDMutationFilter(g1000IDCheckbox));
     }
 
     public void addGlobalFreqFilter(JCheckBox globalFreqCheckbox) {
 
-        addFilter(new GlobalFreqSampleFilter(globalFreqCheckbox));
+        addFilter(new GlobalFreqMutationFilter(globalFreqCheckbox));
     }
 
 }
 
 
 
-class SampleFilter {
+class MutationFilter {
 
-    SampleFilter(){}
+    MutationFilter(){}
 
     public boolean exclude(Mutation mutation){return true;}
 }
 
-class CosmicIDSampleFilter extends SampleFilter {
+class CosmicIDMutationFilter extends MutationFilter {
 
     private JCheckBox cosmicIDCheckBox;
 
-    CosmicIDSampleFilter(JCheckBox cosmicIDCheckBox) {
+    CosmicIDMutationFilter(JCheckBox cosmicIDCheckBox) {
         this.cosmicIDCheckBox = cosmicIDCheckBox;
 
     }
@@ -103,11 +103,11 @@ class CosmicIDSampleFilter extends SampleFilter {
     }
 }
 
-class ClinvarIDSampleFilter extends SampleFilter {
+class ClinvarIDMutationFilter extends MutationFilter {
 
         private JCheckBox clinvarIDCheckBox;
 
-        ClinvarIDSampleFilter(JCheckBox clinvarIDCheckBox) {
+        ClinvarIDMutationFilter(JCheckBox clinvarIDCheckBox) {
             this.clinvarIDCheckBox = clinvarIDCheckBox;
 
         }
@@ -127,11 +127,11 @@ class ClinvarIDSampleFilter extends SampleFilter {
         }
 }
 
-class G1000IDSampleFilter extends SampleFilter {
+class G1000IDMutationFilter extends MutationFilter {
 
     private JCheckBox g1000IDCheckbox;
 
-    G1000IDSampleFilter(JCheckBox g1000IDCheckbox) {
+    G1000IDMutationFilter(JCheckBox g1000IDCheckbox) {
         this.g1000IDCheckbox = g1000IDCheckbox;
 
     }
@@ -151,11 +151,11 @@ class G1000IDSampleFilter extends SampleFilter {
     }
 }
 
-class GlobalFreqSampleFilter extends SampleFilter {
+class GlobalFreqMutationFilter extends MutationFilter {
 
     private JCheckBox globalFreqCheckbox;
 
-    GlobalFreqSampleFilter(JCheckBox globalFreqCheckbox) {
+    GlobalFreqMutationFilter(JCheckBox globalFreqCheckbox) {
         this.globalFreqCheckbox = globalFreqCheckbox;
 
     }

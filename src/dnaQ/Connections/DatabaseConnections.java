@@ -4,7 +4,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import dnaQ.Models.Mutation;
-import dnaQ.Models.Test;
 import dnaQ.Models.TestQueue;
 import dnaQ.Models.User;
 
@@ -77,7 +76,7 @@ public class DatabaseConnections {
 	//get type of test
 	public static ArrayList<String> getAllAvailableTypeofTest(String name)throws SQLException{
 
-		String query = String.format("SELECT DISTINCT (type) FROM test where name = '%s';", name);
+		String query = String.format("SELECT DISTINCT (type) FROM test where name ='%s';", name);
 
 		PreparedStatement pstm = databaseConnection.prepareStatement(query);
 		ResultSet rs = pstm.executeQuery();
@@ -89,45 +88,12 @@ public class DatabaseConnections {
 		return type;
 	}
 
-	//get completed test one by one
-	public static Test getCompletedTest (ResultSet row) throws SQLException{
-		Test test = new Test(
-				getValueOREmpty(row.getString("testid")),
-				getValueOREmpty(row.getString ("name")),
-				getValueOREmpty(row.getString ("type")),
-				getValueOREmpty(row.getString ("run")),
-				getValueOREmpty(row.getString ("usertestid"))
-		);
-		return test;
-	}
-
-	//make an arraylist of completed test
-	public static ArrayList<Test> getAllCompletedTest (String userid) throws Exception{
-		String query = String.format("SELECT t.testid,t.name, t.type, ut.run, ut.usertestid\n" +
-				"FROM usertest ut\n" +
-				"INNER JOIN user u ON u.userid = ut.userid \n" +
-				"INNER JOIN test t ON t.testid = ut.testid \n" +
-				"WHERE ut.userid = '%s'",userid);
-		PreparedStatement preparedStatement = databaseConnection.prepareStatement(query);
-		ResultSet rs = preparedStatement.executeQuery();
-
-		ArrayList<Test> tests = new ArrayList<Test>();
-
-		while(rs.next()){
-			Test t = getCompletedTest(rs);
-			tests.add(t);
-		}
-		preparedStatement.close();
-
-		return tests;
-	}
-
-	//make an arraylist of tests that are processing
+	//make an arraylist of tests that are in queue
 	public static ArrayList<TestQueue> getAllProcessingTest(String userid)throws SQLException{
-		String query = String.format("SELECT q.testid, t.name, t.type\n" +
-				"FROM test t\n" +
-				"INNER JOIN queue q ON q.testid= t.testid \n" +
-				"WHERE q.userid = '%s' AND q.status <2",userid);
+		String query = String.format("SELECT q.userid, q.testid,t.name, t.type,q.run, q.status\n" +
+				"FROM queue q\n" +
+				"INNER JOIN test t on q.testid = t.testid\n" +
+				"WHERE q.userid = '%s'",userid);
 		PreparedStatement preparedStatement = databaseConnection.prepareStatement(query);
 		ResultSet rs = preparedStatement.executeQuery();
 
@@ -136,9 +102,12 @@ public class DatabaseConnections {
 
 		while(rs.next()){
 			TestQueue q = new TestQueue(
-					getValueOREmpty(rs.getString("testid")),
+					getValueOREmpty(rs.getString("userid")),
+					getValueOREmpty(rs.getString ("testid")),
 					getValueOREmpty(rs.getString ("name")),
-					getValueOREmpty(rs.getString ("type"))
+					getValueOREmpty(rs.getString ("type")),
+					getValueOREmpty(rs.getString ("run")),
+					getValueOREmpty(rs.getString ("status"))
 			);
 
 			testQ.add(q);
@@ -146,6 +115,20 @@ public class DatabaseConnections {
 		preparedStatement.close();
 
 		return testQ;
+	}
+
+	public static String getUsertestid (String userid, String testid, String run)throws SQLException{
+
+		String usertestid = "";
+		String getusertestid = String.format("SELECT usertestid FROM usertest WHERE userid ='%s' AND testid='%s' AND run = '%s'",userid,testid,run);
+
+		PreparedStatement preparedStatement = databaseConnection.prepareStatement(getusertestid);
+		ResultSet rs = preparedStatement.executeQuery();
+
+		while(rs.next()) {
+			usertestid = getValueOREmpty(rs.getString("usertestid"));
+		}
+		return usertestid;
 	}
 
 	//get testid for newly uploaded file

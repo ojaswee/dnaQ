@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Uploads {
@@ -36,6 +37,7 @@ public class Uploads {
         getTestidAndRun();
         createFileName();
         transferFileAndQueue();
+        refeshTables();
     }
     
     private void getTestidAndRun() throws SQLException {
@@ -43,10 +45,11 @@ public class Uploads {
         testid = DatabaseConnections.getTestid(testName, testType);
 
         run = DatabaseConnections.getRun(userid,testid);
+//        JOptionPane.showMessageDialog(null, run);
     }
 
     private void createFileName() {
-        serverfileName = d+ "_"+userid + "_" + testid + "_RUN" +run ;
+        serverfileName = userid + "_" + testid + "_RUN" +run ;
     }
 
     public void transferFileAndQueue() throws Exception {
@@ -59,4 +62,8 @@ public class Uploads {
 
         JOptionPane.showMessageDialog(null, filePath);
         }
+
+    public void refeshTables () throws Exception{
+        ArrayList <TestQueue> processingTest = DatabaseConnections.getAllProcessingTest(userid);
+    }
 }
