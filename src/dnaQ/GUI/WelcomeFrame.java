@@ -1,7 +1,6 @@
 package dnaQ.GUI;
 
 import dnaQ.Connections.DatabaseConnections;
-import dnaQ.Connections.SSHConnection;
 import dnaQ.Models.*;
 
 import javax.swing.*;
@@ -11,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import dnaQ.GUI.tables.*;
@@ -22,18 +22,15 @@ public class WelcomeFrame extends JFrame{
     private JPanel userInfoPanel;
     private JPanel openFilePanel;
     private JPanel uploadPanel;
-    private JPanel completedTestPanel;
-    private JPanel processingTestPanel;
+    private JPanel queueTablePanel;
 
     private LoginFrame parent;
 
     private User currentuser;
-    private ArrayList<Test> completedTest;
-    private TestTable completedTestTable;
-    private TestTableModel completedTestTableModel;
 
-    private ArrayList<TestQueue>processingTest;
-    private JTextArea processingTestTextArea;
+    private ArrayList<TestQueue> queueTable;
+    private TestQueueTable testQueueTable;
+    private TestQueueTableModel queueTableModel;
 
     private JButton openButton;
     private JTextField fileNameTextField;
@@ -52,19 +49,22 @@ public class WelcomeFrame extends JFrame{
 
     public MutationList mutationList;
 
+//    private Thread refreshTestQueueTable;
+//    private final int secondsToSleep = 30;
+//    private long timeLastRefreshed = 0;
+//    private JMenuItem refreshLabel;
 
-    public WelcomeFrame(LoginFrame parent, User currentuser, ArrayList<Test> completedTest,
-                        ArrayList<TestQueue>processingTest) throws Exception {
+    private JButton refreshButton;
+
+
+    public WelcomeFrame(LoginFrame parent, User currentuser, ArrayList<TestQueue> queueTable) throws Exception {
 
         super ("Welcome to dnaQ");
         this.parent = parent;
         this.currentuser = currentuser;
-        this.completedTest = completedTest;
-        this.processingTest= processingTest;
-
+        this.queueTable = queueTable;
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(parent);
 
         createComponents();
         layoutComponents();
@@ -77,15 +77,17 @@ public class WelcomeFrame extends JFrame{
         pack();
         setResizable(true);
         setLocationRelativeTo(parent);
+
+//        setupTestQueueTableUpdate();
     }
 
     private void createComponents(){
         mainPanel = new JPanel();
-        
+
         logoPanel = new JPanel();
-        
+
         userInfoPanel = new JPanel();
-     
+
         uploadPanel = new JPanel();
         openFilePanel = new JPanel();
         lblupload = new JLabel();
@@ -97,17 +99,17 @@ public class WelcomeFrame extends JFrame{
         openButton = new JButton("Open");
         uploadButton = new JButton("Upload");
 
-        completedTestPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        queueTablePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-        completedTestTableModel = new TestTableModel(completedTest);
+        queueTableModel = new TestQueueTableModel(queueTable);
 
-        completedTestTable = new TestTable(this,completedTestTableModel);
+        testQueueTable = new TestQueueTable(this,queueTableModel);
 
-        userTestScrollPane = new JScrollPane(completedTestTable);
-        userTestScrollPane.setViewportView(completedTestTable);
+        userTestScrollPane = new JScrollPane(testQueueTable);
+        userTestScrollPane.setViewportView(testQueueTable);
 
-        processingTestPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        processingTestTextArea = new JTextArea();
+        refreshButton = new JButton("Refresh");
+
     }
 
     private void layoutComponents() {
@@ -157,28 +159,16 @@ public class WelcomeFrame extends JFrame{
 
         uploadPanel.add(uploadButton);
 
-        //completed tests
-        completedTestPanel.add(userTestScrollPane);
+        uploadPanel.add(refreshButton);
 
-
-
-        //for tests that are in queue
-        for (TestQueue a: processingTest){
-            processingTestTextArea.append("("+a.testname +" , " + a.type + ")\n");
-            processingTestTextArea.setFont(GUICommonTools.TAHOMA_BOLD_14);
-        }
-        processingTestTextArea.setEditable(false);
-        processingTestTextArea.setPreferredSize(new Dimension(450,heightPanel/5));
-        processingTestPanel.add(processingTestTextArea);
-
-
+        //tests in queue
+        queueTablePanel.add(userTestScrollPane);
 
         mainPanel.add(logoPanel);
         mainPanel.add(userInfoPanel);
         mainPanel.add (openFilePanel);
         mainPanel.add(uploadPanel);
-        mainPanel.add(completedTestPanel);
-        mainPanel.add (processingTestPanel);
+        mainPanel.add(queueTablePanel);
 
         add(mainPanel);
     }
@@ -188,7 +178,7 @@ public class WelcomeFrame extends JFrame{
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 try {
-                    fs = new JFileChooser(new File("/home/ojaswee"));
+                    fs = new JFileChooser(new File("/home/ojaswee/masters_project/01_data/"));
                     fs.setDialogTitle("Select a File");
                     fs.showSaveDialog(null);
 
@@ -206,6 +196,7 @@ public class WelcomeFrame extends JFrame{
             public void actionPerformed(ActionEvent arg0) {
                 try {
                     String testName = testNameComboBox.getSelectedItem().toString();
+
                     String testType = testTypeComboBox.getSelectedItem().toString();
 
                     String filePath = fs.getSelectedFile().getAbsolutePath();
@@ -220,28 +211,47 @@ public class WelcomeFrame extends JFrame{
             }
         });
 
-        completedTestTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+        testQueueTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
             public void valueChanged(ListSelectionEvent event) {
-                String testname = completedTestTable.getValueAt(completedTestTable.getSelectedRow(), 0).toString();
-                String testtype = completedTestTable.getValueAt(completedTestTable.getSelectedRow(), 1).toString();
-
-                String testrun = completedTestTable.getValueAt(completedTestTable.getSelectedRow(), 2).toString();
-
-                System.out.println(testname+"_"+testtype+"_"+testrun);
+                String testid = testQueueTable.getValueAt(testQueueTable.getSelectedRow(), 0).toString();
+                String run = testQueueTable.getValueAt(testQueueTable.getSelectedRow(), 3).toString();
 
                 if (! event.getValueIsAdjusting()) {
 
-                    show2();
+                    displayMutationFrame(testid, run);
                 }
 
             }
         });
+
+        refreshButton.addActionListener(new ActionListener() {
+            public void actionPerformed (ActionEvent arg0){
+//                JOptionPane.showMessageDialog(null, "Refresh button clicked");
+                try {
+                    queueTable = DatabaseConnections.getAllProcessingTest(currentuser.getUserID());
+//                    queueTablePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+//                    queueTableModel = new TestQueueTableModel(queueTable);
+
+                    queueTableModel.fireTableDataChanged();
+                    testQueueTable.repaint();
+
+//                    userTestScrollPane = new JScrollPane(testQueueTable);
+//                    userTestScrollPane.setViewportView(testQueueTable);
+                    
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
-    private void show2(){
-
+    private void displayMutationFrame(String testid, String run){
+        String usertestid = "";
         try {
-            mutations = DatabaseConnections.getAllMutation(completedTestTable.getValueAt(completedTestTable.getSelectedRow(),0).toString());
+            usertestid = DatabaseConnections.getUsertestid(currentuser.getUserID(),testid,run);
+            System.out.println(usertestid);
+            mutations = DatabaseConnections.getAllMutation(usertestid);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -273,3 +283,4 @@ public class WelcomeFrame extends JFrame{
         }
     }
 }
+
