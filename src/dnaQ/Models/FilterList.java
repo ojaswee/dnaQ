@@ -63,14 +63,11 @@ public class FilterList {
         addFilter(new G1000IDMutationFilter(g1000IDCheckbox));
     }
 
-    public void addGlobalFreqFilter(JCheckBox globalFreqCheckbox) {
-
-        addFilter(new GlobalFreqMutationFilter(globalFreqCheckbox));
+    public void addG1000ComboboxFilter(String region, String maxValue){
+        addFilter(new G1000IDFrequencyAndMaxFilter(region,maxValue));
     }
 
 }
-
-
 
 class MutationFilter {
 
@@ -151,27 +148,59 @@ class G1000IDMutationFilter extends MutationFilter {
     }
 }
 
-class GlobalFreqMutationFilter extends MutationFilter {
+class G1000IDFrequencyAndMaxFilter extends MutationFilter {
+    private String region;
+    private Double maxValue;
 
-    private JCheckBox globalFreqCheckbox;
-
-    GlobalFreqMutationFilter(JCheckBox globalFreqCheckbox) {
-        this.globalFreqCheckbox = globalFreqCheckbox;
-
+    G1000IDFrequencyAndMaxFilter(String region, String maxValue) {
+        this.region = region;
+        this.maxValue = Double.valueOf(maxValue);
     }
 
     @Override
     public boolean exclude(Mutation mutation) {
+        boolean choice = true;
 
-        if (globalFreqCheckbox.isSelected()) {
-            if (mutation.getAltGlobalFreq().equals("")) {
-                return true;
-            } else {
-                return false;
+        if (region.equals("altGlobalFreq") ) {
+            if (mutation.getAltGlobalFreq().matches(".*\\d+.*") ) {
+                Double currentValue = Double.valueOf(mutation.getAltGlobalFreq());
+                if (currentValue < maxValue) {
+                    choice = false;
+                }
             }
-        }else{
-            return false;
         }
+        else if (region.equals("americanFreq")) {
+            if (mutation.getAmericanFreq().matches(".*\\d+.*")) {
+                Double currentValue = Double.valueOf(mutation.getAmericanFreq());
+                if (currentValue < maxValue) {
+                    choice = false;
+                }
+            }
+        }
+        else if (region.equals("asianFreq")) {
+            if (mutation.getAsianFreq().matches(".*\\d+.*")) {
+                Double currentValue = Double.valueOf(mutation.getAsianFreq());
+                if (currentValue < maxValue) {
+                    choice = false;
+                }
+            }
+        }
+        else if (region.equals("afrFreq")) {
+            if (mutation.getAfrFreq().matches(".*\\d+.*")) {
+                Double currentValue = Double.valueOf(mutation.getAfrFreq());
+                if (currentValue < maxValue) {
+                    choice = false;
+                }
+            }
+        }
+        else if (region.equals("eurFreq")) {
+            if (mutation.getEurFreq().matches(".*\\d+.*")) {
+                Double currentValue = Double.valueOf(mutation.getEurFreq());
+                if (currentValue < maxValue) {
+                    choice = false;
+                }
+            }
+        }
+        return choice;
     }
 }
-

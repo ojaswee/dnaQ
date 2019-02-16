@@ -1,20 +1,20 @@
 package dnaQ.GUI.tables;
 
-import dnaQ.Models.Test;
+import dnaQ.Models.TestQueue;
 
-public class TestTableModelColumn {
+public class TestQueueTableModelColumn {
 
         /**
          * The Lambda interface object
          */
-        private final TestTableModelColumn.UserTestGetValueAtOperation operation;
+        private final TestQueueTableModelColumn.UserTestGetValueAtOperation operation;
 
         public final String description;
         public final String title;
         public final Class<?> columnClass;
 
-        public TestTableModelColumn(String description, String title,
-                                    Class<?> columnClass, TestTableModelColumn.UserTestGetValueAtOperation operation) {
+        public TestQueueTableModelColumn(String description, String title,
+                                         Class<?> columnClass, TestQueueTableModelColumn.UserTestGetValueAtOperation operation) {
             this.description = description;
             this.title = title;
             this.columnClass= columnClass;
@@ -24,7 +24,7 @@ public class TestTableModelColumn {
         /**
          * Lambda expression function
          */
-        public Object getValue(Test test){
+        public Object getValue(TestQueue test){
             return operation.getValue(test);
         }
 
@@ -34,6 +34,6 @@ public class TestTableModelColumn {
          */
 
         public interface UserTestGetValueAtOperation{
-            Object getValue(Test test);
+            Object getValue(TestQueue test);
         }
 }

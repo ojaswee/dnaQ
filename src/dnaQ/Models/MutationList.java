@@ -7,7 +7,7 @@ public class MutationList {
     private ArrayList<Mutation> mutations;
     private ArrayList<Mutation> filteredMutations;
 
-    private boolean choice;
+//    private boolean choice;
 
     public MutationList(ArrayList<Mutation> mutations) throws Exception {
 
