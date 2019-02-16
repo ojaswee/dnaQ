@@ -21,9 +21,9 @@ public class LoginFrame extends JFrame {
 	private JPasswordField passwordTextField;
     private JButton loginButton;
 
-	public ArrayList<Mutation> mutations;
+//	public ArrayList<Mutation> mutations;
 
-	public MutationList mutationList;
+//	public MutationList mutationList;
 
 
 	/**
@@ -142,21 +142,14 @@ public class LoginFrame extends JFrame {
 
 			System.out.println("Login Successful");
 
-			//add upload file before moving to welcome frame
-			ArrayList<Test> completedTest = DatabaseConnections.getAllCompletedTest(currentuser.getUserID().toString());
-			ArrayList <TestQueue> processingTest = DatabaseConnections.getAllProcessingTest(currentuser.getUserID().toString());
+			//create an arraylist of all queue items before moving to welcome frame
+			ArrayList <TestQueue> testQueue = DatabaseConnections.getAllProcessingTest(currentuser.getUserID().toString());
 
-			WelcomeFrame welcomeFrame = new WelcomeFrame(this, currentuser,completedTest,processingTest);
+			WelcomeFrame welcomeFrame = new WelcomeFrame(this, currentuser,testQueue);
 
 			dispose();
 			welcomeFrame.setVisible(true);
 
-//// previously working code
-//			mutations = DatabaseConnections.getAllSample();
-//			mutationList = new MutationList(mutations);
-//			MutationListFrame samplelistframe = new MutationListFrame(this,mutationList);
-//			dispose();
-//			samplelistframe.setVisible(true);
 		}
 		else {
 			JOptionPane.showMessageDialog(null,"Invalid email or password");

@@ -226,19 +226,14 @@ public class WelcomeFrame extends JFrame{
 
         refreshButton.addActionListener(new ActionListener() {
             public void actionPerformed (ActionEvent arg0){
-//                JOptionPane.showMessageDialog(null, "Refresh button clicked");
                 try {
                     queueTable = DatabaseConnections.getAllProcessingTest(currentuser.getUserID());
-//                    queueTablePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-
-//                    queueTableModel = new TestQueueTableModel(queueTable);
-
                     queueTableModel.fireTableDataChanged();
                     testQueueTable.repaint();
-
+//
 //                    userTestScrollPane = new JScrollPane(testQueueTable);
 //                    userTestScrollPane.setViewportView(testQueueTable);
-                    
+
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -250,7 +245,6 @@ public class WelcomeFrame extends JFrame{
         String usertestid = "";
         try {
             usertestid = DatabaseConnections.getUsertestid(currentuser.getUserID(),testid,run);
-            System.out.println(usertestid);
             mutations = DatabaseConnections.getAllMutation(usertestid);
         } catch (Exception e) {
             e.printStackTrace();

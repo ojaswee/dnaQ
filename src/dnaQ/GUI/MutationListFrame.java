@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import dnaQ.GUI.tables.*;
-import dnaQ.Models.FilterList;
+
 import dnaQ.Models.MutationList;
 
 public class MutationListFrame extends JFrame  {
@@ -39,17 +39,9 @@ public class MutationListFrame extends JFrame  {
 	private WelcomeFrame parent;
 
 	private MutationList mutationList;
-	private FilterList filterList;
 
 	private JPanel panel;
 	private JTabbedPane tabbedPane;
-
-	public JCheckBox cosmicIDCheckbox;
-	public JCheckBox clinvarIDCheckbox;
-	public JCheckBox g1000IDCheckbox;
-    public JCheckBox globalFreqCheckbox;
-	public JCheckBox diseaseCheckbox;
-
 
 	public JButton dashboardButton;
 
@@ -65,7 +57,7 @@ public class MutationListFrame extends JFrame  {
 
 		super ("Mutation List");
 		this.mutationList = mutationList;
-		this.filterList=new FilterList();
+//		this.filterList=new FilterList();
 		this.parent = parent;
 
 		this.commonTableModel = new CommonTableModel(mutationList.getMutations());
@@ -112,18 +104,6 @@ public class MutationListFrame extends JFrame  {
 		oncokbScrollPane = new JScrollPane(oncokbTable);
 		oncokbScrollPane.setViewportView(oncokbTable);
 
-		cosmicIDCheckbox = new JCheckBox("Cosmic");
-		clinvarIDCheckbox = new JCheckBox("Clinvar");
-		g1000IDCheckbox = new JCheckBox("g1000");
-		globalFreqCheckbox = new JCheckBox("Global Frequency");
-		diseaseCheckbox = new JCheckBox("Disease");
-
-		filterList.addCosmicIDFilter(cosmicIDCheckbox);
-		filterList.addClinvarIDFilter(clinvarIDCheckbox);
-		filterList.addG1000IDFilter(g1000IDCheckbox);
-		filterList.addGlobalFreqFilter(globalFreqCheckbox);
-		filterList.addG1000IDFilter(diseaseCheckbox);
-
 		dashboardButton = new JButton("Dashboard");
 		reportButton = new JButton("Report");
 		exportButton = new JButton("Export");
@@ -155,42 +135,8 @@ public class MutationListFrame extends JFrame  {
         filterPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         filterPanel.setBackground(GUICommonTools.BackgroundColor2);
 
-		JPanel filterPanelHeading = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        filterPanelHeading.add(new Label("Choose filter to select results"));
-        filterPanelHeading.setFont(GUICommonTools.TAHOMA_BOLD_16);
-        filterPanelHeading.setPreferredSize(new Dimension(20, 30));
-        filterPanelHeading.setMinimumSize(new Dimension(20, 30));
-        filterPanelHeading.setMaximumSize(new Dimension(20, 30));
-        filterPanelHeading.setBackground(GUICommonTools.BackgroundColor1);
-        filterPanel.add(filterPanelHeading);
-
-
-		JPanel databasefilterPanel = new JPanel(new GridLayout(1,0));
-        databasefilterPanel.add(new Label("Select database"));
-        databasefilterPanel.add(cosmicIDCheckbox);
-        databasefilterPanel.add(clinvarIDCheckbox);
-        databasefilterPanel.add(g1000IDCheckbox);
-        databasefilterPanel.add(globalFreqCheckbox);
-        databasefilterPanel.add(diseaseCheckbox);
-        filterPanel.add(databasefilterPanel);
-
-
-        JPanel filterPanel2 = new JPanel(new GridLayout(1,0));
-        filterPanel2.add(new Label("Select"));
-        filterPanel.add(filterPanel2);
-
-
-        JPanel filterPanel3 = new JPanel(new GridLayout(1,0));
-        filterPanel3.add(new Label("Select"));
-        filterPanel.add(filterPanel3);
-
-        JPanel filterPanel4 = new JPanel(new GridLayout(1,0));
-        filterPanel4.add(new Label("Select"));
-        filterPanel.add(filterPanel4);
-
-        JPanel filterPanel5 = new JPanel(new GridLayout(1,0));
-        filterPanel5.add(new Label("Select"));
-        filterPanel.add(filterPanel5);
+		MutationListFrameFilterPanel filterPanel1 = new MutationListFrameFilterPanel(filterPanel,mutationList,datachart);
+		add(filterPanel1);
 
 		JPanel featurePanel = new JPanel(new BorderLayout());
 		featurePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -248,42 +194,6 @@ public class MutationListFrame extends JFrame  {
 
 
 	private void activateComponents(){
-		cosmicIDCheckbox.addActionListener(new ActionListener() {
-			@Override
-            public void actionPerformed(ActionEvent e) {
-				handleCheckBoxClick();
-			}
-		});
-
-		clinvarIDCheckbox.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				handleCheckBoxClick();
-			}
-		});
-
-		g1000IDCheckbox.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				handleCheckBoxClick();
-			}
-		});
-
-		globalFreqCheckbox.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				handleCheckBoxClick();
-			}
-		});
-
-		diseaseCheckbox.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				handleCheckBoxClick();
-			}
-		});
-
-
 		dashboardButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -302,13 +212,6 @@ public class MutationListFrame extends JFrame  {
 			}
 		});
 	}
-
-	private void handleCheckBoxClick() {
-			mutationList.filterSamples(filterList);
-			cosmicTableModel.fireTableDataChanged();
-			datachart.updateCharts();
-	}
-
 
 	private void handleChartButtonClick() {
 
