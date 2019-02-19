@@ -58,18 +58,6 @@ def fileParser(inputfile, outputfile, source):
         df_filter.columns=['clinvar-id','chr','pos','ref','alt','CLNDN','CLNSIG','MC','ORIGIN']
         df_filter.to_csv(outputfile,index=False)
 
-
-    # elif source == 'sample':
-    #     df = pd.read_csv(inputfile, sep='\t', skiprows = 2)
-    #     filter=[]
-    #     for indx,row in df.iterrows():
-    #         info_line = row['INFO'].split('|')
-    #         filter.append([row['CHROM'][3:],row['POS'],row['REF'],row['ALT'],row['QUAL'],row['FILTER'],info_line[1],
-    #         info_line[2],info_line[3],info_line[4],info_line[5],info_line[6],info_line[7]])
-    #     df_filter=pd.DataFrame( filter)
-    #     df_filter.columns=['chr','pos','ref','alt','qual', 'filter', 'consequence','impact','symbol','ensgid','featuretype','enst','biotype']
-    #     df_filter.to_csv(outputfile,index=False)
-
     elif source == 'genome1000':
         df = pd.read_csv(inputfile,sep='\t')
         df.columns=["chr","pos","g1000-id","ref","alt","altCount","totalCount","altGlobalFreq","americanFreq","asianFreq","afrFreq", "eurFreq"]
@@ -81,6 +69,20 @@ def fileParser(inputfile, outputfile, source):
         df = df.iloc[:,[0,1,3,5,6,7]]
         df.to_csv(outputfile,index=False)
 
+    elif source == 'chrtogene':
+        df = pd.read_csv(inputfile,sep='\t',encoding='latin-1')
+        df.columns= ['chr','pos','gene']
+        df.to_csv(outputfile,index=False)
+
+    elif source == 'chrtodisease':
+        df = pd.read_csv(inputfile,sep='\t',encoding='latin-1')
+        df.columns= ['chr','pos','disease']
+        df.to_csv(outputfile,index=False)
+
+    elif source== 'chrtopublication':
+        df = pd.read_csv(inputfile,sep='\t',encoding='latin-1')
+        df.columns= ['chr','pos','count']
+        df.to_csv(outputfile,index=False)
 try:
     parser = optparse.OptionParser()
     parser.add_option('-i', '--inputfile', help = 'input file expected')
@@ -94,3 +96,7 @@ try:
 
 except TypeError:
 	print ("python 06_parser_mongo.py -help for help")
+
+
+    # /opt/python3/bin/python3.4 /home/ojaswee/github/dnaQ/pipeline_scripts/06_all_db_parser_mongo.py -i /home/ojaswee/masters_project/01_data/chrtogene.txt -o chrtogene.csv -s chrtogene
+    # /opt/python3/bin/python3.4 /home/ojaswee/github/dnaQ/pipeline_scripts/06_all_db_parser_mongo.py -i /home/ojaswee/masters_project/01_data/chrtopublication.txt -o chrtopublication.csv -s chrtopublication

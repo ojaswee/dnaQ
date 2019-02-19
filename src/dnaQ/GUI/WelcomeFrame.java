@@ -227,12 +227,10 @@ public class WelcomeFrame extends JFrame{
         refreshButton.addActionListener(new ActionListener() {
             public void actionPerformed (ActionEvent arg0){
                 try {
-                    queueTable = DatabaseConnections.getAllProcessingTest(currentuser.getUserID());
-                    queueTableModel.fireTableDataChanged();
-                    testQueueTable.repaint();
-//
-//                    userTestScrollPane = new JScrollPane(testQueueTable);
-//                    userTestScrollPane.setViewportView(testQueueTable);
+                    ArrayList<TestQueue> testqs = DatabaseConnections.getAllProcessingTest(currentuser.getUserID());
+                    for(TestQueue tq : testqs) {
+                        queueTableModel.addOrUpdatePipeline(tq);
+                    }
 
                 } catch (SQLException e) {
                     e.printStackTrace();
