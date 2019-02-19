@@ -4,20 +4,20 @@ import dnaQ.GUI.MutationListFrame;
 
 import javax.swing.*;
 
-public class G1000Table extends CommonTable {
+public class PopulationFreqTable extends CommonTable {
 
     private static final long serialVersionUID = 1L;
 
     protected MutationListFrame parent;
 
-    protected G1000TableModel g1000TableModel;
+    protected PopulationFreqTableModel populationFreqTableModel;
 
 
-    public G1000Table(MutationListFrame parent, G1000TableModel g1000TableModel){
+    public PopulationFreqTable(MutationListFrame parent, PopulationFreqTableModel populationFreqTableModel){
         super();
         this.parent = parent;
-        this.g1000TableModel = g1000TableModel;
-        setModel(g1000TableModel);
+        this.populationFreqTableModel = populationFreqTableModel;
+        setModel(populationFreqTableModel);
 
         resizeColumnWidths();
         constructRenderers();

@@ -77,5 +77,23 @@ public class TestQueueTableModel extends AbstractTableModel {
         return columns.get(column).getValue(test);
     }
 
+    public void addOrUpdatePipeline(TestQueue tq) {
+        for(int i = 0; i < userTestQueue.size(); i++) {
+            TestQueue current_tq = userTestQueue.get(i);
+            if(current_tq.userid.equals(tq.userid) && current_tq.testid.equals(tq.testid) && current_tq.run.equals(tq.run) ) {
+                userTestQueue.set(i, tq);
+                fireTableRowsUpdated(i, i);
+                return;
+            }
+        }
+
+        addPipeline(tq);
+    }
+
+    public void addPipeline(TestQueue tq){
+        userTestQueue.add(tq);
+        fireTableRowsInserted(userTestQueue.size()-1, userTestQueue.size()-1);
+    }
+
 
 }

@@ -23,11 +23,6 @@ public class CommonTableModel extends AbstractTableModel {
 	private void constructColumns(){
 		columns = new ArrayList<CommonTableModelColumn>();
 
-		columns.add(new CommonTableModelColumn("usertestid",
-				"usertestid",
-				Integer.class,
-				(Mutation mutation) -> mutation.usertestid));
-
 		columns.add(new CommonTableModelColumn("chromosome",
 				"chr",
 				String.class,

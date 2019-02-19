@@ -4,23 +4,15 @@
     <list default="true" id="8ac36e5f-9449-4d4b-9123-4f0ebc89e5b1" name="Default Changelist" comment="added link to Testtable">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/dnaQ/Connections/DatabaseConnections.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/dnaQ/Connections/DatabaseConnections.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pipeline_scripts/02_check_queue.sh" beforeDir="false" afterPath="$PROJECT_DIR$/pipeline_scripts/02_check_queue.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pipeline_scripts/03_parser_userfile_mongo.py" beforeDir="false" afterPath="$PROJECT_DIR$/pipeline_scripts/03_parser_userfile_mongo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pipeline_scripts/04_parsed_uploads_join_mongodb.py" beforeDir="false" afterPath="$PROJECT_DIR$/pipeline_scripts/04_parsed_uploads_join_mongodb.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pipeline_scripts/06_all_db_parser_mongo.py" beforeDir="false" afterPath="$PROJECT_DIR$/pipeline_scripts/06_all_db_parser_mongo.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dnaQ/Connections/DatabaseConnections.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/Connections/DatabaseConnections.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dnaQ/GUI/MutationListFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/GUI/MutationListFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dnaQ/GUI/MutationListFrameFilterPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/GUI/MutationListFrameFilterPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dnaQ/GUI/tables/ClinvarTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/GUI/tables/ClinicalTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dnaQ/GUI/tables/ClinvarTableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/GUI/tables/ClinicalTableModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dnaQ/GUI/tables/CancerTableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/GUI/tables/CancerTableModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dnaQ/GUI/tables/ClinicalTableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/GUI/tables/ClinicalTableModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dnaQ/GUI/tables/CommonTableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/GUI/tables/CommonTableModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dnaQ/GUI/tables/CosmicTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/GUI/tables/CancerTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dnaQ/GUI/tables/CosmicTableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/GUI/tables/CancerTableModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dnaQ/GUI/tables/G1000TableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/GUI/tables/G1000TableModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dnaQ/GUI/tables/OncokbTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/GUI/tables/BiologyTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dnaQ/GUI/tables/OncokbTableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/GUI/tables/BiologyTableModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dnaQ/GUI/tables/G1000Table.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/GUI/tables/PopulationFreqTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dnaQ/GUI/tables/G1000TableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/GUI/tables/PopulationFreqTableModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dnaQ/GUI/tables/TestQueueTableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/GUI/tables/TestQueueTableModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dnaQ/Models/Mutation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/Models/Mutation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dnaQ/Models/FilterList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dnaQ/Models/FilterList.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -146,10 +138,10 @@
     <session id="708483505">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="83" />
+          <entry key="project.closed" value="84" />
           <entry key="project.open.time.10" value="7" />
           <entry key="project.open.time.11" value="12" />
-          <entry key="project.open.time.12" value="19" />
+          <entry key="project.open.time.12" value="20" />
           <entry key="project.open.time.13" value="24" />
           <entry key="project.open.time.14" value="8" />
           <entry key="project.open.time.15" value="5" />
@@ -167,14 +159,14 @@
           <entry key="project.open.time.6" value="1" />
           <entry key="project.open.time.7" value="2" />
           <entry key="project.open.time.8" value="1" />
-          <entry key="project.opened" value="101" />
+          <entry key="project.opened" value="102" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="class" value="77" />
           <entry key="form" value="3" />
-          <entry key="java" value="346" />
+          <entry key="java" value="360" />
           <entry key="jpg" value="1" />
         </counts>
       </usages-collector>
@@ -183,24 +175,24 @@
           <entry key="CLASS" value="77" />
           <entry key="GUI_DESIGNER_FORM" value="3" />
           <entry key="Image" value="1" />
-          <entry key="JAVA" value="346" />
+          <entry key="JAVA" value="360" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="class" value="9" />
-          <entry key="dummy" value="151" />
-          <entry key="java" value="34586" />
+          <entry key="dummy" value="179" />
+          <entry key="java" value="34709" />
           <entry key="sql" value="1" />
-          <entry key="txt" value="1398" />
+          <entry key="txt" value="1494" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CLASS" value="9" />
           <entry key="DBN-SQL" value="1" />
-          <entry key="JAVA" value="34586" />
-          <entry key="PLAIN_TEXT" value="1549" />
+          <entry key="JAVA" value="34709" />
+          <entry key="PLAIN_TEXT" value="1673" />
         </counts>
       </usages-collector>
     </session>
@@ -213,8 +205,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/MutationListFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="24">
-              <caret line="103" column="54" selection-start-line="103" selection-start-column="54" selection-end-line="103" selection-end-column="54" />
+            <state relative-caret-position="3258">
+              <caret line="172" column="30" lean-forward="true" selection-start-line="172" selection-start-column="30" selection-end-line="172" selection-end-column="30" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -225,112 +217,69 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/tables/CancerTableModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="26" column="27" lean-forward="true" selection-start-line="21" selection-end-line="44" selection-end-column="54" />
+            <state relative-caret-position="69">
+              <caret line="21" selection-start-line="21" selection-end-line="21" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/dnaQ/Models/Mutation.java">
+        <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/tables/ClinicalTableModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="6" column="12" lean-forward="true" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
-              <folding>
-                <element signature="e#1748#1749#0" expanded="true" />
-                <element signature="e#1772#1773#0" expanded="true" />
-                <element signature="e#1822#1823#0" expanded="true" />
-                <element signature="e#1857#1858#0" expanded="true" />
-                <element signature="e#1884#1885#0" expanded="true" />
-                <element signature="e#1901#1902#0" expanded="true" />
-                <element signature="e#1936#1937#0" expanded="true" />
-                <element signature="e#1957#1958#0" expanded="true" />
-                <element signature="e#1985#1986#0" expanded="true" />
-                <element signature="e#2002#2003#0" expanded="true" />
-                <element signature="e#2038#2039#0" expanded="true" />
-                <element signature="e#2059#2060#0" expanded="true" />
-                <element signature="e#2086#2087#0" expanded="true" />
-                <element signature="e#2103#2104#0" expanded="true" />
-                <element signature="e#2138#2139#0" expanded="true" />
-                <element signature="e#2159#2160#0" expanded="true" />
-                <element signature="e#2186#2187#0" expanded="true" />
-                <element signature="e#2203#2204#0" expanded="true" />
-                <element signature="e#2238#2239#0" expanded="true" />
-                <element signature="e#2259#2260#0" expanded="true" />
-                <element signature="e#2290#2291#0" expanded="true" />
-                <element signature="e#2311#2312#0" expanded="true" />
-                <element signature="e#2354#2355#0" expanded="true" />
-                <element signature="e#2383#2384#0" expanded="true" />
-                <element signature="e#2413#2414#0" expanded="true" />
-                <element signature="e#2433#2434#0" expanded="true" />
-                <element signature="e#2474#2475#0" expanded="true" />
-                <element signature="e#2501#2502#0" expanded="true" />
-                <element signature="e#2535#2536#0" expanded="true" />
-                <element signature="e#2559#2560#0" expanded="true" />
-                <element signature="e#2608#2609#0" expanded="true" />
-                <element signature="e#2643#2644#0" expanded="true" />
-                <element signature="e#2679#2680#0" expanded="true" />
-                <element signature="e#2705#2706#0" expanded="true" />
-                <element signature="e#2758#2759#0" expanded="true" />
-                <element signature="e#2797#2798#0" expanded="true" />
-                <element signature="e#2830#2831#0" expanded="true" />
-                <element signature="e#2853#2854#0" expanded="true" />
-                <element signature="e#2900#2901#0" expanded="true" />
-                <element signature="e#2933#2934#0" expanded="true" />
-                <element signature="e#2964#2965#0" expanded="true" />
-                <element signature="e#2985#2986#0" expanded="true" />
-                <element signature="e#3028#3029#0" expanded="true" />
-                <element signature="e#3057#3058#0" expanded="true" />
-                <element signature="e#3088#3089#0" expanded="true" />
-                <element signature="e#3109#3110#0" expanded="true" />
-                <element signature="e#3152#3153#0" expanded="true" />
-                <element signature="e#3181#3182#0" expanded="true" />
-                <element signature="e#3213#3214#0" expanded="true" />
-                <element signature="e#3235#3236#0" expanded="true" />
-                <element signature="e#3280#3281#0" expanded="true" />
-                <element signature="e#3311#3312#0" expanded="true" />
-                <element signature="e#3346#3347#0" expanded="true" />
-                <element signature="e#3371#3372#0" expanded="true" />
-                <element signature="e#3422#3423#0" expanded="true" />
-                <element signature="e#3459#3460#0" expanded="true" />
-                <element signature="e#3493#3494#0" expanded="true" />
-                <element signature="e#3517#3518#0" expanded="true" />
-                <element signature="e#3566#3567#0" expanded="true" />
-                <element signature="e#3601#3602#0" expanded="true" />
-                <element signature="e#3640#3641#0" expanded="true" />
-                <element signature="e#3669#3670#0" expanded="true" />
-                <element signature="e#3728#3729#0" expanded="true" />
-                <element signature="e#3773#3774#0" expanded="true" />
-                <element signature="e#3808#3809#0" expanded="true" />
-                <element signature="e#3833#3834#0" expanded="true" />
-                <element signature="e#3884#3885#0" expanded="true" />
-                <element signature="e#3921#3922#0" expanded="true" />
-                <element signature="e#3949#3950#0" expanded="true" />
-                <element signature="e#3967#3968#0" expanded="true" />
-                <element signature="e#4004#4005#0" expanded="true" />
-                <element signature="e#4027#4028#0" expanded="true" />
-                <element signature="e#4065#4066#0" expanded="true" />
-                <element signature="e#4093#4094#0" expanded="true" />
-                <element signature="e#4150#4151#0" expanded="true" />
-                <element signature="e#4193#4194#0" expanded="true" />
-                <element signature="e#4233#4234#0" expanded="true" />
-                <element signature="e#4263#4264#0" expanded="true" />
-                <element signature="e#4324#4325#0" expanded="true" />
-                <element signature="e#4371#4372#0" expanded="true" />
-                <element signature="e#4403#4404#0" expanded="true" />
-                <element signature="e#4427#4428#0" expanded="true" />
-                <element signature="e#4473#4474#0" expanded="true" />
-                <element signature="e#4501#4502#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="240">
+              <caret line="21" selection-start-line="21" selection-end-line="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/tables/CommonTableModel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="168">
+              <caret line="25" selection-start-line="25" selection-end-line="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/tables/PopulationFreqTableModel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="311">
+              <caret line="21" selection-start-line="21" selection-end-line="21" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/tables/ClinicalTableModel.java">
+        <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/tables/TestQueueTableModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="45" column="8" selection-start-line="45" selection-start-column="8" selection-end-line="45" selection-end-column="8" />
+            <state relative-caret-position="1728">
+              <caret line="82" column="122" selection-start-line="82" selection-start-column="122" selection-end-line="82" selection-end-column="122" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/dnaQ/Models/FilterList.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4584">
+              <caret line="196" column="60" selection-start-line="196" selection-start-column="60" selection-end-line="196" selection-end-column="60" />
+              <folding>
+                <element signature="e#311#312#0" expanded="true" />
+                <element signature="e#362#363#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/dnaQ/Connections/DatabaseConnections.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-10">
+              <caret line="229" selection-start-line="229" selection-end-line="229" />
             </state>
           </provider>
         </entry>
@@ -346,9 +295,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>processingTest</find>
-      <find>getAllCompletedTest</find>
-      <find>refreshLabel</find>
       <find>completedTest</find>
       <find>updatePipelinesASynch</find>
       <find>setRefreshLabelText</find>
@@ -376,11 +322,11 @@
       <find>cosmicid</find>
       <find>asianFreq</find>
       <find>variantSummary</find>
+      <find>clnsig</find>
+      <find>request</find>
+      <find>g1000ScrollPane</find>
     </findStrings>
     <replaceStrings>
-      <replace>userQ</replace>
-      <replace>samples</replace>
-      <replace>UserQueueTableModelColumn</replace>
       <replace>testid</replace>
       <replace>String</replace>
       <replace>UserTestGetValueAtOperation</replace>
@@ -408,6 +354,9 @@
       <replace>cancerCount</replace>
       <replace>clinicalDisease</replace>
       <replace>disease</replace>
+      <replace>signficance</replace>
+      <replace>mutation</replace>
+      <replace>populationFreqScrollPane</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -417,7 +366,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/dnaQ/GUI/RegistrationFrame.form" />
         <option value="$PROJECT_DIR$/src/dnaQ/GUI/UploadFrame.form" />
         <option value="$PROJECT_DIR$/src/dnaQ/GUI/UploadFileFrame.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/Connections/MongoDatabaseConnections.java" />
@@ -454,20 +402,21 @@
         <option value="$PROJECT_DIR$/src/dnaQ/GUI/tables/TestQueueTable.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/Models/User.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/Models/MutationList.java" />
-        <option value="$PROJECT_DIR$/src/dnaQ/Models/FilterList.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/GUI/WelcomeFrame.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/GUI/tables/TestQueueTableModel.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/GUI/MutationListFrameFilterPanel.java" />
-        <option value="$PROJECT_DIR$/src/dnaQ/GUI/MutationListFrame.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/GUI/tables/ClinvarTableModel.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/GUI/tables/G1000TableModel.java" />
-        <option value="$PROJECT_DIR$/src/dnaQ/Connections/DatabaseConnections.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/Models/Mutation.java" />
-        <option value="$PROJECT_DIR$/src/dnaQ/GUI/tables/CommonTableModel.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/GUI/tables/CosmicTableModel.java" />
-        <option value="$PROJECT_DIR$/src/dnaQ/GUI/tables/CancerTableModel.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/GUI/tables/BiologyTableModel.java" />
+        <option value="$PROJECT_DIR$/src/dnaQ/Models/FilterList.java" />
+        <option value="$PROJECT_DIR$/src/dnaQ/Connections/DatabaseConnections.java" />
+        <option value="$PROJECT_DIR$/src/dnaQ/GUI/MutationListFrame.java" />
+        <option value="$PROJECT_DIR$/src/dnaQ/GUI/tables/CancerTableModel.java" />
         <option value="$PROJECT_DIR$/src/dnaQ/GUI/tables/ClinicalTableModel.java" />
+        <option value="$PROJECT_DIR$/src/dnaQ/GUI/tables/CommonTableModel.java" />
+        <option value="$PROJECT_DIR$/src/dnaQ/GUI/tables/PopulationFreqTableModel.java" />
       </list>
     </option>
   </component>
@@ -478,10 +427,10 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-196" />
-    <option name="y" value="28" />
-    <option name="width" value="1431" />
-    <option name="height" value="571" />
+    <option name="x" value="2014" />
+    <option name="y" value="117" />
+    <option name="width" value="1421" />
+    <option name="height" value="578" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -490,7 +439,6 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -545,10 +493,19 @@
               <item name="dnaQ" type="462c0819:PsiDirectoryNode" />
               <item name="Models" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="TabPort" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dnaQ" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="dnaQ" type="462c0819:PsiDirectoryNode" />
+              <item name="Models" type="462c0819:PsiDirectoryNode" />
+              <item name="FilterList.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -559,7 +516,7 @@
     <property name="ToolWindowMongo Explorer.ShowToolbar" value="false" />
     <property name="UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW" value="true" />
     <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH" value="330" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550605772751" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550608686818" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
@@ -881,7 +838,21 @@
       <option name="project" value="LOCAL" />
       <updated>1550537729864</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="added biology table model">
+      <created>1550605878394</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1550605878394</updated>
+    </task>
+    <task id="LOCAL-00040" summary="parser functions added for new databases">
+      <created>1550611596621</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1550611596621</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TodoView">
@@ -894,10 +865,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="28" width="1920" height="1018" extended-state="6" />
+    <frame x="1920" y="132" width="1600" height="900" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49615383" visible="true" weight="0.19764957" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49615383" visible="true" weight="0.19394329" />
       <window_info id="Structure" order="1" sideWeight="0.50384617" side_tool="true" weight="0.13728632" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -907,7 +878,7 @@
       <window_info id="DB Browser" order="7" weight="0.32905984" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.29680365" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4946581" weight="0.2305936" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4946581" visible="true" weight="0.26649076" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49626067" weight="0.47031963" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -915,7 +886,7 @@
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.33113456" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5037393" side_tool="true" weight="0.38127854" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49946582" weight="0.27054796" />
-      <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.49732906" visible="true" weight="0.3915525" />
+      <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.49732906" weight="0.3915525" />
       <window_info anchor="bottom" id="DB Execution Console" order="11" />
       <window_info anchor="bottom" id="Inspection Results" order="12" visible="true" weight="0.28538814" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -991,8 +962,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="ChannelSftp added to transfer file" />
-    <MESSAGE value="global frequency filter added" />
     <MESSAGE value="updated layout of SampleListFrame" />
     <MESSAGE value="added cosmic table module" />
     <MESSAGE value="added clinvar table module" />
@@ -1016,23 +985,11 @@
     <MESSAGE value="created a separate model for filter panel" />
     <MESSAGE value="added frequency and max value combobox" />
     <MESSAGE value="added parser to three databases" />
-    <option name="LAST_COMMIT_MESSAGE" value="added parser to three databases" />
+    <MESSAGE value="added biology table model" />
+    <MESSAGE value="parser functions added for new databases" />
+    <option name="LAST_COMMIT_MESSAGE" value="parser functions added for new databases" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/dnaQ/Models/Report.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///usr/share/java/jsch-0.1.55.jar!/com/jcraft/jsch/ChannelSftp.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="2578" selection-start-line="2578" selection-end-line="2578" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/RequestReportFrame.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
@@ -1259,16 +1216,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/tables/TestQueueTableModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1152">
-          <caret line="82" column="122" selection-start-line="82" selection-start-column="122" selection-end-line="82" selection-end-column="122" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/tables/TestQueueTable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="491">
@@ -1300,17 +1247,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dnaQ/Models/FilterList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3222">
-          <caret line="52" column="44" selection-start-line="52" selection-start-column="22" selection-end-line="52" selection-end-column="44" />
-          <folding>
-            <element signature="e#311#312#0" expanded="true" />
-            <element signature="e#362#363#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/MutationListFrameFilterPanel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1302">
@@ -1331,82 +1267,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/tables/G1000TableModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="51" selection-start-line="51" selection-end-line="51" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/tables/CommonTable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
+        <state relative-caret-position="679">
           <caret line="57" column="13" selection-start-line="57" selection-start-column="13" selection-end-line="57" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dnaQ/Connections/DatabaseConnections.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2126">
-          <caret line="215" column="29" lean-forward="true" selection-start-line="215" selection-start-column="29" selection-end-line="215" selection-end-column="29" />
-          <folding>
-            <element signature="e#3107#3118#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/tables/CommonTableModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
-          <folding>
-            <element signature="e#1953#1954#0" expanded="true" />
-            <element signature="e#1972#1973#0" expanded="true" />
-            <element signature="e#2030#2031#0" expanded="true" />
-            <element signature="e#2075#2076#0" expanded="true" />
-            <element signature="e#2118#2119#0" expanded="true" />
-            <element signature="e#2146#2147#0" expanded="true" />
-            <element signature="e#2186#2187#0" expanded="true" />
-            <element signature="e#2216#2217#0" expanded="true" />
-            <element signature="e#2271#2272#0" expanded="true" />
-            <element signature="e#2310#2311#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/MutationListFrame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="103" column="54" selection-start-line="103" selection-start-column="54" selection-end-line="103" selection-end-column="54" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/tables/BiologyTableModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1056">
-          <caret line="46" selection-start-line="46" selection-end-line="46" />
-          <folding>
-            <element signature="e#2128#2129#0" expanded="true" />
-            <element signature="e#2156#2157#0" expanded="true" />
-            <element signature="e#2220#2221#0" expanded="true" />
-            <element signature="e#2274#2275#0" expanded="true" />
-            <element signature="e#2323#2324#0" expanded="true" />
-            <element signature="e#2360#2361#0" expanded="true" />
-            <element signature="e#2406#2407#0" expanded="true" />
-            <element signature="e#2445#2446#0" expanded="true" />
-            <element signature="e#2506#2507#0" expanded="true" />
-            <element signature="e#2554#2555#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/dnaQ/Models/Mutation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="6" column="12" lean-forward="true" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+        <state relative-caret-position="-120">
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
           <folding>
             <element signature="e#1748#1749#0" expanded="true" />
             <element signature="e#1772#1773#0" expanded="true" />
@@ -1496,17 +1367,90 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/dnaQ/Models/FilterList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4584">
+          <caret line="196" column="60" selection-start-line="196" selection-start-column="60" selection-end-line="196" selection-end-column="60" />
+          <folding>
+            <element signature="e#311#312#0" expanded="true" />
+            <element signature="e#362#363#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dnaQ/Connections/DatabaseConnections.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-10">
+          <caret line="229" selection-start-line="229" selection-end-line="229" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/tables/BiologyTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-234">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/tables/BiologyTableModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="840">
+          <caret line="46" selection-start-line="46" selection-end-line="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/MutationListFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3258">
+          <caret line="172" column="30" lean-forward="true" selection-start-line="172" selection-start-column="30" selection-end-line="172" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/tables/CancerTableModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="26" column="27" lean-forward="true" selection-start-line="21" selection-end-line="44" selection-end-column="54" />
+        <state relative-caret-position="69">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/tables/ClinicalTableModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="45" column="8" selection-start-line="45" selection-start-column="8" selection-end-line="45" selection-end-column="8" />
+        <state relative-caret-position="240">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/tables/PopulationFreqTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/tables/CommonTableModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/tables/PopulationFreqTableModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="311">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dnaQ/GUI/tables/TestQueueTableModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1728">
+          <caret line="82" column="122" selection-start-line="82" selection-start-column="122" selection-end-line="82" selection-end-column="122" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
