@@ -4,20 +4,21 @@ import dnaQ.GUI.MutationListFrame;
 
 import javax.swing.*;
 
-public class OncokbTable extends CommonTable{
+
+public class CancerTable extends CommonTable {
 
     private static final long serialVersionUID = 1L;
 
     protected MutationListFrame parent;
 
-    protected OncokbTableModel oncokbTableModel;
+    protected CancerTableModel cancerTableModel;
 
 
-    public OncokbTable (MutationListFrame parent, OncokbTableModel oncokbTableModel){
+    public CancerTable(MutationListFrame parent, CancerTableModel cancerTableModel){
         super();
         this.parent = parent;
-        this.oncokbTableModel = oncokbTableModel;
-        setModel(oncokbTableModel);
+        this.cancerTableModel = cancerTableModel;
+        setModel(cancerTableModel);
 
         resizeColumnWidths();
         constructRenderers();
@@ -26,5 +27,10 @@ public class OncokbTable extends CommonTable{
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
+
 }
+
+
+
+
 

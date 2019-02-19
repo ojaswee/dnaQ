@@ -184,39 +184,28 @@ public class DatabaseConnections {
                 row.getInt("pos"),
                 getValueOREmpty(row.getString("ref")),
                 getValueOREmpty(row.getString("alt")),
-				getValueOREmpty(row.getString("cosmicid")),
-                getValueOREmpty(row.getString("cds")),
-                getValueOREmpty(row.getString("aa")),
-                getValueOREmpty(row.getString("count")),
-                getValueOREmpty(row.getString("clinvarid")),
-                getValueOREmpty(row.getString("clndn")),
-                getValueOREmpty(row.getString("clnsig")),
-                getValueOREmpty(row.getString("mc")),
-                getValueOREmpty(row.getString("origin")),
-                getValueOREmpty(row.getString("g1000id")),
-                getValueOREmpty(row.getString("altCount")),
-                getValueOREmpty(row.getString("totalCount")),
-                getValueOREmpty(row.getString("altGlobalFreq")),
+				getValueOREmpty(row.getString("freqid")),
+                getValueOREmpty(row.getString("globalFreq")),
                 getValueOREmpty(row.getString("americanFreq")),
                 getValueOREmpty(row.getString("asianFreq")),
                 getValueOREmpty(row.getString("afrFreq")),
                 getValueOREmpty(row.getString("eurFreq")),
-                getValueOREmpty(row.getString("disease")),
-                getValueOREmpty(row.getString("drugs")),
-                getValueOREmpty(row.getString("clinicalSignificance")),
-                getValueOREmpty(row.getString("evidenceStatement")),
-                getValueOREmpty(row.getString("variantSummary")),
+                getValueOREmpty(row.getString("cancerid")),
+                getValueOREmpty(row.getString("cancerCount")),
+                getValueOREmpty(row.getString("clinicalid")),
+                getValueOREmpty(row.getString("clinicalDisease")),
+                getValueOREmpty(row.getString("signficance")),
                 getValueOREmpty(row.getString("gene")),
-                getValueOREmpty(row.getString("proteinChange")),
-                getValueOREmpty(row.getString("oncogenecity")),
-                getValueOREmpty(row.getString("mutationEffect"))
+                getValueOREmpty(row.getString("biologyDisease")),
+                getValueOREmpty(row.getString("publicationCount")),
+				getValueOREmpty(row.getString("comment"))
 				);
 
 		return mutation;
 	}
 
 	public static ArrayList<Mutation> getAllMutation(String usertestid) throws Exception {
-		String query = "Select * from mutation where usertestid = " +usertestid +";";
+		String query = "Select * from updatedMutation where usertestid = " +usertestid +";";
 		PreparedStatement preparedStatement = databaseConnection.prepareStatement(query);
 		ResultSet rs = preparedStatement.executeQuery();
 

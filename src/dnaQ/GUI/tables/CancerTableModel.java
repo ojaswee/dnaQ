@@ -1,28 +1,28 @@
 package dnaQ.GUI.tables;
 
-import dnaQ.Models.Mutation;
-
 import java.util.ArrayList;
 
-public class ClinvarTableModel extends CommonTableModel{
+import dnaQ.Models.Mutation;
+
+public class CancerTableModel extends CommonTableModel {
 
     private static final long serialVersionUID = 1L;
 
     private ArrayList<Mutation> mutations;
     private ArrayList<CommonTableModelColumn> columns;
 
-    public ClinvarTableModel(ArrayList<Mutation> mutations){
+    public CancerTableModel(ArrayList<Mutation> mutations){
         this.mutations = mutations;
         constructColumns();
     }
 
-    private void constructColumns() {
+    private void constructColumns(){
         columns = new ArrayList<CommonTableModelColumn>();
 
-        columns.add(new CommonTableModelColumn("id",
-                "id",
+        columns.add(new CommonTableModelColumn("usertestid",
+                "usertestid",
                 Integer.class,
-                (Mutation mutation) -> mutation.id));
+                (Mutation mutation) -> mutation.usertestid));
 
         columns.add(new CommonTableModelColumn("chromosome",
                 "chr",
@@ -43,28 +43,18 @@ public class ClinvarTableModel extends CommonTableModel{
                 "alt",
                 String.class,
                 (Mutation mutation) -> mutation.alt));
-
-        columns.add(new CommonTableModelColumn("clndn",
-                "clndn",
+        
+        columns.add(new CommonTableModelColumn("cancerid",
+                "cancerid",
                 String.class,
-                (Mutation mutation) -> mutation.clndn));
+                (Mutation request) -> request.cancerid));
 
-        columns.add(new CommonTableModelColumn("clnsig",
-                "clnsig",
+        columns.add(new CommonTableModelColumn("cancerCount",
+                "cancerCount",
                 String.class,
-                (Mutation mutation) -> mutation.clnsig));
+                (Mutation request) -> request.cancerCount));
 
-        columns.add(new CommonTableModelColumn("mc",
-                "mc",
-                String.class,
-                (Mutation mutation) -> mutation.mc));
-
-        columns.add(new CommonTableModelColumn("origin",
-                "origin",
-                String.class,
-                (Mutation mutation) -> mutation.origin));
     }
-
     @Override
     public boolean isCellEditable(int row, int column) {
         return false;
@@ -92,7 +82,9 @@ public class ClinvarTableModel extends CommonTableModel{
 
     @Override
     public Object getValueAt(int row, int column) {
-        Mutation mutation = mutations.get(row);
-        return columns.get(column).getValue(mutation);
+        Mutation request = mutations.get(row);
+        return columns.get(column).getValue(request);
     }
+
+
 }

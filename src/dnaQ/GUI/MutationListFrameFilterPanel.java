@@ -16,7 +16,7 @@ public class MutationListFrameFilterPanel extends JPanel {
     public JCheckBox cosmicIDCheckbox;
     public JCheckBox clinvarIDCheckbox;
     public JCheckBox g1000IDCheckbox;
-    public JCheckBox diseaseCheckbox;
+    public JCheckBox biologyCheckbox;
 
     public JPanel filterPanel;
     public JPanel cosmicFilterPanel;
@@ -24,10 +24,11 @@ public class MutationListFrameFilterPanel extends JPanel {
 
     public JPanel g1000FilterPanel;
     public JComboBox g1000RegionCombobox;
-    public JComboBox g1000MaxCombobox;
+    public JTextField g1000MaxTextField;
+
     public JButton g1000SubmitButton;
 
-    public JPanel oncokbFilterPanel;
+    public JPanel biologyFilterPanel;
     private FilterList filterList;
 
 
@@ -45,26 +46,24 @@ public class MutationListFrameFilterPanel extends JPanel {
     }
 
     public void createComponents(){
-        cosmicIDCheckbox = new JCheckBox("Cosmic");
-        clinvarIDCheckbox = new JCheckBox("Clinvar");
-        g1000IDCheckbox = new JCheckBox("g1000");
-        diseaseCheckbox = new JCheckBox("Disease");
+        cosmicIDCheckbox = new JCheckBox("Cancer");
+        clinvarIDCheckbox = new JCheckBox("Clinical");
+        g1000IDCheckbox = new JCheckBox("Population Frequency");
+        biologyCheckbox = new JCheckBox("Biology");
 
         filterList.addCosmicIDFilter(cosmicIDCheckbox);
         filterList.addClinvarIDFilter(clinvarIDCheckbox);
         filterList.addG1000IDFilter(g1000IDCheckbox);
-//        filterList.addGlobalFreqFilter(globalFreqCheckbox);
-        filterList.addG1000IDFilter(diseaseCheckbox);
+        filterList.addG1000IDFilter(biologyCheckbox);
 
-//        filterList.addG1000ComboboxFilter(g1000RegionCombobox,g1000MaxCombobox);
 
         cosmicFilterPanel = new JPanel(new GridLayout(1,0));
         clinvarFilterPanel = new JPanel(new GridLayout(1,0));
         g1000FilterPanel = new JPanel(new GridLayout(1,0));
-        oncokbFilterPanel = new JPanel(new GridLayout(1,0));
+        biologyFilterPanel = new JPanel(new GridLayout(1,0));
 
         g1000RegionCombobox = new JComboBox();
-        g1000MaxCombobox = new JComboBox();
+        g1000MaxTextField = new JTextField();
         g1000SubmitButton = new JButton("Submit");
     }
 
@@ -85,33 +84,31 @@ public class MutationListFrameFilterPanel extends JPanel {
         databasefilterPanel.add(cosmicIDCheckbox);
         databasefilterPanel.add(clinvarIDCheckbox);
         databasefilterPanel.add(g1000IDCheckbox);
-        databasefilterPanel.add(diseaseCheckbox);
+        databasefilterPanel.add(biologyCheckbox);
         filterPanel.add(databasefilterPanel);
 
     //Cosmic database filter
-        cosmicFilterPanel.add(new Label("Select Cosmic database"));
+        cosmicFilterPanel.add(new Label("Cancer database"));
         filterPanel.add(cosmicFilterPanel);
 
     // Clinvar database filter
-        clinvarFilterPanel.add(new Label("Select Clinvar database"));
+        clinvarFilterPanel.add(new Label("Clinical database"));
         filterPanel.add(clinvarFilterPanel);
 
     // G1000 database filter
-        g1000FilterPanel.add(new Label("Select G1000 database"));
+        g1000FilterPanel.add(new Label("Pop Freq database"));
 
         String[] region = { "Global", "American", "Asian", "African", "European" };
         g1000RegionCombobox = new JComboBox(region);
         g1000FilterPanel.add(g1000RegionCombobox);
 
-        Integer [] maxFreq = {0,5,10,15,20,25};
-        g1000MaxCombobox= new JComboBox(maxFreq);
-        g1000FilterPanel.add(g1000MaxCombobox);
+        g1000FilterPanel.add(g1000MaxTextField);
         g1000FilterPanel.add(g1000SubmitButton);
         filterPanel.add(g1000FilterPanel);
 
-    // Oncokb database filter
-        oncokbFilterPanel.add(new Label("Select Oncokb database"));
-        filterPanel.add(oncokbFilterPanel);
+    // biology database filter
+        biologyFilterPanel.add(new Label("Biology database"));
+        filterPanel.add(biologyFilterPanel);
 
     }
 
@@ -139,7 +136,7 @@ public class MutationListFrameFilterPanel extends JPanel {
             }
         });
 
-        diseaseCheckbox.addActionListener(new ActionListener() {
+        biologyCheckbox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 handleCheckBoxClick();
@@ -170,18 +167,11 @@ public class MutationListFrameFilterPanel extends JPanel {
             }
         });
 
-        g1000MaxCombobox.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                Integer maxSelection = (Integer) g1000MaxCombobox.getSelectedItem();
-            }
-        });
-
         g1000SubmitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Integer maxSelection = (Integer) g1000MaxCombobox.getSelectedItem();
-                String maxValue = maxSelection.toString();
-                filterList.addG1000ComboboxFilter(region[0],maxValue);
+                String maxFreq = g1000MaxTextField.getText();
+                filterList.addG1000ComboboxFilter(region[0],maxFreq);
                 mutationList.filterSamples(filterList);
             }
         });

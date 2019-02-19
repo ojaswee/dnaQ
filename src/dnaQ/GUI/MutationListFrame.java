@@ -18,23 +18,23 @@ public class MutationListFrame extends JFrame  {
 	private CommonTable commonTable;
 	private CommonTableModel commonTableModel;
 
-	private CosmicTable cosmicTable;
-	private CosmicTableModel cosmicTableModel;
+	private CancerTable cancerTable;
+	private CancerTableModel cancerTableModel;
 
-	private ClinvarTable clinvarTable;
-	private ClinvarTableModel clinvarTableModel;
+	private ClinicalTable clinicalTable;
+	private ClinicalTableModel clinicalTableModel;
 
 	private G1000Table g1000Table;
 	private G1000TableModel g1000TableModel;
 
-	private OncokbTable oncokbTable;
-	private OncokbTableModel oncokbTableModel;
+	private BiologyTable biologyTable;
+	private BiologyTableModel biologyTableModel;
 
 	private JScrollPane commonScrollPane;
 	private JScrollPane cosmicScrollPane;
 	private JScrollPane clinvarScrollPane;
 	private JScrollPane g1000ScrollPane;
-	private JScrollPane oncokbScrollPane;
+	private JScrollPane biologyScrollPane;
 
 	private WelcomeFrame parent;
 
@@ -57,14 +57,13 @@ public class MutationListFrame extends JFrame  {
 
 		super ("Mutation List");
 		this.mutationList = mutationList;
-//		this.filterList=new FilterList();
 		this.parent = parent;
 
 		this.commonTableModel = new CommonTableModel(mutationList.getMutations());
-		this.cosmicTableModel = new CosmicTableModel(mutationList.getMutations());
-		this.clinvarTableModel = new ClinvarTableModel(mutationList.getMutations());
+		this.cancerTableModel = new CancerTableModel(mutationList.getMutations());
+		this.clinicalTableModel = new ClinicalTableModel(mutationList.getMutations());
 		this.g1000TableModel = new G1000TableModel(mutationList.getMutations());
-		this.oncokbTableModel = new OncokbTableModel(mutationList.getMutations());
+		this.biologyTableModel = new BiologyTableModel(mutationList.getMutations());
 
 		this.datachart = new DataChart(this,this.mutationList);
 
@@ -88,21 +87,21 @@ public class MutationListFrame extends JFrame  {
 		commonScrollPane = new JScrollPane(commonTable);
 		commonScrollPane.setViewportView(commonTable);
 
-		cosmicTable = new CosmicTable(this,cosmicTableModel);
-		cosmicScrollPane = new JScrollPane(cosmicTable);
-		cosmicScrollPane.setViewportView(cosmicTable);
+		cancerTable = new CancerTable(this, cancerTableModel);
+		cosmicScrollPane = new JScrollPane(cancerTable);
+		cosmicScrollPane.setViewportView(cancerTable);
 
-		clinvarTable = new ClinvarTable(this,clinvarTableModel);
-		clinvarScrollPane = new JScrollPane(clinvarTable);
-		clinvarScrollPane.setViewportView(clinvarTable);
+		clinicalTable = new ClinicalTable(this, clinicalTableModel);
+		clinvarScrollPane = new JScrollPane(clinicalTable);
+		clinvarScrollPane.setViewportView(clinicalTable);
 
 		g1000Table = new G1000Table(this,g1000TableModel);
 		g1000ScrollPane = new JScrollPane(g1000Table);
 		g1000ScrollPane.setViewportView(g1000Table);
 
-		oncokbTable = new OncokbTable(this,oncokbTableModel);
-		oncokbScrollPane = new JScrollPane(oncokbTable);
-		oncokbScrollPane.setViewportView(oncokbTable);
+		biologyTable = new BiologyTable(this,biologyTableModel);
+		biologyScrollPane = new JScrollPane(biologyTable);
+		biologyScrollPane.setViewportView(biologyTable);
 
 		dashboardButton = new JButton("Dashboard");
 		reportButton = new JButton("Report");
@@ -177,10 +176,10 @@ public class MutationListFrame extends JFrame  {
 
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.addTab("Common", null, commonScrollPane, null);
-		tabbedPane.addTab("Cosmic", null, cosmicScrollPane, null);
-		tabbedPane.addTab("Clinvar", null, clinvarScrollPane, null);
-		tabbedPane.addTab("G1000", null, g1000ScrollPane, null);
-		tabbedPane.addTab("Oncokb", null, oncokbScrollPane, null);
+		tabbedPane.addTab("Cancer", null, cosmicScrollPane, null);
+		tabbedPane.addTab("Clinical", null, clinvarScrollPane, null);
+		tabbedPane.addTab("Pop_Freq", null, g1000ScrollPane, null);
+		tabbedPane.addTab("Biology", null, biologyScrollPane, null);
 
 
 		lowerPanel.add(tabbedPane, BorderLayout.CENTER);

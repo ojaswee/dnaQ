@@ -5,90 +5,75 @@ public class Mutation {
 //	everything string except for id and position
 
 	//common
-	public Integer id;
+	public Integer usertestid;
 	public String chr;
 	public Integer pos;
 	public String ref;
 	public String alt;
 	public String comment;
 
-	//cosmic
-	public String cosmicid; //same as cosmic-id
-	public String cds;
-	public String aa;
-	public String count;
-
-	//clinvar
-	public String clinvarid; //same as clinvar-id
-	public String clndn;
-	public String clnsig;
-	public String mc;
-	public String origin;
-	public String g1000id;
-	public String altCount;
-	public String totalCount;
-	public String altGlobalFreq;
+	//g1000 aka pop-freq
+	public String freqid;
+	public String globalFreq;
 	public String americanFreq;
 	public String asianFreq;
 	public String afrFreq;
 	public String eurFreq;
-	public String disease;
-	public String drugs;
-	public String clinicalSignificance;
-	public String evidenceStatement;
-	public String variantSummary;
+
+	//cosmic aka cancer
+	public String cancerid;
+	public String cancerCount;
+
+	//clinical aka clinvar
+	public String clinicalid;
+	public String clinicalDisease;
+	public String signficance;
+
+	//biology
 	public String gene;
-	public String proteinChange;
-	public String oncogenecity;
-	public String mutationEffect;
+	public String biologyDisease;
+
+
+
+	public String publicationCount;
+
 
 	//custom
 	public boolean isSelected;
 
 
-	public Mutation(Integer id, String chr, Integer pos, String ref, String alt, String cosmicid, String cds, String aa, String count, String clinvarid, String clndn,
-					String clnsig, String mc, String origin, String g1000id, String altCount, String totalCount, String altGlobalFreq, String americanFreq,
-					String asianFreq, String afrFreq, String eurFreq, String disease, String drugs, String clinicalSignificance, String evidenceStatement,
-					String variantSummary, String gene, String proteinChange, String oncogenecity, String mutationEffect) {
-		this.id = id;
+	public Mutation(Integer usertestid, String chr, Integer pos, String ref, String alt,
+					String freqid, String globalFreq, String americanFreq, String asianFreq, String afrFreq, String eurFreq,
+					String cancerid, String cancerCount,
+					String clinicalid, String clinicalDisease, String signficance,
+					String gene, String biologyDisease, String publicationCount, String comment) {
+		this.usertestid = usertestid;
 		this.chr = chr;
 		this.pos = pos;
 		this.ref = ref;
 		this.alt = alt;
-		this.cosmicid = cosmicid;
-		this.cds = cds;
-		this.aa = aa;
-		this.count = count;
-		this.clinvarid = clinvarid;
-		this.clndn = clndn;
-		this.clnsig = clnsig;
-		this.mc = mc;
-		this.origin = origin;
-		this.g1000id = g1000id;
-		this.altCount = altCount;
-		this.totalCount = totalCount;
-		this.altGlobalFreq = altGlobalFreq;
+		this.freqid = freqid;
+		this.globalFreq = globalFreq;
 		this.americanFreq = americanFreq;
 		this.asianFreq = asianFreq;
 		this.afrFreq = afrFreq;
 		this.eurFreq = eurFreq;
-		this.disease = disease;
-		this.drugs = drugs;
-		this.clinicalSignificance = clinicalSignificance;
-		this.evidenceStatement = evidenceStatement;
-		this.variantSummary = variantSummary;
+		this.cancerid = cancerid;
+		this.cancerCount = cancerCount;
+		this.clinicalid = clinicalid;
+		this.clinicalDisease = clinicalDisease;
+		this.signficance = signficance;
 		this.gene = gene;
-		this.proteinChange = proteinChange;
-		this.oncogenecity = oncogenecity;
-		this.mutationEffect = mutationEffect;
-
+		this.biologyDisease = biologyDisease;
+		this.publicationCount = publicationCount;
+		this.comment = comment;
 	}
-	public Integer getId() {
-		return id;
+	public Integer getUsertestid() {
+		return usertestid;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setUsertestid(Integer usertestid) {
+		this.usertestid = usertestid;
 	}
 
 	public String getChr() {
@@ -99,7 +84,9 @@ public class Mutation {
 		this.chr = chr;
 	}
 
-	public Integer getPos() { return pos; }
+	public Integer getPos() {
+		return pos;
+	}
 
 	public void setPos(Integer pos) {
 		this.pos = pos;
@@ -129,104 +116,20 @@ public class Mutation {
 		this.comment = comment;
 	}
 
-	public String getCosmicid() {
-		return cosmicid;
+	public String getFreqid() {
+		return freqid;
 	}
 
-	public void setCosmicid(String cosmicid) { this.cosmicid = cosmicid; }
-
-	public String getCds() {
-		return cds;
+	public void setFreqid(String freqid) {
+		this.freqid = freqid;
 	}
 
-	public void setCds(String cds) {
-		this.cds = cds;
+	public String getGlobalFreq() {
+		return globalFreq;
 	}
 
-	public String getAa() {
-		return aa;
-	}
-
-	public void setAa(String aa) {
-		this.aa = aa;
-	}
-
-	public String getCount() {
-		return count;
-	}
-
-	public void setCount(String count) {
-		this.count = count;
-	}
-
-	public String getClinvarid() {
-		return clinvarid;
-	}
-
-	public void setClinvarid(String clinvarid) {
-		this.clinvarid = clinvarid;
-	}
-
-	public String getClndn() {
-		return clndn;
-	}
-
-	public void setClndn(String clndn) {
-		this.clndn = clndn;
-	}
-
-	public String getClnsig() {
-		return clnsig;
-	}
-
-	public void setClnsig(String clnsig) {
-		this.clnsig = clnsig;
-	}
-
-	public String getMc() {
-		return mc;
-	}
-
-	public void setMc(String mc) {
-		this.mc = mc;
-	}
-
-	public String getOrigin() {
-		return origin;
-	}
-
-	public void setOrigin(String origin) {
-		this.origin = origin;
-	}
-
-	public String getG1000id() {
-		return g1000id;
-	}
-
-	public void setG1000id(String g1000id) {
-		this.g1000id = g1000id;
-	}
-
-	public String getAltCount() {
-		return altCount;
-	}
-
-	public void setAltCount(String altCount) { this.altCount = altCount; }
-
-	public String getTotalCount() {
-		return totalCount;
-	}
-
-	public void setTotalCount(String totalCount) {
-		this.totalCount = totalCount;
-	}
-
-	public String getAltGlobalFreq() {
-		return altGlobalFreq;
-	}
-
-	public void setAltGlobalFreq(String altGlobalFreq) {
-		this.altGlobalFreq = altGlobalFreq;
+	public void setGlobalFreq(String globalFreq) {
+		this.globalFreq = globalFreq;
 	}
 
 	public String getAmericanFreq() {
@@ -261,44 +164,44 @@ public class Mutation {
 		this.eurFreq = eurFreq;
 	}
 
-	public String getDisease() {
-		return disease;
+	public String getCancerid() {
+		return cancerid;
 	}
 
-	public void setDisease(String disease) {
-		this.disease = disease;
+	public void setCancerid(String cancerid) {
+		this.cancerid = cancerid;
 	}
 
-	public String getDrugs() {
-		return drugs;
+	public String getCancerCount() {
+		return cancerCount;
 	}
 
-	public void setDrugs(String drugs) {
-		this.drugs = drugs;
+	public void setCancerCount(String cancerCount) {
+		this.cancerCount = cancerCount;
 	}
 
-	public String getClinicalSignificance() {
-		return clinicalSignificance;
+	public String getClinicalid() {
+		return clinicalid;
 	}
 
-	public void setClinicalSignificance(String clinicalSignificance) {
-		this.clinicalSignificance = clinicalSignificance;
+	public void setClinicalid(String clinicalid) {
+		this.clinicalid = clinicalid;
 	}
 
-	public String getEvidenceStatement() {
-		return evidenceStatement;
+	public String getClinicalDisease() {
+		return clinicalDisease;
 	}
 
-	public void setEvidenceStatement(String evidenceStatement) {
-		this.evidenceStatement = evidenceStatement;
+	public void setClinicalDisease(String clinicalDisease) {
+		this.clinicalDisease = clinicalDisease;
 	}
 
-	public String getVariantSummary() {
-		return variantSummary;
+	public String getSignficance() {
+		return signficance;
 	}
 
-	public void setVariantSummary(String variantSummary) {
-		this.variantSummary = variantSummary;
+	public void setSignficance(String signficance) {
+		this.signficance = signficance;
 	}
 
 	public String getGene() {
@@ -309,28 +212,27 @@ public class Mutation {
 		this.gene = gene;
 	}
 
-	public String getProteinChange() {
-		return proteinChange;
+	public String getBiologyDisease() {
+		return biologyDisease;
 	}
 
-	public void setProteinChange(String proteinChange) {
-		this.proteinChange = proteinChange;
+	public void setBiologyDisease(String biologyDisease) {
+		this.biologyDisease = biologyDisease;
 	}
 
-	public String getOncogenecity() {
-		return oncogenecity;
+	public String getPublicationCount() {
+		return publicationCount;
 	}
 
-	public void setOncogenecity(String oncogenecity) {
-		this.oncogenecity = oncogenecity;
+	public void setPublicationCount(String publicationCount) {
+		this.publicationCount = publicationCount;
 	}
 
-	public String getMutationEffect() {
-		return mutationEffect;
+	public boolean isSelected() {
+		return isSelected;
 	}
 
-	public void setMutationEffect(String mutationEffect) {
-		this.mutationEffect = mutationEffect;
+	public void setSelected(boolean selected) {
+		isSelected = selected;
 	}
-
 }

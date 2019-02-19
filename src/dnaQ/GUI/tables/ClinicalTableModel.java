@@ -1,70 +1,66 @@
 package dnaQ.GUI.tables;
 
-import java.util.ArrayList;
-
 import dnaQ.Models.Mutation;
 
-public class CosmicTableModel extends CommonTableModel {
+import java.util.ArrayList;
+
+public class ClinicalTableModel extends CommonTableModel{
 
     private static final long serialVersionUID = 1L;
 
     private ArrayList<Mutation> mutations;
     private ArrayList<CommonTableModelColumn> columns;
 
-    public CosmicTableModel(ArrayList<Mutation> mutations){
+    public ClinicalTableModel(ArrayList<Mutation> mutations){
         this.mutations = mutations;
         constructColumns();
     }
 
-    private void constructColumns(){
+    private void constructColumns() {
         columns = new ArrayList<CommonTableModelColumn>();
 
-        columns.add(new CommonTableModelColumn("id",
-                "id",
+        columns.add(new CommonTableModelColumn("usertestid",
+                "usertestid",
                 Integer.class,
-                (Mutation request) -> request.id));
+                (Mutation mutation) -> mutation.usertestid));
 
         columns.add(new CommonTableModelColumn("chromosome",
                 "chr",
                 String.class,
-                (Mutation request) -> request.chr));
+                (Mutation mutation) -> mutation.chr));
 
         columns.add(new CommonTableModelColumn("position",
                 "pos",
                 Integer.class,
-                (Mutation request) -> request.pos));
+                (Mutation mutation) -> mutation.pos));
 
         columns.add(new CommonTableModelColumn("ref",
                 "ref",
                 String.class,
-                (Mutation request) -> request.ref));
+                (Mutation mutation) -> mutation.ref));
 
         columns.add(new CommonTableModelColumn("alt",
                 "alt",
                 String.class,
-                (Mutation request) -> request.alt));
-
-        columns.add(new CommonTableModelColumn("cosmicid",
-                "cosmicid",
+                (Mutation mutation) -> mutation.alt));
+        
+        columns.add(new CommonTableModelColumn("clinicalid",
+                "clincalid",
                 String.class,
-                (Mutation request) -> request.cosmicid));
+                (Mutation mutation) -> mutation.clinicalid));
 
-        columns.add(new CommonTableModelColumn("cds",
-                "cds",
+        columns.add(new CommonTableModelColumn("clinicalDisease",
+                "disease_name",
                 String.class,
-                (Mutation request) -> request.cds));
+                (Mutation mutation) -> mutation.clinicalDisease));
 
-        columns.add(new CommonTableModelColumn("aa",
-                "aa",
+        columns.add(new CommonTableModelColumn("signficance",
+                "significance",
                 String.class,
-                (Mutation request) -> request.aa));
-
-        columns.add(new CommonTableModelColumn("count",
-                "count",
-                String.class,
-                (Mutation request) -> request.count));
+                (Mutation mutation) -> mutation.signficance));
 
     }
+
     @Override
     public boolean isCellEditable(int row, int column) {
         return false;
@@ -92,9 +88,7 @@ public class CosmicTableModel extends CommonTableModel {
 
     @Override
     public Object getValueAt(int row, int column) {
-        Mutation request = mutations.get(row);
-        return columns.get(column).getValue(request);
+        Mutation mutation = mutations.get(row);
+        return columns.get(column).getValue(mutation);
     }
-
-
 }

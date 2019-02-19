@@ -4,21 +4,20 @@ import dnaQ.GUI.MutationListFrame;
 
 import javax.swing.*;
 
-
-public class CosmicTable extends CommonTable {
+public class BiologyTable extends CommonTable{
 
     private static final long serialVersionUID = 1L;
 
     protected MutationListFrame parent;
 
-    protected CosmicTableModel cosmicTableModel;
+    protected BiologyTableModel biologyTableModel;
 
 
-    public CosmicTable (MutationListFrame parent, CosmicTableModel cosmicTableModel){
+    public BiologyTable(MutationListFrame parent, BiologyTableModel biologyTableModel){
         super();
         this.parent = parent;
-        this.cosmicTableModel = cosmicTableModel;
-        setModel(cosmicTableModel);
+        this.biologyTableModel = biologyTableModel;
+        setModel(biologyTableModel);
 
         resizeColumnWidths();
         constructRenderers();
@@ -27,10 +26,5 @@ public class CosmicTable extends CommonTable {
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
-
 }
-
-
-
-
 

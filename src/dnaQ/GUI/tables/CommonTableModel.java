@@ -23,55 +23,50 @@ public class CommonTableModel extends AbstractTableModel {
 	private void constructColumns(){
 		columns = new ArrayList<CommonTableModelColumn>();
 
-		columns.add(new CommonTableModelColumn("id",
-				"id",
+		columns.add(new CommonTableModelColumn("usertestid",
+				"usertestid",
 				Integer.class,
-				(Mutation request) -> request.id));
+				(Mutation mutation) -> mutation.usertestid));
 
 		columns.add(new CommonTableModelColumn("chromosome",
 				"chr",
 				String.class,
-				(Mutation request) -> request.chr));
+				(Mutation mutation) -> mutation.chr));
 
 		columns.add(new CommonTableModelColumn("position",
 				"pos",
 				Integer.class,
-				(Mutation request) -> request.pos));
+				(Mutation mutation) -> mutation.pos));
 
 		columns.add(new CommonTableModelColumn("ref",
 				"ref",
 				String.class,
-				(Mutation request) -> request.ref));
+				(Mutation mutation) -> mutation.ref));
 
 		columns.add(new CommonTableModelColumn("alt",
 				"alt",
 				String.class,
-				(Mutation request) -> request.alt));
+				(Mutation mutation) -> mutation.alt));
 
-		columns.add(new CommonTableModelColumn("cosmicid",
-				"cosmicid",
+		columns.add(new CommonTableModelColumn("freqid",
+				"popFreqid",
 				String.class,
-				(Mutation request) -> request.cosmicid));
+				(Mutation mutation) -> mutation.freqid));
 
-		columns.add(new CommonTableModelColumn("clinvarid",
-				"clinvarid",
+		columns.add(new CommonTableModelColumn("cancerid",
+				"cancerid",
 				String.class,
-				(Mutation request) -> request.clinvarid));
+				(Mutation mutation) -> mutation.cancerid));
 
-		columns.add(new CommonTableModelColumn("g1000id",
-				"g1000id",
+		columns.add(new CommonTableModelColumn("clinicalid",
+				"clinicalid",
 				String.class,
-				(Mutation request) -> request.g1000id));
+				(Mutation mutation) -> mutation.clinicalid));
 
-		columns.add(new CommonTableModelColumn("altGlobalFreq",
-				"globalFreq",
+		columns.add(new CommonTableModelColumn("clinicalDisease",
+				"clinicalDisease",
 				String.class,
-				(Mutation request) -> request.altGlobalFreq));
-
-		columns.add(new CommonTableModelColumn("disease",
-				"disease",
-				String.class,
-				(Mutation request) -> request.disease));
+				(Mutation mutation) -> mutation.clinicalDisease));
 
 		columns.add(new CommonTableModelColumn("comment",
 				"comment",
@@ -107,8 +102,8 @@ public class CommonTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int row, int column) {
-		Mutation request = mutations.get(row);
-		return columns.get(column).getValue(request);
+		Mutation mutation = mutations.get(row);
+		return columns.get(column).getValue(mutation);
 	}
 
 }

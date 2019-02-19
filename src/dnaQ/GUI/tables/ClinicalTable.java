@@ -4,20 +4,20 @@ import dnaQ.GUI.MutationListFrame;
 
 import javax.swing.*;
 
-public class ClinvarTable extends CommonTable{
+public class ClinicalTable extends CommonTable{
 
         private static final long serialVersionUID = 1L;
 
         protected MutationListFrame parent;
 
-        protected ClinvarTableModel clinvarTableModel;
+        protected ClinicalTableModel clinicalTableModel;
 
 
-        public ClinvarTable (MutationListFrame parent, ClinvarTableModel clinvarTableModel){
+        public ClinicalTable(MutationListFrame parent, ClinicalTableModel clinicalTableModel){
             super();
             this.parent = parent;
-            this.clinvarTableModel = clinvarTableModel;
-            setModel(clinvarTableModel);
+            this.clinicalTableModel = clinicalTableModel;
+            setModel(clinicalTableModel);
 
             resizeColumnWidths();
             constructRenderers();
