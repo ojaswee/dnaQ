@@ -3,7 +3,8 @@
 # 2) create a userupload_PARSED.csv file and place in same folder as useruploads
 
 # to run this file from terminal
-# /opt/python3/bin/python3.4 /home/ojaswee/masters_project/05_pipeline_scripts/03_parser_userfile_mongo.py -i /home/ojaswee/dnaq/analysis/2_1_RUN1/2_1_RUN1_UPLOAD
+# /opt/python3/bin/python3.4 home/ojaswee/github/dnaQ/pipeline_scripts/03_parser_userfile_mongo.py -i /home/ojaswee/masters_project/01_data/sample1_2data.txt
+
 
 import pandas as pd
 import cyvcf2
@@ -17,10 +18,9 @@ def fileParser(inputfile):
     filter=[]
     for indx,row in df.iterrows():
         info_line = row['INFO'].split('|')
-        filter.append([row['CHROM'][3:],row['POS'],row['REF'],row['ALT'],row['QUAL'],row['FILTER'],info_line[1],
-        info_line[2],info_line[3],info_line[4],info_line[5],info_line[6],info_line[7]])
+        filter.append([row['CHROM'][3:],row['POS'],row['REF'],row['ALT'],info_line[17]])
     df_filter=pd.DataFrame( filter)
-    df_filter.columns=['chr','pos','ref','alt','qual', 'filter', 'consequence','impact','symbol','ensgid','featuretype','enst','biotype']
+    df_filter.columns=['chr','pos','ref','alt','existing_variation']
     df_filter.to_csv(outputfile,index=False)
 
 try:
@@ -32,6 +32,3 @@ try:
 
 except TypeError:
 	print ("python 03_parser_userfile_mongo.py -help for help")
-
-
-# mongoimport --db dnaq --collection mutation --type cs

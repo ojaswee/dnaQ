@@ -1,9 +1,9 @@
 # this progam gets the parsed file
 # Outputs a table with matching chr, pos, ref,alt with useruploads_PARSED
 # 1) connect to mongdb
-# 2) looking at the 5 columns in client data get values from all collections
+# 2) looking at the 4 columns in client data get values from all collections
 
-# /opt/python3/bin/python3.4 /home/ojaswee/masters_project/05_pipeline_scripts/07_sample_dbs_join.py -i /home/ojaswee/dnaq/analysis/2_1_RUN1/2_1_RUN1_UPLOAD_PARSED.csv
+# /opt/python3/bin/python3.4 /home/ojaswee/github/dnaQ/pipeline_scripts/04_parsed_uploads_join_mongodb.py -i /home/ojaswee/masters_project/01_data/sample1_2data.txt_PARSED
 
 import pymongo
 import optparse
@@ -11,11 +11,14 @@ import pandas as pd
 
 client= pymongo.MongoClient();
 db=client.dnaq
-cosmic=db.cosmic
+chrtogene=db.chrtogene
+chrtodisease=db.chrtodisease
+chrtopublication=db.chrtopublication
 clinvar=db.clinvar
-oncokb=db.oncokb
-civic =db.civic
+cosmic=db.cosmic
 g1000=db.g1000
+# oncokb=db.oncokb
+# civic =db.civic
 
 def appendResult(cursor,cols):
     res=[]
@@ -33,16 +36,6 @@ def combineDB(infile):
     sample = pd.read_csv(infile,sep=',')
 
     with open(outfile,"w") as w:
-
-        # header=['chr','pos','ref','alt',\
-        # 'cosmic_id','cds','aa','count',\
-        # 'clinvar_id','CLNDN','CLNSIG','MC','ORIGIN',\
-        # 'g1000_id','altCount','totalCount','altGlobalFreq','americanFreq','asianFreq','afrFreq', 'eurFreq',\
-        # 'disease','drugs','clinicalSignificance','evidenceStatement','variantSummary',\
-        # 'gene','proteinChange','oncogenecity','mutationEffect']
-
-
-        #df.to_csv(outfile,index='false')
         block=10
         count=1
 
@@ -56,29 +49,42 @@ def combineDB(infile):
             pos=row[1]
             ref=row[2]
             alt=row[3]
-            enst=row[11]
+            # enst=row[11]
 
-            cosmic_cursor = list(cosmic.find({'chr':int(chr),'pos':int(pos),'ref':ref,'alt':alt},projection={'_id': 0,'cosmic-id':1,'cds':1,'aa':1,'count':1}))
-            cosmic_ids= appendResult(cosmic_cursor,['cosmic-id','cds','aa','count'])
+            g1000_cursor = list(g1000.find({'chr':'chr'+str(chr),'pos':int(pos),'ref':ref,'alt':alt},projection={'_id': 0,'g1000-id':1,'altGlobalFreq':1,'americanFreq':1,'asianFreq':1,'afrFreq':1,'eurFreq':1}))
+            g1000_ids=appendResult(g1000_cursor,['g1000-id','altGlobalFreq','americanFreq','asianFreq','afrFreq', 'eurFreq'])
 
-            clinvar_cursor = list(clinvar.find({'chr':int(chr),'pos':int(pos),'ref':ref,'alt':alt},projection={'_id': 0,'clinvar-id':1,'CLNDN':1,'CLNSIG':1,'MC':1,'ORIGIN':1}))
-            clinvar_ids=appendResult(clinvar_cursor,['clinvar-id','CLNDN','CLNSIG','MC','ORIGIN'])
+            cosmic_cursor = list(cosmic.find({'chr':int(chr),'pos':int(pos),'ref':ref,'alt':alt},projection={'_id': 0,'cosmic-id':1,'count':1}))
+            cosmic_ids= appendResult(cosmic_cursor,['cosmic-id','count'])
 
-            g1000_cursor = list(g1000.find({'chr':'chr'+str(chr),'pos':int(pos),'ref':ref,'alt':alt},projection={'_id': 0,'g1000-id':1,'altCount':1,'totalCount':1,'altGlobalFreq':1,'americanFreq':1,'asianFreq':1,'afrFreq':1,'eurFreq':1}))
-            g1000_ids=appendResult(g1000_cursor,['g1000-id','altCount','totalCount','altGlobalFreq','americanFreq','asianFreq','afrFreq', 'eurFreq'])
+            clinvar_cursor = list(clinvar.find({'chr':int(chr),'pos':int(pos),'ref':ref,'alt':alt},projection={'_id': 0,'clinvar-id':1,'CLNDN':1,'CLNSIG':1}))
+            clinvar_ids=appendResult(clinvar_cursor,['clinvar-id','CLNDN','CLNSIG'])
 
-            civic_cursor = list(g1000.find({'chr':int(chr),'pos':int(pos),'ref':ref,'alt':alt},projection={'_id': 0,'disease':1,'drugs':1,'clinical_significance':1,'evidence_statement':1,'variant_summary':1}))
-            civic_ids=appendResult(civic_cursor,['disease','drugs','clinical_significance','evidence_statement','variant_summary'])
+            chrtogene_cursor = list(chrtogene.find({'chr':'chr'+str(chr),'pos':int(pos)},projection={'_id':0,'gene':1}))
+            chrtogene_ids=appendResult(chrtogene_cursor,['gene'])
 
-            oncokb_cursor = list(g1000.find({'Isoform':enst},projection={'_id': 0,'Gene':1,'Protein Change':1,'Oncogenicity':1,'Mutation Effect':1}))
-            oncokb_ids=appendResult(oncokb_cursor,['Gene','Protein Change','Oncogenecity','Mutation Effect'])
+            chrtodisease_cursor = list(chrtodisease.find({'chr':'chr'+str(chr),'pos':int(pos)},projection={'_id':0,'disease':1}))
+            chrtodisease_ids=appendResult(chrtodisease_cursor,['disease'])
+
+            chrtopublication_cursor=list(chrtopublication.find({'chr':'chr'+str(chr),'pos':int(pos)},projection={'_id':0,'pubCount':1}))
+            chrtopublication_ids=appendResult(chrtopublication_cursor,['pubCount'])
+
+            # civic_cursor = list(g1000.find({'chr':int(chr),'pos':int(pos),'ref':ref,'alt':alt},projection={'_id': 0,'disease':1,'drugs':1,'clinical_significance':1,'evidence_statement':1,'variant_summary':1}))
+            # civic_ids=appendResult(civic_cursor,['disease','drugs','clinical_significance','evidence_statement','variant_summary'])
+
+            # oncokb_cursor = list(g1000.find({'Isoform':enst},projection={'_id': 0,'Gene':1,'Protein Change':1,'Oncogenicity':1,'Mutation Effect':1}))
+            # oncokb_ids=appendResult(oncokb_cursor,['Gene','Protein Change','Oncogenecity','Mutation Effect'])
 
             result.append([chr,pos,ref,alt,\
-                    cosmic_ids[0],cosmic_ids[1],cosmic_ids[2],cosmic_ids[3],\
-            clinvar_ids[0],clinvar_ids[1],clinvar_ids[2],clinvar_ids[3],clinvar_ids[4],\
-            g1000_ids[0],g1000_ids[1],g1000_ids[2],g1000_ids[3],g1000_ids[4],g1000_ids[5],g1000_ids[6],g1000_ids[7],\
-            civic_ids[0],civic_ids[1],civic_ids[2],civic_ids[3],civic_ids[4],\
-            oncokb_ids[1],oncokb_ids[1],oncokb_ids[2],oncokb_ids[3]])
+                    g1000_ids[0],g1000_ids[1],g1000_ids[2],g1000_ids[3],g1000_ids[4],g1000_ids[5],\
+                    cosmic_ids[0],cosmic_ids[1],\
+                    clinvar_ids[0],clinvar_ids[1],clinvar_ids[2],\
+                    chrtogene_ids[0],\
+                    chrtodisease_ids[0],\
+                    chrtopublication_ids[0]
+                    # civic_ids[0],civic_ids[1],civic_ids[2],civic_ids[3],civic_ids[4],\
+                    # oncokb_ids[1],oncokb_ids[1],oncokb_ids[2],oncokb_ids[3]
+            ])
 
             # result = oncokb_ids
 

@@ -79,10 +79,12 @@ def fileParser(inputfile, outputfile, source):
         df.columns= ['chr','pos','disease']
         df.to_csv(outputfile,index=False)
 
-    elif source== 'chrtopublication':
-        df = pd.read_csv(inputfile,sep='\t',encoding='latin-1')
-        df.columns= ['chr','pos','count']
-        df.to_csv(outputfile,index=False)
+    else print("incorrect input or source")
+    # publication just has 3 rows just rename header is enough
+    # elif source== 'chrtopublication':
+    #     df = pd.read_csv(inputfile,sep='\t',encoding='latin-1')
+    #     df.columns= ['chr','pos','count']
+    #     df.to_csv(outputfile,index=False)
 try:
     parser = optparse.OptionParser()
     parser.add_option('-i', '--inputfile', help = 'input file expected')
@@ -98,5 +100,6 @@ except TypeError:
 	print ("python 06_parser_mongo.py -help for help")
 
 
-    # /opt/python3/bin/python3.4 /home/ojaswee/github/dnaQ/pipeline_scripts/06_all_db_parser_mongo.py -i /home/ojaswee/masters_project/01_data/chrtogene.txt -o chrtogene.csv -s chrtogene
-    # /opt/python3/bin/python3.4 /home/ojaswee/github/dnaQ/pipeline_scripts/06_all_db_parser_mongo.py -i /home/ojaswee/masters_project/01_data/chrtopublication.txt -o chrtopublication.csv -s chrtopublication
+    # /opt/python3/bin/python3.4 /home/ojaswee/github/dnaQ/pipeline_scripts/06_all_db_parser_mongo.py -i /home/ojaswee/masters_project/01_data/chrtogene.txt -o /home/ojaswee/masters_project/0101_data/chrtogene.filter.csv -s chrtogene
+    # /opt/python3/bin/python3.4 /home/ojaswee/github/dnaQ/pipeline_scripts/06_all_db_parser_mongo.py -i /home/ojaswee/masters_project/01_data/chrtopublication.txt -o /home/ojaswee/masters_project/0101_data/chrtopublication.filter.csv -s chrtopublication
+    # /opt/python3/bin/python3.4 /home/ojaswee/github/dnaQ/pipeline_scripts/06_all_db_parser_mongo.py -i /home/ojaswee/masters_project/01_data/chrtodisease.txt -o /home/ojaswee/masters_project/0101_data/chrtodisease.filter.csv -s chrtodisease

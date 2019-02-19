@@ -70,7 +70,7 @@ while IFS=';' read queueid userid testid run status; do
 
 					echo $usertestid
 
-					loadfilestatement="LOAD data local infile '$combinedfile' INTO table mutation FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n'(chr,pos,ref,alt,cosmicid,cds,aa,count,clinvarid,clndn,clnsig,mc,origin,g1000id,altCount,totalCount,altGlobalFreq,americanFreq,asianFreq,afrFreq,eurFreq,disease,drugs,clinicalSignificance,evidenceStatement,variantSummary,gene,proteinChange,oncogenecity,mutationEffect)SET usertestid='$usertestid';"
+					loadfilestatement="LOAD data local infile '$combinedfile' INTO table updatedMutation FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n'(chr,pos,ref,alt,freqid,globalFreq,americanFreq,asianFreq,afrFreq,eurFreq,cancerid,cancerCount,clinicalid,clinicalDisease,signficance,gene,biologyDisease,publicationCount)SET usertestid='$usertestid';"
 
 					mysql --user="root" --password="main" --database="dnaq" --execute="$loadfilestatement"
 
