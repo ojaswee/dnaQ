@@ -3,6 +3,8 @@ package dnaQ.Models;
 import javax.swing.*;
 import java.util.ArrayList;
 
+import static java.util.Objects.isNull;
+
 public class FilterList {
 
     private ArrayList<MutationFilter> mutationFilters;
@@ -48,23 +50,63 @@ public class FilterList {
 
     }
 
-    public void addCosmicIDFilter(JCheckBox cosmicIDCheckBox) {
+    public void addCancerIDFilter(JCheckBox cancerIDFilter) {
 
-        addFilter(new CosmicIDMutationFilter(cosmicIDCheckBox));
+        addFilter(new CosmicIDMutationFilter(cancerIDFilter));
     }
 
-    public void addClinvarIDFilter(JCheckBox clinvarIDCheckBox) {
+    public void addClinicalIDFilter(JCheckBox clinvarIDCheckBox) {
 
         addFilter(new ClinvarIDMutationFilter(clinvarIDCheckBox));
     }
 
-    public void addG1000IDFilter(JCheckBox g1000IDCheckbox) {
+    public void addPopulationFreqIDFilter(JCheckBox g1000IDCheckbox) {
 
         addFilter(new G1000IDMutationFilter(g1000IDCheckbox));
     }
 
-    public void addG1000ComboboxFilter(String region, String maxValue){
-        addFilter(new G1000IDFrequencyAndMaxFilter(region,maxValue));
+    public void addGlobalFreqFilter(JCheckBox globalFreqCheckbox,JTextField populationFreqMaxTextField){
+        addFilter(new GlobalFrequencyAndMaxFilter(globalFreqCheckbox,populationFreqMaxTextField));
+    }
+
+    public void addAmericanFreqFilter(JCheckBox americanFreqCheckbox,JTextField populationFreqMaxTextField){
+        addFilter(new AmericanFrequencyAndMaxFilter(americanFreqCheckbox,populationFreqMaxTextField));
+    }
+
+    public void addAsianFreqFilter(JCheckBox asianFreqCheckbox,JTextField populationFreqMaxTextField){
+        addFilter(new AsianFrequencyAndMaxFilter(asianFreqCheckbox,populationFreqMaxTextField));
+    }
+
+    public void addAfrFreqFilter(JCheckBox afrFreqCheckbox,JTextField populationFreqMaxTextField){
+        addFilter(new AfrFrequencyAndMaxFilter(afrFreqCheckbox,populationFreqMaxTextField));
+    }
+
+    public void addEurFreqFilter(JCheckBox eurFreqCheckbox,JTextField populationFreqMaxTextField){
+        addFilter(new EurFrequencyAndMaxFilter(eurFreqCheckbox,populationFreqMaxTextField));
+    }
+
+    public void addCancerCountFilter(JTextField cancerTextField){
+        addFilter(new CancerCountFilter(cancerTextField));
+    }
+
+    public void addBenignFilter(JCheckBox benignCheckbox){
+        addFilter(new BenignFilter(benignCheckbox));
+    }
+
+    public void addLikelyCancerFilter(JCheckBox likelyCheckbox){
+        addFilter(new LikelyCancerFilter(likelyCheckbox));
+    }
+
+    public void addGeneFilter(JCheckBox geneCheckbox){
+        addFilter(new GeneFilter (geneCheckbox));
+    }
+
+    public void addDiseaseFilter(JCheckBox diseaseCheckbox){
+        addFilter(new DiseaseFilter (diseaseCheckbox));
+    }
+
+    public void addPublicationFilter(JTextField pubCountTextField){
+        addFilter(new PublicationFilter (pubCountTextField));
     }
 
 }
@@ -78,18 +120,17 @@ class MutationFilter {
 
 class CosmicIDMutationFilter extends MutationFilter {
 
-    private JCheckBox cosmicIDCheckBox;
+    private JCheckBox cancerIDFilter;
 
-    CosmicIDMutationFilter(JCheckBox cosmicIDCheckBox) {
-        this.cosmicIDCheckBox = cosmicIDCheckBox;
-
+    CosmicIDMutationFilter(JCheckBox cancerIDFilter) {
+        this.cancerIDFilter = cancerIDFilter;
     }
 
     @Override
     public boolean exclude(Mutation mutation) {
 
-        if (cosmicIDCheckBox.isSelected()) {
-            if (mutation.getCosmicid().equals("")) {
+        if (cancerIDFilter.isSelected()) {
+            if (mutation.getCancerid().equals("")) {
                 return true;
             } else {
                 return false;
@@ -113,7 +154,7 @@ class ClinvarIDMutationFilter extends MutationFilter {
         public boolean exclude(Mutation mutation) {
 
             if (clinvarIDCheckBox.isSelected()) {
-                if (mutation.getClinvarid().equals("")) {
+                if (mutation.getClinicalid().equals("")) {
                     return true;
                 } else {
                     return false;
@@ -130,14 +171,13 @@ class G1000IDMutationFilter extends MutationFilter {
 
     G1000IDMutationFilter(JCheckBox g1000IDCheckbox) {
         this.g1000IDCheckbox = g1000IDCheckbox;
-
     }
 
     @Override
     public boolean exclude(Mutation mutation) {
 
         if (g1000IDCheckbox.isSelected()) {
-            if (mutation.getG1000id().equals("")) {
+            if (mutation.getFreqid().equals("")) {
                 return true;
             } else {
                 return false;
@@ -148,59 +188,289 @@ class G1000IDMutationFilter extends MutationFilter {
     }
 }
 
-class G1000IDFrequencyAndMaxFilter extends MutationFilter {
-    private String region;
-    private Double maxValue;
+class GlobalFrequencyAndMaxFilter extends MutationFilter {
 
-    G1000IDFrequencyAndMaxFilter(String region, String maxValue) {
-        this.region = region;
-        this.maxValue = Double.valueOf(maxValue);
+    private JCheckBox globalFreqCheckbox;
+    private JTextField populationFreqMaxTextField;
+
+    GlobalFrequencyAndMaxFilter(JCheckBox globalFreqCheckbox,JTextField populationFreqMaxTextField) {
+        this.globalFreqCheckbox = globalFreqCheckbox;
+        this.populationFreqMaxTextField = populationFreqMaxTextField;
     }
 
     @Override
     public boolean exclude(Mutation mutation) {
-        boolean choice = true;
+        if (globalFreqCheckbox.isSelected()) {
+            if(!(mutation.getGlobalFreq().matches(".*\\d+.*")) ){
+                return true;
+            }
+            else {
+                Double currentValue = Double.valueOf(mutation.getGlobalFreq());
+                Integer maxValue = Integer.valueOf(populationFreqMaxTextField.getText());
+                if (currentValue>=maxValue){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+        }
+        else return false;
+    }
+}
 
-        if (region.equals("altGlobalFreq") ) {
-            if (mutation.getAltGlobalFreq().matches(".*\\d+.*") ) {
-                Double currentValue = Double.valueOf(mutation.getAltGlobalFreq());
-                if (currentValue < maxValue) {
-                    choice = false;
-                }
+class AmericanFrequencyAndMaxFilter extends MutationFilter {
+
+    private JCheckBox americanFreqCheckbox;
+    private JTextField populationFreqMaxTextField;
+
+    AmericanFrequencyAndMaxFilter(JCheckBox americanFreqCheckbox,JTextField populationFreqMaxTextField) {
+        this.americanFreqCheckbox = americanFreqCheckbox;
+        this.populationFreqMaxTextField = populationFreqMaxTextField;
+
+    }
+    @Override
+    public boolean exclude(Mutation mutation) {
+        if (americanFreqCheckbox.isSelected()) {
+            if(!(mutation.getAmericanFreq().matches(".*\\d+.*")) ){
+                return true;
             }
-        }
-        else if (region.equals("americanFreq")) {
-            if (mutation.getAmericanFreq().matches(".*\\d+.*")) {
+            else {
                 Double currentValue = Double.valueOf(mutation.getAmericanFreq());
-                if (currentValue < maxValue) {
-                    choice = false;
+                Integer maxValue = Integer.valueOf(populationFreqMaxTextField.getText());
+                if (currentValue>=maxValue){
+                    return true;
+                }
+                else{
+                    return false;
                 }
             }
         }
-        else if (region.equals("asianFreq")) {
-            if (mutation.getAsianFreq().matches(".*\\d+.*")) {
-                Double currentValue = Double.valueOf(mutation.getAsianFreq());
-                if (currentValue < maxValue) {
-                    choice = false;
+        else return false;
+    }
+}
+
+class AsianFrequencyAndMaxFilter extends MutationFilter {
+
+    private JCheckBox asianFreqCheckbox;
+    private JTextField populationFreqMaxTextField;
+
+    AsianFrequencyAndMaxFilter(JCheckBox asianFreqCheckbox,JTextField populationFreqMaxTextField) {
+        this.asianFreqCheckbox = asianFreqCheckbox;
+        this.populationFreqMaxTextField = populationFreqMaxTextField;
+    }
+
+    @Override
+    public boolean exclude(Mutation mutation) {
+        if (asianFreqCheckbox.isSelected()) {
+            if(! (mutation.getAsianFreq().matches(".*\\d+.*"))) {
+                return true;
+            }
+            else {
+                    Double currentValue = Double.valueOf(mutation.getAsianFreq());
+                    Integer maxValue = Integer.valueOf(populationFreqMaxTextField.getText());
+                    if (currentValue>=maxValue){
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
                 }
             }
-        }
-        else if (region.equals("afrFreq")) {
-            if (mutation.getAfrFreq().matches(".*\\d+.*")) {
-                Double currentValue = Double.valueOf(mutation.getAfrFreq());
-                if (currentValue < maxValue) {
-                    choice = false;
+        else return false;
+    }
+}
+
+class AfrFrequencyAndMaxFilter extends MutationFilter {
+
+    private JCheckBox afrFreqCheckbox;
+    private JTextField populationFreqMaxTextField;
+
+    AfrFrequencyAndMaxFilter(JCheckBox afrFreqCheckbox,JTextField populationFreqMaxTextField) {
+
+        this.afrFreqCheckbox = afrFreqCheckbox;
+        this.populationFreqMaxTextField = populationFreqMaxTextField;
+    }
+
+    @Override
+    public boolean exclude(Mutation mutation) {
+        if (afrFreqCheckbox.isSelected()) {
+            if(! (mutation.getAfrFreq().matches(".*\\d+.*"))) {
+                return true;
+            }else {
+                    Double currentValue = Double.valueOf(mutation.getAfrFreq());
+                    Integer maxValue = Integer.valueOf(populationFreqMaxTextField.getText());
+                    if (currentValue>=maxValue){
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
                 }
             }
+        else return false;
         }
-        else if (region.equals("eurFreq")) {
-            if (mutation.getEurFreq().matches(".*\\d+.*")) {
+
+}
+
+class EurFrequencyAndMaxFilter extends MutationFilter {
+
+    private JCheckBox eurFreqCheckbox;
+    private JTextField populationFreqMaxTextField;
+
+    EurFrequencyAndMaxFilter(JCheckBox eurFreqCheckbox,JTextField populationFreqMaxTextField) {
+
+        this.eurFreqCheckbox = eurFreqCheckbox;
+        this.populationFreqMaxTextField = populationFreqMaxTextField;
+    }
+
+    @Override
+    public boolean exclude(Mutation mutation) {
+        if (eurFreqCheckbox.isSelected()) {
+            if(!(mutation.getEurFreq().matches(".*\\d+.*"))) {
+                return true;
+            }else {
                 Double currentValue = Double.valueOf(mutation.getEurFreq());
-                if (currentValue < maxValue) {
-                    choice = false;
+                Integer maxValue = Integer.valueOf(populationFreqMaxTextField.getText());
+                if (currentValue>=maxValue){
+                    return true;
+                }
+                else{
+                    return false;
                 }
             }
         }
-        return choice;
+        else return false;
+    }
+
+}
+
+class CancerCountFilter extends MutationFilter {
+
+    private JTextField cancerCountTextField;
+
+    CancerCountFilter(JTextField cancerCountTextField) {
+        this.cancerCountTextField = cancerCountTextField;
+    }
+
+    @Override
+    public boolean exclude(Mutation mutation) {
+        if (mutation.getCancerCount().matches(".*\\d+.*")) {
+//            if(! (mutation.getCancerCount().matches(".*\\d+.*"))){
+                return true;
+//            } else {
+//                return false;
+          //  }
+        } else {
+            return false;
+        }
+    }
+}
+
+class BenignFilter extends MutationFilter {
+
+    private JCheckBox benignCheckbox;
+
+    BenignFilter(JCheckBox benignCheckbox) {
+        this.benignCheckbox = benignCheckbox;
+    }
+
+    @Override
+    public boolean exclude(Mutation mutation) {
+        if (benignCheckbox.isSelected()) {
+            if(!(mutation.getSignficance().matches(".*enign+.*"))){
+                return true;
+            } else {
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+}
+
+class LikelyCancerFilter extends MutationFilter {
+
+    private JCheckBox likelyCheckbox;
+
+    LikelyCancerFilter(JCheckBox likelyCheckbox) {
+        this.likelyCheckbox = likelyCheckbox;
+    }
+
+    @Override
+    public boolean exclude(Mutation mutation) {
+        if (likelyCheckbox.isSelected()) {
+            if(mutation.getSignficance().matches(".*enign+.*") || mutation.getSignficance().equals("")) {
+                return true;
+            } else {
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+}
+
+class GeneFilter extends MutationFilter {
+
+    private JCheckBox geneCheckbox;
+
+    GeneFilter(JCheckBox geneCheckbox) {
+        this.geneCheckbox = geneCheckbox;
+    }
+
+    @Override
+    public boolean exclude(Mutation mutation) {
+        if (geneCheckbox.isSelected()) {
+            if (mutation.getGene().equals("")) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+}
+
+class PublicationFilter extends MutationFilter {
+
+    private JTextField pubCountTextField;
+
+    PublicationFilter(JTextField pubCountTextField) {
+        this.pubCountTextField = pubCountTextField;
+    }
+
+    @Override
+    public boolean exclude(Mutation mutation) {
+        if (mutation.getPublicationCount().matches(".*\\d+.*")) {
+                return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+class DiseaseFilter extends MutationFilter {
+
+    private JCheckBox diseseCheckbox;
+
+    DiseaseFilter(JCheckBox diseseCheckbox) {
+        this.diseseCheckbox = diseseCheckbox;
+    }
+
+    @Override
+    public boolean exclude(Mutation mutation) {
+        if (diseseCheckbox.isSelected()) {
+            if (mutation.getBiologyDisease().equals("")) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 }

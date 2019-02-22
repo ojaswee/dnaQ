@@ -7,6 +7,9 @@ import dnaQ.Models.Mutation;
 import dnaQ.Models.TestQueue;
 import dnaQ.Models.User;
 
+import static java.sql.JDBCType.NULL;
+import static java.util.Objects.isNull;
+
 public class DatabaseConnections {
 
 	private static Connection databaseConnection = null;
@@ -205,7 +208,7 @@ public class DatabaseConnections {
 	}
 
 	public static ArrayList<Mutation> getAllMutation(String usertestid) throws Exception {
-		String query = "Select * from updatedMutation where usertestid = " +usertestid +";";
+		String query = "Select * from mutation where usertestid = " +usertestid +";";
 		PreparedStatement preparedStatement = databaseConnection.prepareStatement(query);
 		ResultSet rs = preparedStatement.executeQuery();
 
@@ -224,8 +227,8 @@ public class DatabaseConnections {
 
 		if(value.equals("['none']")) {
 			return "";
-
-		}else{
+		}
+		else{
             value= value.replaceAll("\\[", "").replaceAll("\\]","").replaceAll("'","");
         }
 		return value;

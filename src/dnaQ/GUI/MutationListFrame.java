@@ -24,16 +24,16 @@ public class MutationListFrame extends JFrame  {
 	private ClinicalTable clinicalTable;
 	private ClinicalTableModel clinicalTableModel;
 
-	private G1000Table g1000Table;
-	private G1000TableModel g1000TableModel;
+	private PopulationFreqTable populationFreqTable;
+	private PopulationFreqTableModel populationFreqTableModel;
 
 	private BiologyTable biologyTable;
 	private BiologyTableModel biologyTableModel;
 
 	private JScrollPane commonScrollPane;
-	private JScrollPane cosmicScrollPane;
-	private JScrollPane clinvarScrollPane;
-	private JScrollPane g1000ScrollPane;
+	private JScrollPane cancerScrollPane;
+	private JScrollPane clinicalScrollPane;
+	private JScrollPane populationFreqScrollPane;
 	private JScrollPane biologyScrollPane;
 
 	private WelcomeFrame parent;
@@ -62,7 +62,7 @@ public class MutationListFrame extends JFrame  {
 		this.commonTableModel = new CommonTableModel(mutationList.getMutations());
 		this.cancerTableModel = new CancerTableModel(mutationList.getMutations());
 		this.clinicalTableModel = new ClinicalTableModel(mutationList.getMutations());
-		this.g1000TableModel = new G1000TableModel(mutationList.getMutations());
+		this.populationFreqTableModel = new PopulationFreqTableModel(mutationList.getMutations());
 		this.biologyTableModel = new BiologyTableModel(mutationList.getMutations());
 
 		this.datachart = new DataChart(this,this.mutationList);
@@ -88,16 +88,16 @@ public class MutationListFrame extends JFrame  {
 		commonScrollPane.setViewportView(commonTable);
 
 		cancerTable = new CancerTable(this, cancerTableModel);
-		cosmicScrollPane = new JScrollPane(cancerTable);
-		cosmicScrollPane.setViewportView(cancerTable);
+		cancerScrollPane = new JScrollPane(cancerTable);
+		cancerScrollPane.setViewportView(cancerTable);
 
 		clinicalTable = new ClinicalTable(this, clinicalTableModel);
-		clinvarScrollPane = new JScrollPane(clinicalTable);
-		clinvarScrollPane.setViewportView(clinicalTable);
+		clinicalScrollPane = new JScrollPane(clinicalTable);
+		clinicalScrollPane.setViewportView(clinicalTable);
 
-		g1000Table = new G1000Table(this,g1000TableModel);
-		g1000ScrollPane = new JScrollPane(g1000Table);
-		g1000ScrollPane.setViewportView(g1000Table);
+		populationFreqTable = new PopulationFreqTable(this, populationFreqTableModel);
+		populationFreqScrollPane = new JScrollPane(populationFreqTable);
+		populationFreqScrollPane.setViewportView(populationFreqTable);
 
 		biologyTable = new BiologyTable(this,biologyTableModel);
 		biologyScrollPane = new JScrollPane(biologyTable);
@@ -176,9 +176,9 @@ public class MutationListFrame extends JFrame  {
 
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.addTab("Common", null, commonScrollPane, null);
-		tabbedPane.addTab("Cancer", null, cosmicScrollPane, null);
-		tabbedPane.addTab("Clinical", null, clinvarScrollPane, null);
-		tabbedPane.addTab("Pop_Freq", null, g1000ScrollPane, null);
+		tabbedPane.addTab("Pop_Freq", null, populationFreqScrollPane, null);
+		tabbedPane.addTab("Cancer", null, cancerScrollPane, null);
+		tabbedPane.addTab("Clinical", null, clinicalScrollPane, null);
 		tabbedPane.addTab("Biology", null, biologyScrollPane, null);
 
 

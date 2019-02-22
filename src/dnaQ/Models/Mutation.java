@@ -32,9 +32,6 @@ public class Mutation {
 	//biology
 	public String gene;
 	public String biologyDisease;
-
-
-
 	public String publicationCount;
 
 

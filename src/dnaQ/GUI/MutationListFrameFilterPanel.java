@@ -4,6 +4,8 @@ import dnaQ.Models.FilterList;
 import dnaQ.Models.MutationList;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,22 +15,31 @@ public class MutationListFrameFilterPanel extends JPanel {
     private MutationList mutationList;
     public DataChart datachart;
 
-    public JCheckBox cosmicIDCheckbox;
-    public JCheckBox clinvarIDCheckbox;
-    public JCheckBox g1000IDCheckbox;
-    public JCheckBox biologyCheckbox;
+    public JCheckBox cancerIDCheckbox;
+    public JCheckBox clinicalIDCheckbox;
+    public JCheckBox populationFreqIDCheckbox;
 
     public JPanel filterPanel;
-    public JPanel cosmicFilterPanel;
-    public JPanel clinvarFilterPanel;
 
-    public JPanel g1000FilterPanel;
-    public JComboBox g1000RegionCombobox;
-    public JTextField g1000MaxTextField;
+    public JPanel cancerFilterPanel;
+    public JTextField cancerCountTextField;
 
-    public JButton g1000SubmitButton;
+    public JPanel clinicalFilterPanel;
+    public JCheckBox benignCheckbox;
+    public JCheckBox likelyCheckbox;
+
+    public JPanel populationFreqFilterPanel;
+    public JCheckBox globalFreqCheckbox;
+    public JCheckBox americanFreqCheckbox;
+    public JCheckBox asianFreqCheckbox;
+    public JCheckBox afrFreqCheckbox;
+    public JCheckBox eurFreqCheckbox;
+    public JTextField populationFreqMaxTextField;
 
     public JPanel biologyFilterPanel;
+    public JCheckBox diseaseCheckox;
+    public JCheckBox geneCheckbox;
+    public JTextField minPubTextField;
     private FilterList filterList;
 
 
@@ -43,28 +54,54 @@ public class MutationListFrameFilterPanel extends JPanel {
         createComponents();
         layoutComponents();
         activateComponents();
+//        handleTextFieldValueChange();
     }
 
     public void createComponents(){
-        cosmicIDCheckbox = new JCheckBox("Cancer");
-        clinvarIDCheckbox = new JCheckBox("Clinical");
-        g1000IDCheckbox = new JCheckBox("Population Frequency");
-        biologyCheckbox = new JCheckBox("Biology");
+        populationFreqIDCheckbox = new JCheckBox("Population Frequency");
+        cancerIDCheckbox = new JCheckBox("Cancer");
+        clinicalIDCheckbox = new JCheckBox("Clinical");
 
-        filterList.addCosmicIDFilter(cosmicIDCheckbox);
-        filterList.addClinvarIDFilter(clinvarIDCheckbox);
-        filterList.addG1000IDFilter(g1000IDCheckbox);
-        filterList.addG1000IDFilter(biologyCheckbox);
-
-
-        cosmicFilterPanel = new JPanel(new GridLayout(1,0));
-        clinvarFilterPanel = new JPanel(new GridLayout(1,0));
-        g1000FilterPanel = new JPanel(new GridLayout(1,0));
+        cancerFilterPanel = new JPanel(new GridLayout(1,0));
+        clinicalFilterPanel = new JPanel(new GridLayout(1,0));
+        populationFreqFilterPanel = new JPanel(new GridLayout(1,0));
         biologyFilterPanel = new JPanel(new GridLayout(1,0));
 
-        g1000RegionCombobox = new JComboBox();
-        g1000MaxTextField = new JTextField();
-        g1000SubmitButton = new JButton("Submit");
+        globalFreqCheckbox = new JCheckBox("Global Freq");
+        americanFreqCheckbox = new JCheckBox("American Freq");
+        asianFreqCheckbox = new JCheckBox("Asian Freq");
+        afrFreqCheckbox = new JCheckBox("African Freq");
+        eurFreqCheckbox = new JCheckBox("European Freq");
+        populationFreqMaxTextField = new JTextField("100");
+
+        cancerCountTextField = new JTextField("Please input min count");
+
+        benignCheckbox = new JCheckBox("No cancer");
+        likelyCheckbox = new JCheckBox("Likely Cancer");
+
+        geneCheckbox = new JCheckBox("Gene");
+        diseaseCheckox = new JCheckBox("Biology Disease");
+        minPubTextField = new JTextField("0");
+
+
+        filterList.addPopulationFreqIDFilter(populationFreqIDCheckbox);
+        filterList.addGlobalFreqFilter(globalFreqCheckbox,populationFreqMaxTextField);
+        filterList.addAmericanFreqFilter(americanFreqCheckbox,populationFreqMaxTextField);
+        filterList.addAsianFreqFilter(asianFreqCheckbox,populationFreqMaxTextField);
+        filterList.addAfrFreqFilter(afrFreqCheckbox,populationFreqMaxTextField);
+        filterList.addEurFreqFilter(eurFreqCheckbox,populationFreqMaxTextField);
+
+
+        filterList.addCancerIDFilter(cancerIDCheckbox);
+        filterList.addCancerCountFilter(cancerCountTextField);
+
+        filterList.addClinicalIDFilter(clinicalIDCheckbox);
+        filterList.addBenignFilter(benignCheckbox);
+        filterList.addLikelyCancerFilter(likelyCheckbox);
+
+        filterList.addGeneFilter(geneCheckbox);
+        filterList.addDiseaseFilter(diseaseCheckox);
+        filterList.addPublicationFilter(minPubTextField);
     }
 
     public void layoutComponents(){
@@ -81,104 +118,140 @@ public class MutationListFrameFilterPanel extends JPanel {
 
         JPanel databasefilterPanel = new JPanel(new GridLayout(1,0));
         databasefilterPanel.add(new Label("Select database"));
-        databasefilterPanel.add(cosmicIDCheckbox);
-        databasefilterPanel.add(clinvarIDCheckbox);
-        databasefilterPanel.add(g1000IDCheckbox);
-        databasefilterPanel.add(biologyCheckbox);
+        databasefilterPanel.add(cancerIDCheckbox);
+        databasefilterPanel.add(clinicalIDCheckbox);
+        databasefilterPanel.add(populationFreqIDCheckbox);
         filterPanel.add(databasefilterPanel);
 
-    //Cosmic database filter
-        cosmicFilterPanel.add(new Label("Cancer database"));
-        filterPanel.add(cosmicFilterPanel);
+    // Population Freq database filter
+        populationFreqFilterPanel.add(new Label("Pop freq database"));
+        populationFreqFilterPanel.add(globalFreqCheckbox);
+        populationFreqFilterPanel.add(americanFreqCheckbox);
+        populationFreqFilterPanel.add(asianFreqCheckbox);
+        populationFreqFilterPanel.add(afrFreqCheckbox);
+        populationFreqFilterPanel.add(eurFreqCheckbox);
+        populationFreqFilterPanel.add(populationFreqMaxTextField);
+        filterPanel.add(populationFreqFilterPanel);
 
-    // Clinvar database filter
-        clinvarFilterPanel.add(new Label("Clinical database"));
-        filterPanel.add(clinvarFilterPanel);
+    //Cancer database filter
+        cancerFilterPanel.add(new Label("Cancer database"));
+        cancerFilterPanel.add(cancerCountTextField);
+        filterPanel.add(cancerFilterPanel);
 
-    // G1000 database filter
-        g1000FilterPanel.add(new Label("Pop Freq database"));
+    // Clinical database filter
+        clinicalFilterPanel.add(new Label("Clinical database"));
+        clinicalFilterPanel.add(benignCheckbox);
+        clinicalFilterPanel.add(likelyCheckbox);
+        filterPanel.add(clinicalFilterPanel);
 
-        String[] region = { "Global", "American", "Asian", "African", "European" };
-        g1000RegionCombobox = new JComboBox(region);
-        g1000FilterPanel.add(g1000RegionCombobox);
-
-        g1000FilterPanel.add(g1000MaxTextField);
-        g1000FilterPanel.add(g1000SubmitButton);
-        filterPanel.add(g1000FilterPanel);
-
-    // biology database filter
+    // Biology database filter
         biologyFilterPanel.add(new Label("Biology database"));
+        biologyFilterPanel.add(geneCheckbox);
+        biologyFilterPanel.add(diseaseCheckox);
+        biologyFilterPanel.add(minPubTextField);
         filterPanel.add(biologyFilterPanel);
-
     }
 
     private void activateComponents() {
-        final String[] region = {""};
-
-        cosmicIDCheckbox.addActionListener(new ActionListener() {
+        populationFreqIDCheckbox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 handleCheckBoxClick();
             }
         });
 
-        clinvarIDCheckbox.addActionListener(new ActionListener() {
+        cancerIDCheckbox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 handleCheckBoxClick();
             }
         });
 
-        g1000IDCheckbox.addActionListener(new ActionListener() {
+        clinicalIDCheckbox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 handleCheckBoxClick();
             }
         });
 
-        biologyCheckbox.addActionListener(new ActionListener() {
+        globalFreqCheckbox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 handleCheckBoxClick();
             }
         });
 
-        g1000RegionCombobox.addActionListener(new ActionListener() {
-            String[] dbSelection ={"altGlobalFreq", "americanFreq","asianFreq" ,"afrFreq","eurFreq"};
-            public void actionPerformed(ActionEvent e) {
-               region[0] = (String) g1000RegionCombobox.getSelectedItem();
-
-                if (region[0].equals("Global")) {
-                    region[0] = dbSelection[0];
-                }
-                else if (region[0].equals("American")){
-                    region[0] = dbSelection[1];
-                }
-                else if (region[0].equals("Asian")){
-                    region[0] = dbSelection[2];
-                }
-                else if (region[0].equals("African")){
-                    region[0] = dbSelection[3];
-                }
-                else if (region[0].equals("European")){
-                    region[0] = dbSelection[4];
-                }
-                System.out.println(region[0]);
-            }
-        });
-
-        g1000SubmitButton.addActionListener(new ActionListener() {
+        americanFreqCheckbox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String maxFreq = g1000MaxTextField.getText();
-                filterList.addG1000ComboboxFilter(region[0],maxFreq);
-                mutationList.filterSamples(filterList);
+                handleCheckBoxClick();
             }
         });
+
+        asianFreqCheckbox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleCheckBoxClick();
+            }
+        });
+
+        afrFreqCheckbox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleCheckBoxClick();
+            }
+        });
+
+        eurFreqCheckbox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleCheckBoxClick();
+            }
+        });
+
+        cancerCountTextField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleCheckBoxClick();
+            }
+        });
+
+        //clinical checkboxes
+        benignCheckbox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleCheckBoxClick();
+            }
+        });
+
+        likelyCheckbox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleCheckBoxClick();
+            }
+        });
+
+        geneCheckbox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleCheckBoxClick();
+            }
+        });
+        diseaseCheckox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleCheckBoxClick();
+            }
+        });
+        
+        addPropertyChangeListener(populationFreqMaxTextField.getText(),e -> handleCheckBoxClick());
+        addPropertyChangeListener(minPubTextField.getText(),e -> handleCheckBoxClick());
+
     }
 
     private void handleCheckBoxClick() {
         mutationList.filterSamples(filterList);
         datachart.updateCharts();
     }
+
 }
