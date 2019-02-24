@@ -4,8 +4,6 @@ import dnaQ.Models.FilterList;
 import dnaQ.Models.MutationList;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,9 +13,10 @@ public class MutationListFrameFilterPanel extends JPanel {
     private MutationList mutationList;
     public DataChart datachart;
 
+    public JCheckBox populationFreqIDCheckbox;
     public JCheckBox cancerIDCheckbox;
     public JCheckBox clinicalIDCheckbox;
-    public JCheckBox populationFreqIDCheckbox;
+    public JCheckBox biologyGeneCheckbox;
 
     public JPanel filterPanel;
 
@@ -38,7 +37,6 @@ public class MutationListFrameFilterPanel extends JPanel {
 
     public JPanel biologyFilterPanel;
     public JCheckBox diseaseCheckox;
-    public JCheckBox geneCheckbox;
     public JTextField minPubTextField;
     private FilterList filterList;
 
@@ -54,15 +52,15 @@ public class MutationListFrameFilterPanel extends JPanel {
         createComponents();
         layoutComponents();
         activateComponents();
-//        handleTextFieldValueChange();
     }
 
     public void createComponents(){
         populationFreqIDCheckbox = new JCheckBox("Population Frequency");
         cancerIDCheckbox = new JCheckBox("Cancer");
         clinicalIDCheckbox = new JCheckBox("Clinical");
+        biologyGeneCheckbox = new JCheckBox("Biology");
 
-        cancerFilterPanel = new JPanel(new GridLayout(1,0));
+        cancerFilterPanel = new JPanel(new GridLayout(1,1));
         clinicalFilterPanel = new JPanel(new GridLayout(1,0));
         populationFreqFilterPanel = new JPanel(new GridLayout(1,0));
         biologyFilterPanel = new JPanel(new GridLayout(1,0));
@@ -72,16 +70,15 @@ public class MutationListFrameFilterPanel extends JPanel {
         asianFreqCheckbox = new JCheckBox("Asian Freq");
         afrFreqCheckbox = new JCheckBox("African Freq");
         eurFreqCheckbox = new JCheckBox("European Freq");
-        populationFreqMaxTextField = new JTextField("100");
+        populationFreqMaxTextField = new JTextField("");
 
-        cancerCountTextField = new JTextField("Please input min count");
+        cancerCountTextField = new JTextField("");
 
         benignCheckbox = new JCheckBox("No cancer");
         likelyCheckbox = new JCheckBox("Likely Cancer");
 
-        geneCheckbox = new JCheckBox("Gene");
         diseaseCheckox = new JCheckBox("Biology Disease");
-        minPubTextField = new JTextField("0");
+        minPubTextField = new JTextField("");
 
 
         filterList.addPopulationFreqIDFilter(populationFreqIDCheckbox);
@@ -99,7 +96,7 @@ public class MutationListFrameFilterPanel extends JPanel {
         filterList.addBenignFilter(benignCheckbox);
         filterList.addLikelyCancerFilter(likelyCheckbox);
 
-        filterList.addGeneFilter(geneCheckbox);
+        filterList.addGeneFilter(biologyGeneCheckbox);
         filterList.addDiseaseFilter(diseaseCheckox);
         filterList.addPublicationFilter(minPubTextField);
     }
@@ -118,9 +115,10 @@ public class MutationListFrameFilterPanel extends JPanel {
 
         JPanel databasefilterPanel = new JPanel(new GridLayout(1,0));
         databasefilterPanel.add(new Label("Select database"));
+        databasefilterPanel.add(populationFreqIDCheckbox);
         databasefilterPanel.add(cancerIDCheckbox);
         databasefilterPanel.add(clinicalIDCheckbox);
-        databasefilterPanel.add(populationFreqIDCheckbox);
+        databasefilterPanel.add(biologyGeneCheckbox);
         filterPanel.add(databasefilterPanel);
 
     // Population Freq database filter
@@ -146,7 +144,6 @@ public class MutationListFrameFilterPanel extends JPanel {
 
     // Biology database filter
         biologyFilterPanel.add(new Label("Biology database"));
-        biologyFilterPanel.add(geneCheckbox);
         biologyFilterPanel.add(diseaseCheckox);
         biologyFilterPanel.add(minPubTextField);
         filterPanel.add(biologyFilterPanel);
@@ -231,12 +228,13 @@ public class MutationListFrameFilterPanel extends JPanel {
             }
         });
 
-        geneCheckbox.addActionListener(new ActionListener() {
+        biologyGeneCheckbox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 handleCheckBoxClick();
             }
         });
+
         diseaseCheckox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -246,6 +244,7 @@ public class MutationListFrameFilterPanel extends JPanel {
         
         addPropertyChangeListener(populationFreqMaxTextField.getText(),e -> handleCheckBoxClick());
         addPropertyChangeListener(minPubTextField.getText(),e -> handleCheckBoxClick());
+        addPropertyChangeListener(cancerCountTextField.getText(),e -> handleCheckBoxClick());
 
     }
 

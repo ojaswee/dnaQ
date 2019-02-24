@@ -63,10 +63,10 @@ public class CommonTableModel extends AbstractTableModel {
 				String.class,
 				(Mutation mutation) -> mutation.clinicalDisease));
 
-		columns.add(new CommonTableModelColumn("comment",
-				"comment",
+		columns.add(new CommonTableModelColumn("gene",
+				"biologyGene",
 				String.class,
-				(Mutation mutation) -> mutation.comment));
+				(Mutation mutation) -> mutation.getGene()));
 
 		}
 
@@ -100,5 +100,4 @@ public class CommonTableModel extends AbstractTableModel {
 		Mutation mutation = mutations.get(row);
 		return columns.get(column).getValue(mutation);
 	}
-
 }

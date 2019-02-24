@@ -2,8 +2,7 @@ package dnaQ.Models;
 
 import javax.swing.*;
 import java.util.ArrayList;
-
-import static java.util.Objects.isNull;
+import java.util.Arrays;
 
 public class FilterList {
 
@@ -108,7 +107,6 @@ public class FilterList {
     public void addPublicationFilter(JTextField pubCountTextField){
         addFilter(new PublicationFilter (pubCountTextField));
     }
-
 }
 
 class MutationFilter {
@@ -187,6 +185,23 @@ class G1000IDMutationFilter extends MutationFilter {
         }
     }
 }
+class GetValueFromPopFreqTextField {
+    private String input;
+    private Double currentValue;
+
+    GetValueFromPopFreqTextField(String populationFreqMaxTextField){
+        this.input=populationFreqMaxTextField;
+        currentValue = 100.0;
+    }
+
+    public Double getPopFreqValue (){
+        if(input.matches(".*\\d+.*")){
+            currentValue = Double.valueOf(input.trim());
+            return currentValue;
+        }
+        return currentValue;
+    }
+}
 
 class GlobalFrequencyAndMaxFilter extends MutationFilter {
 
@@ -204,18 +219,17 @@ class GlobalFrequencyAndMaxFilter extends MutationFilter {
             if(!(mutation.getGlobalFreq().matches(".*\\d+.*")) ){
                 return true;
             }
-            else {
+            else if (mutation.getGlobalFreq().matches(".*\\d+.*")){
                 Double currentValue = Double.valueOf(mutation.getGlobalFreq());
-                Integer maxValue = Integer.valueOf(populationFreqMaxTextField.getText());
+
+                Double maxValue = new GetValueFromPopFreqTextField(populationFreqMaxTextField.getText()).getPopFreqValue();
                 if (currentValue>=maxValue){
                     return true;
                 }
-                else{
-                    return false;
-                }
             }
+
         }
-        else return false;
+        return false;
     }
 }
 
@@ -237,7 +251,7 @@ class AmericanFrequencyAndMaxFilter extends MutationFilter {
             }
             else {
                 Double currentValue = Double.valueOf(mutation.getAmericanFreq());
-                Integer maxValue = Integer.valueOf(populationFreqMaxTextField.getText());
+                Double maxValue = new GetValueFromPopFreqTextField(populationFreqMaxTextField.getText()).getPopFreqValue();
                 if (currentValue>=maxValue){
                     return true;
                 }
@@ -267,16 +281,16 @@ class AsianFrequencyAndMaxFilter extends MutationFilter {
                 return true;
             }
             else {
-                    Double currentValue = Double.valueOf(mutation.getAsianFreq());
-                    Integer maxValue = Integer.valueOf(populationFreqMaxTextField.getText());
-                    if (currentValue>=maxValue){
-                        return true;
-                    }
-                    else{
-                        return false;
-                    }
+                Double currentValue = Double.valueOf(mutation.getAsianFreq());
+                Double maxValue = new GetValueFromPopFreqTextField(populationFreqMaxTextField.getText()).getPopFreqValue();
+                if (currentValue>=maxValue){
+                    return true;
+                }
+                else{
+                    return false;
                 }
             }
+        }
         else return false;
     }
 }
@@ -299,7 +313,7 @@ class AfrFrequencyAndMaxFilter extends MutationFilter {
                 return true;
             }else {
                     Double currentValue = Double.valueOf(mutation.getAfrFreq());
-                    Integer maxValue = Integer.valueOf(populationFreqMaxTextField.getText());
+                    Double maxValue = new GetValueFromPopFreqTextField(populationFreqMaxTextField.getText()).getPopFreqValue();
                     if (currentValue>=maxValue){
                         return true;
                     }
@@ -331,7 +345,7 @@ class EurFrequencyAndMaxFilter extends MutationFilter {
                 return true;
             }else {
                 Double currentValue = Double.valueOf(mutation.getEurFreq());
-                Integer maxValue = Integer.valueOf(populationFreqMaxTextField.getText());
+                Double maxValue = new GetValueFromPopFreqTextField(populationFreqMaxTextField.getText()).getPopFreqValue();
                 if (currentValue>=maxValue){
                     return true;
                 }
@@ -355,15 +369,29 @@ class CancerCountFilter extends MutationFilter {
 
     @Override
     public boolean exclude(Mutation mutation) {
-        if (mutation.getCancerCount().matches(".*\\d+.*")) {
-//            if(! (mutation.getCancerCount().matches(".*\\d+.*"))){
+        String cancerCountValue = cancerCountTextField.getText();
+//        if textbox has digit
+        if((cancerCountValue.matches(".*\\d+.*"))) {
+            if (!(mutation.getCancerCount().matches(".*\\d+.*"))) {
                 return true;
-//            } else {
-//                return false;
-          //  }
-        } else {
-            return false;
+            } else {
+                Integer cancer = Integer.valueOf(cancerCountValue);
+                if (mutation.getCancerCount().matches(".*,+.*")) {
+                    String[] cancerCount = mutation.getCancerCount().trim().split("\\s*,\\s*");
+                    int array[] = Arrays.stream(cancerCount).mapToInt(Integer::parseInt).toArray();
+                    int maxValue = Arrays.stream(array).max().getAsInt();
+
+                    if (maxValue < cancer)
+                        return true;
+                } else if (!(mutation.getCancerCount().matches(".*,+.*"))) {
+                    Integer maxValue = Integer.valueOf(mutation.getCancerCount());
+                    if (maxValue < cancer)
+                        return true;
+                }
+                return false;
+            }
         }
+        return false;
     }
 }
 
@@ -380,7 +408,11 @@ class BenignFilter extends MutationFilter {
         if (benignCheckbox.isSelected()) {
             if(!(mutation.getSignficance().matches(".*enign+.*"))){
                 return true;
-            } else {
+            }
+            else if(mutation.getSignficance().equals("")){
+                return false;
+            }
+            else {
                 return false;
             }
         }else{
@@ -429,25 +461,7 @@ class GeneFilter extends MutationFilter {
             } else {
                 return false;
             }
-        } else {
-            return false;
-        }
-    }
-}
-
-class PublicationFilter extends MutationFilter {
-
-    private JTextField pubCountTextField;
-
-    PublicationFilter(JTextField pubCountTextField) {
-        this.pubCountTextField = pubCountTextField;
-    }
-
-    @Override
-    public boolean exclude(Mutation mutation) {
-        if (mutation.getPublicationCount().matches(".*\\d+.*")) {
-                return true;
-        } else {
+        }else{
             return false;
         }
     }
@@ -464,7 +478,7 @@ class DiseaseFilter extends MutationFilter {
     @Override
     public boolean exclude(Mutation mutation) {
         if (diseseCheckbox.isSelected()) {
-            if (mutation.getBiologyDisease().equals("")) {
+            if (mutation.getBiologyDisease().equals("") || mutation.getBiologyDisease().trim().equals(",")) {
                 return true;
             } else {
                 return false;
@@ -472,5 +486,45 @@ class DiseaseFilter extends MutationFilter {
         } else {
             return false;
         }
+    }
+}
+
+class PublicationFilter extends MutationFilter {
+
+    private JTextField pubCountTextField;
+
+    PublicationFilter(JTextField pubCountTextField) {
+        this.pubCountTextField = pubCountTextField;
+    }
+
+    @Override
+    public boolean exclude(Mutation mutation) {
+        String pubCount = pubCountTextField.getText();
+        //if textbox has digit
+        if (pubCount.matches(".*\\d+.*")) {
+            String currentPubCount = mutation.getPublicationCount();
+            //current row does not have digit exclude it
+            if (!(currentPubCount.matches(".*\\d+.*"))) {
+                return true;
+            }
+            else {
+                Integer count = Integer.valueOf(pubCount);
+                if (currentPubCount.matches(".*,+.*")) {
+                    String[] currentCount = mutation.getPublicationCount().trim().split("\\s*,\\s*");
+                    int array[] = Arrays.stream(currentCount).mapToInt(Integer::parseInt).toArray();
+                    int maxValue = Arrays.stream(array).max().getAsInt();
+
+                    if (maxValue < count) {
+                        return true;
+                    }
+                }
+
+                else if (!(currentPubCount.matches(".*,+.*"))) {
+                        Integer maxValue = Integer.valueOf(currentPubCount);
+                        if (maxValue <count) return true;
+                    }
+                }
+            }
+            return false;
     }
 }
