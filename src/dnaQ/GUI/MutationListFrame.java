@@ -15,20 +15,20 @@ public class MutationListFrame extends JFrame  {
 
 	private static final long serialVersionUID = 1L;
 
-	private CommonTable commonTable;
-	private CommonTableModel commonTableModel;
+	public CommonTable commonTable;
+	public CommonTableModel commonTableModel;
 
-	private CancerTable cancerTable;
-	private CancerTableModel cancerTableModel;
+	public CancerTable cancerTable;
+	public CancerTableModel cancerTableModel;
 
-	private ClinicalTable clinicalTable;
-	private ClinicalTableModel clinicalTableModel;
+	public ClinicalTable clinicalTable;
+	public ClinicalTableModel clinicalTableModel;
 
-	private PopulationFreqTable populationFreqTable;
-	private PopulationFreqTableModel populationFreqTableModel;
+	public PopulationFreqTable populationFreqTable;
+	public PopulationFreqTableModel populationFreqTableModel;
 
-	private BiologyTable biologyTable;
-	private BiologyTableModel biologyTableModel;
+	public BiologyTable biologyTable;
+	public BiologyTableModel biologyTableModel;
 
 	private JScrollPane commonScrollPane;
 	private JScrollPane cancerScrollPane;
@@ -134,7 +134,7 @@ public class MutationListFrame extends JFrame  {
         filterPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         filterPanel.setBackground(GUICommonTools.BackgroundColor2);
 
-		MutationListFrameFilterPanel filterPanel1 = new MutationListFrameFilterPanel(filterPanel,mutationList,datachart);
+		MutationListFrameFilterPanel filterPanel1 = new MutationListFrameFilterPanel(this, filterPanel,mutationList,datachart);
 		add(filterPanel1);
 
 		JPanel featurePanel = new JPanel(new BorderLayout());
@@ -220,11 +220,9 @@ public class MutationListFrame extends JFrame  {
 
 
 	private void handleReportButtonClick() throws Exception {
-
 		RequestReportFrame reportframe = new RequestReportFrame(this);
 		reportframe.setVisible(true);
 	}
-
 }
 
 

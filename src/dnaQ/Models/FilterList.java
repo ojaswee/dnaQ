@@ -49,19 +49,19 @@ public class FilterList {
 
     }
 
+    public void addPopulationFreqIDFilter(JCheckBox g1000IDCheckbox) {
+        addFilter(new G1000IDMutationFilter(g1000IDCheckbox));
+    }
     public void addCancerIDFilter(JCheckBox cancerIDFilter) {
-
         addFilter(new CosmicIDMutationFilter(cancerIDFilter));
     }
 
     public void addClinicalIDFilter(JCheckBox clinvarIDCheckBox) {
-
         addFilter(new ClinvarIDMutationFilter(clinvarIDCheckBox));
     }
 
-    public void addPopulationFreqIDFilter(JCheckBox g1000IDCheckbox) {
-
-        addFilter(new G1000IDMutationFilter(g1000IDCheckbox));
+    public void addGeneFilter(JCheckBox geneCheckbox){
+        addFilter(new GeneFilter (geneCheckbox));
     }
 
     public void addGlobalFreqFilter(JCheckBox globalFreqCheckbox,JTextField populationFreqMaxTextField){
@@ -88,16 +88,12 @@ public class FilterList {
         addFilter(new CancerCountFilter(cancerTextField));
     }
 
-    public void addBenignFilter(JCheckBox benignCheckbox){
-        addFilter(new BenignFilter(benignCheckbox));
+    public void addSpecifiedFilter(JCheckBox specifiedCheckbox){
+        addFilter(new SpecifiedFilter(specifiedCheckbox));
     }
 
-    public void addLikelyCancerFilter(JCheckBox likelyCheckbox){
-        addFilter(new LikelyCancerFilter(likelyCheckbox));
-    }
-
-    public void addGeneFilter(JCheckBox geneCheckbox){
-        addFilter(new GeneFilter (geneCheckbox));
+    public void addNonSpecifiedFilter(JCheckBox nonSpecifiedCheckbox){
+        addFilter(new NonSpecifiedFilter(nonSpecifiedCheckbox));
     }
 
     public void addDiseaseFilter(JCheckBox diseaseCheckbox){
@@ -185,6 +181,29 @@ class G1000IDMutationFilter extends MutationFilter {
         }
     }
 }
+
+class GeneFilter extends MutationFilter {
+
+    private JCheckBox geneCheckbox;
+
+    GeneFilter(JCheckBox geneCheckbox) {
+        this.geneCheckbox = geneCheckbox;
+    }
+
+    @Override
+    public boolean exclude(Mutation mutation) {
+        if (geneCheckbox.isSelected()) {
+            if (mutation.getGene().equals("")) {
+                return true;
+            } else {
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+}
+
 class GetValueFromPopFreqTextField {
     private String input;
     private Double currentValue;
@@ -371,10 +390,12 @@ class CancerCountFilter extends MutationFilter {
     public boolean exclude(Mutation mutation) {
         String cancerCountValue = cancerCountTextField.getText();
 //        if textbox has digit
+//        cancerCountTextField.getPropertyChangeListeners()
         if((cancerCountValue.matches(".*\\d+.*"))) {
             if (!(mutation.getCancerCount().matches(".*\\d+.*"))) {
                 return true;
-            } else {
+            }
+            else {
                 Integer cancer = Integer.valueOf(cancerCountValue);
                 if (mutation.getCancerCount().matches(".*,+.*")) {
                     String[] cancerCount = mutation.getCancerCount().trim().split("\\s*,\\s*");
@@ -395,77 +416,60 @@ class CancerCountFilter extends MutationFilter {
     }
 }
 
-class BenignFilter extends MutationFilter {
+class SpecifiedFilter extends MutationFilter {
 
-    private JCheckBox benignCheckbox;
+    private JCheckBox specifiedCheckbox;
+    private String specified ="";
 
-    BenignFilter(JCheckBox benignCheckbox) {
-        this.benignCheckbox = benignCheckbox;
+    SpecifiedFilter(JCheckBox specifiedCheckbox) {
+        this.specifiedCheckbox = specifiedCheckbox;
     }
 
     @Override
     public boolean exclude(Mutation mutation) {
-        if (benignCheckbox.isSelected()) {
-            if(!(mutation.getSignficance().matches(".*enign+.*"))){
+        if (specifiedCheckbox.isSelected()) {
+            specified = mutation.getClinicalDisease().trim();
+            if (specified.equals("not_specified|not_provided")){
                 return true;
             }
-            else if(mutation.getSignficance().equals("")){
-                return false;
+            else if (specified.matches("not_specified")){
+                return true;
             }
-            else {
-                return false;
+            else if (specified.matches("")){
+                return true;
             }
-        }else{
-            return false;
         }
+        return false;
     }
-
 }
 
-class LikelyCancerFilter extends MutationFilter {
+class NonSpecifiedFilter extends MutationFilter {
 
-    private JCheckBox likelyCheckbox;
+    private JCheckBox nonSpecifiedCheckbox;
+    private String nonSpecified ="";
 
-    LikelyCancerFilter(JCheckBox likelyCheckbox) {
-        this.likelyCheckbox = likelyCheckbox;
+    NonSpecifiedFilter(JCheckBox nonSpecifiedCheckbox) {
+        this.nonSpecifiedCheckbox = nonSpecifiedCheckbox;
     }
 
     @Override
     public boolean exclude(Mutation mutation) {
-        if (likelyCheckbox.isSelected()) {
-            if(mutation.getSignficance().matches(".*enign+.*") || mutation.getSignficance().equals("")) {
-                return true;
-            } else {
+        if (nonSpecifiedCheckbox.isSelected()) {
+            nonSpecified = mutation.getClinicalDisease().trim();
+            if(nonSpecified.equals("not_specified")){
+                return false;
+            } else if (nonSpecified.equals("not_specified|not_provided")){
                 return false;
             }
-        }else{
-            return false;
-        }
-    }
-
-}
-
-class GeneFilter extends MutationFilter {
-
-    private JCheckBox geneCheckbox;
-
-    GeneFilter(JCheckBox geneCheckbox) {
-        this.geneCheckbox = geneCheckbox;
-    }
-
-    @Override
-    public boolean exclude(Mutation mutation) {
-        if (geneCheckbox.isSelected()) {
-            if (mutation.getGene().equals("")) {
+            else if (nonSpecified.matches("")){
                 return true;
-            } else {
-                return false;
             }
-        }else{
-            return false;
-        }
+            else return true;
+       }
+        return false;
     }
 }
+
 
 class DiseaseFilter extends MutationFilter {
 

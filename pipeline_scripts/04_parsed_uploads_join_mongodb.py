@@ -60,14 +60,14 @@ def combineDB(infile):
             clinvar_cursor = list(clinvar.find({'chr':int(chr),'pos':int(pos),'ref':ref,'alt':alt},projection={'_id': 0,'clinvar-id':1,'CLNDN':1,'CLNSIG':1}))
             clinvar_ids=appendResult(clinvar_cursor,['clinvar-id','CLNDN','CLNSIG'])
 
-            chrtogene_cursor = list(chrtogene.find({'chr':'chr'+str(chr),'pos':int(pos)},projection={'_id':0,'gene':1}))
+            chrtogene_cursor = list(chrtogene.find({'chr':'chr'+str(chr),'start':{'$lte':int(pos)},'end':{'$gte':int(pos)}},projection={'_id':0,'gene':1}))
             chrtogene_ids=appendResult(chrtogene_cursor,['gene'])
 
-            chrtodisease_cursor = list(chrtodisease.find({'chr':'chr'+str(chr),'pos':int(pos)},projection={'_id':0,'disease':1}))
+            chrtodisease_cursor = list(chrtodisease.find({'chr':'chr'+str(chr),'start':{'$lte':int(pos)},'end':{'$gte':int(pos)}},projection={'_id':0,'disease':1}))
             chrtodisease_ids=appendResult(chrtodisease_cursor,['disease'])
 
-            chrtopublication_cursor=list(chrtopublication.find({'chr':'chr'+str(chr),'pos':int(pos)},projection={'_id':0,'pubCount':1}))
-            chrtopublication_ids=appendResult(chrtopublication_cursor,['pubCount'])
+            chrtopublication_cursor=list(chrtopublication.find({'chr':'chr'+str(chr),'start':{'$lte':int(pos)},'end':{'$gte':int(pos)}},projection={'_id':0,'publication':1}))
+            chrtopublication_ids=appendResult(chrtopublication_cursor,['publication'])
 
             # civic_cursor = list(g1000.find({'chr':int(chr),'pos':int(pos),'ref':ref,'alt':alt},projection={'_id': 0,'disease':1,'drugs':1,'clinical_significance':1,'evidence_statement':1,'variant_summary':1}))
             # civic_ids=appendResult(civic_cursor,['disease','drugs','clinical_significance','evidence_statement','variant_summary'])
