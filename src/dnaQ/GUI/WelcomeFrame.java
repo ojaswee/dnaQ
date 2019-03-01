@@ -42,17 +42,11 @@ public class WelcomeFrame extends JFrame{
 
     private JButton uploadButton;
 
-
     private JScrollPane userTestScrollPane;
 
     public ArrayList<Mutation> mutations;
 
     public MutationList mutationList;
-
-//    private Thread refreshTestQueueTable;
-//    private final int secondsToSleep = 30;
-//    private long timeLastRefreshed = 0;
-//    private JMenuItem refreshLabel;
 
     private JButton refreshButton;
 

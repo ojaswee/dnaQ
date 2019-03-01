@@ -249,4 +249,23 @@ public class DatabaseConnections {
 
 		return report;
 	}
+
+	//length of chr for datachart
+	public static Double[] lengthOfChr () throws Exception{
+		Double lengthOfChr[] = new Double[24];
+
+		String query = "select length from lengthOfChr ORDER BY chr;";
+
+		PreparedStatement pstm = databaseConnection.prepareStatement(query);
+		ResultSet rs = pstm.executeQuery();
+
+		int chr =0;
+
+		while(rs.next()){
+			lengthOfChr[chr]= (rs.getDouble(1)*100/3095677412.0);
+			chr = chr+1;
+		}
+
+		return lengthOfChr;
+	}
 }

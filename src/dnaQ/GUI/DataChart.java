@@ -1,5 +1,6 @@
 package dnaQ.GUI;
 
+import dnaQ.Connections.DatabaseConnections;
 import dnaQ.Models.MutationList;
 import dnaQ.Models.Mutation;
 
@@ -10,8 +11,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +23,7 @@ public class DataChart extends JDialog {
     private MutationListFrame parent;
     private MutationList mutationList;
     private ArrayList<JFreeChart> charts;
+    private ArrayList<Mutation> mutations;
 
     public DataChart(MutationListFrame parent, MutationList mutationList){
 
@@ -31,6 +31,7 @@ public class DataChart extends JDialog {
         this.mutationList = mutationList;
         this.charts = new ArrayList<JFreeChart>();
 
+        mutations = mutationList.getMutations();
         createCharts();
 
     }
@@ -50,11 +51,25 @@ public class DataChart extends JDialog {
 
     private JFreeChart createChromosomeMutationPlot() {
 
-        ArrayList<Mutation> mutations = mutationList.getMutations();
+        String series1= "Mutation";
+        final String series2= "Length of chr";
+
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        Double lengthOfChr [] = new Double[24];
+
+        Integer mutationSize = mutations.size();
+
+        try {
+            lengthOfChr = DatabaseConnections.lengthOfChr();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         Map<String, AtomicInteger> map = new HashMap<String, AtomicInteger>();
 
-        for (int i = 0; i< mutations.size(); i++){
+        for (int i = 0; i< mutationSize; i++){
 
             String tempKey = mutations.get(i).getChr();
 
@@ -65,33 +80,61 @@ public class DataChart extends JDialog {
             }
         }
 
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-
+        mutationSize=map.size();
         for (String key : map.keySet()) {
-            dataset.addValue(map.get(key), "Chromosomes", key);
+            dataset.addValue((map.get(key)).doubleValue()/mutationSize, series1, key);
+            dataset.addValue(lengthOfChr[Integer.parseInt(key)-1],series2,key);
         }
 
 
         JFreeChart chart = ChartFactory.createBarChart(
-                "Chromosomes Bar Chart", "Chromosomes", "Count", dataset,
-                PlotOrientation.VERTICAL, false, true, false);
-
+                "Your Mutation and Length of Chromosomes", "Chromosomes", "Count", dataset,
+                PlotOrientation.VERTICAL, true, true, false);
         return chart;
     }
 
 
     private JFreeChart createLinePlot(){
 
-        XYSeries series = new XYSeries("Mutation");
+        String series1= "Mutation";
+        final String series2= "Length of chr";
 
-        series.add(1, 1);
-        series.add(2, 2);
-        series.add(5, 5);
-        series.add(10, 10);
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        XYSeriesCollection dataset = new XYSeriesCollection(series);
-        JFreeChart chart = ChartFactory.createXYLineChart(null, null, null, dataset, PlotOrientation.HORIZONTAL, true, true, true);
+        Double lengthOfChr [] = new Double[24];
 
+        Integer mutationSize = mutations.size();
+
+        try {
+            lengthOfChr = DatabaseConnections.lengthOfChr();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Map<String, AtomicInteger> map = new HashMap<String, AtomicInteger>();
+
+        for (int i = 0; i< mutationSize; i++){
+
+            String tempKey = mutations.get(i).getChr();
+
+            if(map.containsKey(tempKey)){
+                map.get(tempKey).incrementAndGet();
+            } else{
+                map.put(tempKey,new AtomicInteger(1));
+            }
+        }
+
+        mutationSize=map.size();
+        for (String key : map.keySet()) {
+            dataset.addValue((map.get(key)).doubleValue()/mutationSize, series1, key);
+            dataset.addValue(lengthOfChr[Integer.parseInt(key)-1],series2,key);
+        }
+
+
+        JFreeChart chart = ChartFactory.createBarChart(
+                "Your Mutation and Length of Chromosomes", "Chromosomes", "Count", dataset,
+                PlotOrientation.VERTICAL, true, true, false);
         return chart;
     }
 

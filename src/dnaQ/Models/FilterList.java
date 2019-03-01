@@ -50,7 +50,7 @@ public class FilterList {
     }
 
     public void addPopulationFreqIDFilter(JCheckBox g1000IDCheckbox) {
-        addFilter(new G1000IDMutationFilter(g1000IDCheckbox));
+        addFilter(new PopFreqIDFilter(g1000IDCheckbox));
     }
     public void addCancerIDFilter(JCheckBox cancerIDFilter) {
         addFilter(new CosmicIDMutationFilter(cancerIDFilter));
@@ -159,11 +159,11 @@ class ClinvarIDMutationFilter extends MutationFilter {
         }
 }
 
-class G1000IDMutationFilter extends MutationFilter {
+class PopFreqIDFilter extends MutationFilter {
 
     private JCheckBox g1000IDCheckbox;
 
-    G1000IDMutationFilter(JCheckBox g1000IDCheckbox) {
+    PopFreqIDFilter(JCheckBox g1000IDCheckbox) {
         this.g1000IDCheckbox = g1000IDCheckbox;
     }
 
@@ -343,7 +343,6 @@ class AfrFrequencyAndMaxFilter extends MutationFilter {
             }
         else return false;
         }
-
 }
 
 class EurFrequencyAndMaxFilter extends MutationFilter {

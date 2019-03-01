@@ -65,7 +65,11 @@ public class MutationListFrame extends JFrame  {
 		this.populationFreqTableModel = new PopulationFreqTableModel(mutationList.getMutations());
 		this.biologyTableModel = new BiologyTableModel(mutationList.getMutations());
 
-		this.datachart = new DataChart(this,this.mutationList);
+		try {
+			this.datachart = new DataChart(this,this.mutationList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -196,7 +200,7 @@ public class MutationListFrame extends JFrame  {
 		dashboardButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				handleChartButtonClick();
+				handleDashboardButtonClick();
 			}
 		});
 
@@ -212,16 +216,15 @@ public class MutationListFrame extends JFrame  {
 		});
 	}
 
-	private void handleChartButtonClick() {
-
-		DashboardFrame analysisFrame = new DashboardFrame(MutationListFrame.this, mutationList,datachart);
-		analysisFrame.setVisible(true);
+	private void handleDashboardButtonClick() {
+		DashboardFrame dashboardFrame = new DashboardFrame(this, mutationList, datachart);
+		dashboardFrame.setVisible(true);
 	}
 
 
 	private void handleReportButtonClick() throws Exception {
-		RequestReportFrame reportframe = new RequestReportFrame(this);
-		reportframe.setVisible(true);
+		RequestReportFrame reportFrame = new RequestReportFrame(this);
+		reportFrame.setVisible(true);
 	}
 }
 

@@ -37,7 +37,7 @@ public class Uploads {
         getTestidAndRun();
         createFileName();
         transferFileAndQueue();
-        refeshTables();
+//        refeshTables();
     }
     
     private void getTestidAndRun() throws SQLException {
@@ -45,7 +45,6 @@ public class Uploads {
         testid = DatabaseConnections.getTestid(testName, testType);
 
         run = DatabaseConnections.getRun(userid,testid);
-//        JOptionPane.showMessageDialog(null, run);
     }
 
     private void createFileName() {
@@ -60,10 +59,10 @@ public class Uploads {
 
         DatabaseConnections.insertInQueue(userid,testid,run);
 
-        JOptionPane.showMessageDialog(null, filePath);
+//        JOptionPane.showMessageDialog(null, filePath);
         }
 
-    public void refeshTables () throws Exception{
-        ArrayList <TestQueue> processingTest = DatabaseConnections.getAllProcessingTest(userid);
-    }
+//    public void refeshTables () throws Exception{
+//        ArrayList <TestQueue> processingTest = DatabaseConnections.getAllProcessingTest(userid);
+//    }
 }
