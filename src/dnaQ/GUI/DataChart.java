@@ -8,10 +8,14 @@ import javax.swing.*;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.PieSectionLabelGenerator;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
+import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,17 +46,13 @@ public class DataChart extends JDialog {
 
     private void createCharts(){
 
-        charts.add(createChromosomeMutationPlot());
-        charts.add(createLinePlot());
+        charts.add(chrLenVsMutationPlot());
+        charts.add(popFreqPieChart());
         charts.add(createPieChart());
         charts.add(createStackChart());
-
     }
 
-    private JFreeChart createChromosomeMutationPlot() {
-
-        String series1= "Mutation";
-        final String series2= "Length of chr";
+    private JFreeChart chrLenVsMutationPlot() {
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
@@ -67,6 +67,12 @@ public class DataChart extends JDialog {
             e.printStackTrace();
         }
 
+        Double sum = 0.0;
+        for (Double value : lengthOfChr) {
+            sum += value;
+        }
+
+
         Map<String, AtomicInteger> map = new HashMap<String, AtomicInteger>();
 
         for (int i = 0; i< mutationSize; i++){
@@ -80,12 +86,12 @@ public class DataChart extends JDialog {
             }
         }
 
-        mutationSize=map.size();
+        Double x =0.0;
         for (String key : map.keySet()) {
-            dataset.addValue((map.get(key)).doubleValue()/mutationSize, series1, key);
-            dataset.addValue(lengthOfChr[Integer.parseInt(key)-1],series2,key);
+            dataset.addValue((map.get(key)).doubleValue()*100/mutationSize, "Mutation", key);
+            x = (map.get(key)).doubleValue()/mutationSize +x;
+            dataset.addValue(lengthOfChr[Integer.parseInt(key)-1],"Length of chr",key);
         }
-
 
         JFreeChart chart = ChartFactory.createBarChart(
                 "Your Mutation and Length of Chromosomes", "Chromosomes", "Count", dataset,
@@ -94,23 +100,106 @@ public class DataChart extends JDialog {
     }
 
 
-    private JFreeChart createLinePlot(){
-
-        String series1= "Mutation";
-        final String series2= "Length of chr";
-
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-
-        Double lengthOfChr [] = new Double[24];
+    private JFreeChart popFreqPieChart(){
+        DefaultPieDataset dataset = new DefaultPieDataset( );
 
         Integer mutationSize = mutations.size();
 
-        try {
-            lengthOfChr = DatabaseConnections.lengthOfChr();
+        Double globalAmer=0.0,globalAsian=0.0, globalAfr =0.0,
+                globalEuro=0.0, globalTotal=0.0;
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        for (int i = 0; i< mutationSize; i++){
+            String amer, asian, afr, euro;
+
+            Double currentAmer = 0.0,currentAsian = 0.0,
+                    currentAfr=0.0, currentEuro=0.0, currentTotal =0.0;
+
+            amer = mutations.get(i).getAmericanFreq().trim();
+            asian = mutations.get(i).getAsianFreq().trim();
+            afr = mutations.get(i).getAfrFreq().trim();
+            euro = mutations.get(i).getEurFreq().trim();
+            
+            currentTotal =0.0;
+            
+            if (amer.matches(".*\\d+.*")){
+                currentAmer= Double.valueOf(amer);
+                currentTotal = currentTotal+ currentAmer; 
+            } else {
+                currentAmer=0.0;
+            }
+
+            if (asian.matches(".*\\d+.*")){
+                currentAsian= Double.valueOf(asian);
+                currentTotal = currentTotal+ currentAsian;
+            } else{
+                currentAsian=0.0;
+            }
+
+            if (afr.matches(".*\\d+.*")){
+                currentAfr= Double.valueOf(afr);
+                currentTotal = currentTotal+ currentAfr;
+            } else {
+                currentAfr=0.0;
+            }
+
+            if (euro.matches(".*\\d+.*")){
+                currentEuro= Double.valueOf(euro);
+                currentTotal = currentTotal+ currentEuro;
+            }else {
+                currentEuro=0.0;
+            }
+            
+            currentAmer = currentAmer/currentTotal;
+            currentAsian= currentAsian/currentTotal;
+            currentAfr = currentAfr/currentTotal;
+            currentEuro = currentEuro/currentTotal;
+
+            if (!(currentAmer.isNaN())) {
+                globalAmer = globalAmer + currentAmer;
+            }
+
+            if (!(currentAsian.isNaN())) {
+                globalAsian = globalAsian + currentAsian;
+            }
+
+            if (!(currentAfr.isNaN())) {
+                globalAfr = globalAfr + currentAfr;
+            }
+            if (!(currentEuro.isNaN())) {
+                globalEuro = globalEuro + currentEuro;
+            }
+            if (!(currentTotal.isNaN())) {
+                globalTotal = globalTotal + currentTotal;
+            }
         }
+
+        dataset.setValue( "American",new Double(globalAmer));
+        dataset.setValue( "Asian",new Double(globalAsian));
+        dataset.setValue( "African",new Double(globalAfr));
+        dataset.setValue("European", new Double(globalEuro));
+
+        JFreeChart chart = ChartFactory.createPieChart(
+                "Your mutation is most similar to",   // chart title
+                dataset,          // data
+                true,      // include legend
+                true,
+                false);
+
+        //create labels for pie chart
+        PiePlot plot = (PiePlot) chart.getPlot();
+        PieSectionLabelGenerator gen = new StandardPieSectionLabelGenerator(
+                "{0}: {1} ({2})", NumberFormat.getInstance(),
+                NumberFormat.getPercentInstance());
+        plot.setLabelGenerator(gen);
+
+        return chart;
+    }
+
+
+    private JFreeChart createPieChart() {
+        DefaultPieDataset dataset = new DefaultPieDataset( );
+
+        Integer mutationSize = mutations.size();
 
         Map<String, AtomicInteger> map = new HashMap<String, AtomicInteger>();
 
@@ -125,16 +214,17 @@ public class DataChart extends JDialog {
             }
         }
 
-        mutationSize=map.size();
         for (String key : map.keySet()) {
-            dataset.addValue((map.get(key)).doubleValue()/mutationSize, series1, key);
-            dataset.addValue(lengthOfChr[Integer.parseInt(key)-1],series2,key);
+            dataset.setValue( key,(map.get(key)).doubleValue()/mutationSize);
         }
 
+        JFreeChart chart = ChartFactory.createPieChart(
+                "Chromosomes in your mutation",   // chart title
+                dataset,          // data
+                true,      // include legend
+                true,
+                false);
 
-        JFreeChart chart = ChartFactory.createBarChart(
-                "Your Mutation and Length of Chromosomes", "Chromosomes", "Count", dataset,
-                PlotOrientation.VERTICAL, true, true, false);
         return chart;
     }
 
@@ -165,30 +255,10 @@ public class DataChart extends JDialog {
         return chart;
     }
 
-
-    private JFreeChart createPieChart() {
-
-        DefaultPieDataset dataset = new DefaultPieDataset( );
-        dataset.setValue( "IPhone 5s" , new Double( 20 ) );
-        dataset.setValue( "SamSung Grand" , new Double( 20 ) );
-        dataset.setValue( "MotoG" , new Double( 40 ) );
-        dataset.setValue( "Nokia Lumia" , new Double( 10 ) );
-
-        JFreeChart chart = ChartFactory.createPieChart(
-                "Mobile Sales",   // chart title
-                dataset,          // data
-                true,      // include legend
-                true,
-                false);
-
-        return chart;
-    }
-
+// this function helps to redraw the charts, called from mutationlistframefilterpanel
     public void updateCharts(){
-
         charts.clear();
         createCharts();
-
     }
 
 }
