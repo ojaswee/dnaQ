@@ -72,7 +72,6 @@ public class WelcomeFrame extends JFrame{
         setResizable(true);
         setLocationRelativeTo(parent);
 
-//        setupTestQueueTableUpdate();
     }
 
     private void createComponents(){
@@ -211,10 +210,8 @@ public class WelcomeFrame extends JFrame{
                 String run = testQueueTable.getValueAt(testQueueTable.getSelectedRow(), 3).toString();
 
                 if (! event.getValueIsAdjusting()) {
-
                     displayMutationFrame(testid, run);
                 }
-
             }
         });
 
@@ -237,18 +234,18 @@ public class WelcomeFrame extends JFrame{
         String usertestid = "";
         try {
             usertestid = DatabaseConnections.getUsertestid(currentuser.getUserID(),testid,run);
-            mutations = DatabaseConnections.getAllMutation(usertestid);
+            if (usertestid.matches(".*\\d+.*")){
+                mutations = DatabaseConnections.getAllMutation(usertestid);
+                mutationList = new MutationList(mutations);
+                MutationListFrame mutationlistframe = new MutationListFrame(this,mutationList);
+                mutationlistframe.setVisible(true);
+            }
+//            else {
+//                JOptionPane.showMessageDialog(null,"Please select completed test");
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        try {
-            mutationList = new MutationList(mutations);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        MutationListFrame mutationlistframe = new MutationListFrame(this,mutationList);
-        mutationlistframe.setVisible(true);
-
     }
 
     private void getAllAvailableTestsName() throws Exception {

@@ -4,6 +4,8 @@ import dnaQ.Models.FilterList;
 import dnaQ.Models.MutationList;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +15,7 @@ public class MutationListFrameFilterPanel extends JPanel {
     private MutationListFrame parent;
 
     private MutationList mutationList;
-    public DataChart datachart;
+    public DetailsOnDemandChart datachart;
 
     public JPanel filterPanel;
     
@@ -48,7 +50,7 @@ public class MutationListFrameFilterPanel extends JPanel {
 
 
     public MutationListFrameFilterPanel(MutationListFrame parent, JPanel filterPanel,
-                                        MutationList mutationList,DataChart datachart) {
+                                        MutationList mutationList, DetailsOnDemandChart datachart) {
 
         this.parent = parent;
         this.filterPanel = filterPanel;
@@ -82,13 +84,13 @@ public class MutationListFrameFilterPanel extends JPanel {
         populationFreqMaxTextField = new JTextField("100");
         populationFreqMaxTextField.setMaximumSize(new Dimension(20,20));
 
-        cancerCountTextField = new JTextField("0");
+        cancerCountTextField = new JTextField("");
 
         specifiedCheckbox = new JCheckBox("Specified");
         nonSpecifiedCheckbox = new JCheckBox("Non-specified");
 
         diseaseCheckox = new JCheckBox("Biology Disease");
-        minPubTextField = new JTextField("0");
+        minPubTextField = new JTextField("");
 
 
         filterList.addPopulationFreqIDFilter(populationFreqIDCheckbox);
@@ -261,10 +263,60 @@ public class MutationListFrameFilterPanel extends JPanel {
             }
         });
         
-        addPropertyChangeListener(populationFreqMaxTextField.getText(),e -> handleCheckBoxClick());
-        addPropertyChangeListener(minPubTextField.getText(),e -> handleCheckBoxClick());
-        addPropertyChangeListener(cancerCountTextField.getText(),e -> handleCheckBoxClick());
+//        addPropertyChangeListener(populationFreqMaxTextField.getText(),e -> handleCheckBoxClick());
+//        addPropertyChangeListener(minPubTextField.getText(),e -> handleCheckBoxClick());
+//        addPropertyChangeListener(cancerCountTextField.getText(),e -> handleCheckBoxClick());
 
+        populationFreqMaxTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent documentEvent) {
+                handleCheckBoxClick();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent documentEvent) {
+                handleCheckBoxClick();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent documentEvent) {
+                handleCheckBoxClick();
+            }
+        });
+
+        minPubTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent documentEvent) {
+                handleCheckBoxClick();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent documentEvent) {
+                handleCheckBoxClick();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent documentEvent) {
+                handleCheckBoxClick();
+            }
+        });
+
+        cancerCountTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent documentEvent) {
+                handleCheckBoxClick();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent documentEvent) {
+                handleCheckBoxClick();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent documentEvent) {
+                handleCheckBoxClick();
+            }
+        });
     }
 
     private void refreshTables(){
@@ -280,6 +332,4 @@ public class MutationListFrameFilterPanel extends JPanel {
         datachart.updateCharts();
         refreshTables();
     }
-
-
 }

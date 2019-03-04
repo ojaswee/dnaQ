@@ -39,23 +39,28 @@ public class MutationListFrame extends JFrame  {
 	private WelcomeFrame parent;
 
 	private MutationList mutationList;
+	private MutationList originaMutationlList;
 
 	private JPanel panel;
 	private JTabbedPane tabbedPane;
 
-	public JButton dashboardButton;
+	public JButton overviewButton;
+	public JButton detailsOnDemandButton;
 
 	public JButton reportButton;
 
 	public JButton exportButton;
 
-	public DataChart datachart;
+	public DetailsOnDemandChart datachart;
+
+	public OverviewChart overviewChart;
 
 
 
 	public MutationListFrame(WelcomeFrame parent, MutationList mutationList)  {
 
 		super ("Mutation List");
+		this.originaMutationlList= mutationList;
 		this.mutationList = mutationList;
 		this.parent = parent;
 
@@ -66,7 +71,8 @@ public class MutationListFrame extends JFrame  {
 		this.biologyTableModel = new BiologyTableModel(mutationList.getMutations());
 
 		try {
-			this.datachart = new DataChart(this,this.mutationList);
+			this.overviewChart = new OverviewChart(this,this.originaMutationlList);
+			this.datachart = new DetailsOnDemandChart(this,this.mutationList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -107,7 +113,8 @@ public class MutationListFrame extends JFrame  {
 		biologyScrollPane = new JScrollPane(biologyTable);
 		biologyScrollPane.setViewportView(biologyTable);
 
-		dashboardButton = new JButton("Dashboard");
+		overviewButton = new JButton("Overview");
+		detailsOnDemandButton = new JButton("Details On Demand");
 		reportButton = new JButton("Report");
 		exportButton = new JButton("Export");
 	}
@@ -116,8 +123,8 @@ public class MutationListFrame extends JFrame  {
 
 		int widthPanel, heightPanel;
 
-		widthPanel = 1900;
-		heightPanel = 1000;
+		widthPanel = 750;
+		heightPanel = 750;
 
 		setMinimumSize(new Dimension(widthPanel,heightPanel));
 		panel.setBackground(GUICommonTools.BackgroundColor2);
@@ -153,15 +160,20 @@ public class MutationListFrame extends JFrame  {
 
         JPanel featureButtonPanel = new JPanel(new GridLayout(0,1));
 
-        JPanel dashboardButtonPanel = new JPanel();
-        dashboardButtonPanel.add(dashboardButton);
-		featureButtonPanel.add(dashboardButtonPanel);
-		featureButtonPanel.add(new Label(" "));
+		JPanel overviewButtonPanel = new JPanel();
+		overviewButtonPanel.add(overviewButton);
+		featureButtonPanel.add(overviewButtonPanel);
+//		featureButtonPanel.add(new Label(" "));
+
+        JPanel detailsOnDemandButtonPanel = new JPanel();
+        detailsOnDemandButtonPanel.add(detailsOnDemandButton);
+		featureButtonPanel.add(detailsOnDemandButtonPanel);
+//		featureButtonPanel.add(new Label(" "));
 
         JPanel reportButtonPanel = new JPanel();
         reportButtonPanel.add(reportButton);
         featureButtonPanel.add(reportButtonPanel);
-		featureButtonPanel.add(new Label(" "));
+//		featureButtonPanel.add(new Label(" "));
 
         JPanel exportButtonPanel = new JPanel();
         exportButtonPanel.add(exportButton);
@@ -197,7 +209,14 @@ public class MutationListFrame extends JFrame  {
 
 
 	private void activateComponents(){
-		dashboardButton.addActionListener(new ActionListener() {
+		overviewButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				handleOverviewButtonClick();
+			}
+		});
+
+		detailsOnDemandButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				handleDashboardButtonClick();
@@ -216,9 +235,14 @@ public class MutationListFrame extends JFrame  {
 		});
 	}
 
+	private void handleOverviewButtonClick() {
+		OverviewFrame overviewFrame = new OverviewFrame(this, originaMutationlList,overviewChart);
+		overviewFrame.setVisible(true);
+	}
+
 	private void handleDashboardButtonClick() {
-		DashboardFrame dashboardFrame = new DashboardFrame(this, mutationList, datachart);
-		dashboardFrame.setVisible(true);
+		DetailsOnDemandFrame detailsOnDemandFrame = new DetailsOnDemandFrame(this, mutationList, datachart);
+		detailsOnDemandFrame.setVisible(true);
 	}
 
 

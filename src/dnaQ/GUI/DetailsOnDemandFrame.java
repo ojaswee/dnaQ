@@ -3,40 +3,47 @@ package dnaQ.GUI;
 import dnaQ.Models.MutationList;
 import org.jfree.chart.ChartPanel;
 
-
 import javax.swing.*;
 import java.awt.*;
 
 
-public class DashboardFrame extends JFrame {
+public class DetailsOnDemandFrame extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
     private MutationListFrame parent;
     private MutationList mutationList;
 
+    private Integer screenWidth;
+    private Integer screenHeight;
+
     private JPanel mainPanel;
     private JPanel logoPanel;
     private JPanel dataPanel;
 
-    private DataChart datachart;
+    private DetailsOnDemandChart dodChart;
 
 
-    public DashboardFrame(MutationListFrame parent, MutationList mutationList, DataChart datachart) {
-        super ("Dashboard");
+    public DetailsOnDemandFrame(MutationListFrame parent, MutationList mutationList, DetailsOnDemandChart dodChart) {
+        super ("Details On Demand");
         this.parent = parent;
         this.mutationList = mutationList;
-        this.datachart = datachart;
+        this.dodChart = dodChart;
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        createComponents();
-        layoutAnalysisComponents();
 
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         pack();
+        screenWidth= screenSize.width;
+        screenHeight =screenSize.height;
+        setSize(screenSize.width,screenSize.height);
+
+        createComponents();
+        layoutDoDComponents();
+
         setAlwaysOnTop(true);
         setResizable(true);
         setLocationRelativeTo(parent);
-
     }
 
     private void createComponents(){
@@ -50,20 +57,12 @@ public class DashboardFrame extends JFrame {
 
     }
 
-    private void layoutAnalysisComponents(){
-        int widthPanel, heightPanel;
-//        DEFAULT_WIDTH and DEFAULT_HEIGHT: 680 x 420.
-
-
-        widthPanel = 1400;
-        heightPanel = 900;
-
-        setSize(widthPanel, heightPanel);
+    private void layoutDoDComponents(){
 
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         //fit logo as label background
-        ImageIcon logoPicture = GUICommonTools.getRectangularLogo(widthPanel,heightPanel/9);
+        ImageIcon logoPicture = GUICommonTools.getRectangularLogo(screenWidth/2,screenHeight/11);
         JLabel lblLogo= new JLabel(logoPicture);
 
         JPanel logoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -74,13 +73,11 @@ public class DashboardFrame extends JFrame {
 
 
         JPanel dataAPanel = new JPanel();
-        dataAPanel.add(new Label("Chart A"));
         dataAPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 
 
         JPanel dataBPanel = new JPanel();
-        dataBPanel.add(new Label("Chart B"));
         dataBPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 
@@ -96,7 +93,7 @@ public class DashboardFrame extends JFrame {
         dataDPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 
-        createChromosomeMutationPlot(dataAPanel);
+        chrLenVsMutationPlot(dataAPanel);
         createLinePlot(dataBPanel);
         createPieChart(dataCPanel);
         createHistoGram(dataDPanel);
@@ -117,29 +114,29 @@ public class DashboardFrame extends JFrame {
 
     }
 
-    private void createChromosomeMutationPlot(JPanel dataAPanel ){
-        ChartPanel chartpanel = new ChartPanel(datachart.getChart(0));
+    private void chrLenVsMutationPlot(JPanel dataAPanel ){
+        ChartPanel chartpanel = new ChartPanel(dodChart.getChart(0));
         chartpanel.setDomainZoomable(true);
         dataAPanel.add(chartpanel);
     }
 
     private void createLinePlot(JPanel dataBPanel ) {
 
-        ChartPanel chartpanel = new ChartPanel(datachart.getChart(1));
+        ChartPanel chartpanel = new ChartPanel(dodChart.getChart(1));
         chartpanel.setDomainZoomable(true);
         dataBPanel.add(chartpanel);
     }
 
     private void createPieChart(JPanel dataCPanel ) {
 
-        ChartPanel chartpanel = new ChartPanel(datachart.getChart(2));
+        ChartPanel chartpanel = new ChartPanel(dodChart.getChart(2));
         chartpanel.setDomainZoomable(true);
         dataCPanel.add(chartpanel);
     }
 
     private void createHistoGram(JPanel dataCPanel ) {
 
-        ChartPanel chartpanel = new ChartPanel(datachart.getChart(3));
+        ChartPanel chartpanel = new ChartPanel(dodChart.getChart(3));
         chartpanel.setDomainZoomable(true);
         dataCPanel.add(chartpanel);
     }
