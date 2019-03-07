@@ -255,5 +255,8 @@ public class OverviewChart extends JDialog {
         return chart;
     }
 
-
+    public void updateCharts(){
+        charts.clear();
+//        createCharts();
+    }
 }

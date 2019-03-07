@@ -5,6 +5,8 @@ import org.jfree.chart.ChartPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class OverviewFrame extends JFrame {
 
@@ -16,9 +18,18 @@ public class OverviewFrame extends JFrame {
     private JPanel mainPanel;
     private JPanel logoPanel;
 
+    private JPanel chartButtonPanel;
+    private JButton chart1Button;
+    private JButton chart2Button;
+    private JButton chart3Button;
+
     private Integer screenWidth;
     private Integer screenHeight;
+
     private JPanel dataPanel;
+    private JPanel dataAPanel;
+    private JPanel dataBPanel;
+    private JPanel dataCPanel;
 
     private OverviewChart overviewChart;
 
@@ -39,6 +50,7 @@ public class OverviewFrame extends JFrame {
 
         createComponents();
         layoutOverviewComponents();
+        activateComponents();
 
         setAlwaysOnTop(true);
         setResizable(true);
@@ -47,11 +59,20 @@ public class OverviewFrame extends JFrame {
 
     private void createComponents(){
 
-        mainPanel = new JPanel();
-        logoPanel = new JPanel();
+        mainPanel = new JPanel(new BorderLayout());
+        logoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-        dataPanel = new JPanel();
-        dataPanel.add(new Label("Chart Area"));
+        chartButtonPanel = new JPanel();
+        chart1Button = new JButton("Chart 1");
+        chart2Button = new JButton("Chart 2");
+        chart3Button = new JButton("Chart 3");
+
+        dataPanel = new JPanel(new FlowLayout());
+
+        dataAPanel = new JPanel(new FlowLayout());
+        dataBPanel = new JPanel(new FlowLayout());
+        dataCPanel = new JPanel(new FlowLayout());
+
     }
 
     private void layoutOverviewComponents(){
@@ -61,63 +82,105 @@ public class OverviewFrame extends JFrame {
         ImageIcon logoPicture = GUICommonTools.getRectangularLogo(screenWidth/2,screenHeight/11);
         JLabel lblLogo= new JLabel(logoPicture);
 
-        JPanel logoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         logoPanel.add(lblLogo);
 
-        dataPanel = new JPanel(new GridLayout(0,3));
-
-        JPanel dataAPanel = new JPanel();
-        dataAPanel.add(new Label("Chart A"));
         dataAPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        JPanel dataBPanel = new JPanel();
-        dataBPanel.add(new Label("Chart B"));
-        dataBPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-        JPanel dataCPanel = new JPanel();
-        dataCPanel.add(new Label("Chart C"));
         dataCPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        chrLenVsMutationPlot(dataAPanel);
-        createLinePlot(dataBPanel);
-        createPieChart(dataCPanel);
+        JPanel chart1ButtonPanel = new JPanel();
+        chart1ButtonPanel.add(chart1Button);
+        chartButtonPanel.add(chart1ButtonPanel);
 
-        dataPanel.add(dataAPanel);
-        dataPanel.add(dataBPanel);
-        dataPanel.add(dataCPanel);
+        JPanel chart2ButtonPanel = new JPanel();
+        chart2ButtonPanel.add(chart2Button);
+        chartButtonPanel.add(chart2ButtonPanel);
 
+        JPanel chart3ButtonPanel = new JPanel();
+        chart3ButtonPanel.add(chart3Button);
+        chartButtonPanel.add(chart3ButtonPanel);
+
+        dataPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         dataPanel.setBackground(GUICommonTools.BackgroundColor1);
         setLayout(new GridLayout(0,1));
 
-        mainPanel.add(logoPanel);
-        mainPanel.add(dataPanel);
+        mainPanel.add(logoPanel,BorderLayout.PAGE_START);
+        mainPanel.add(chartButtonPanel,BorderLayout.LINE_START);
+        mainPanel.add(dataPanel,BorderLayout.CENTER);
 
         add(mainPanel);
 
     }
 
-    private void chrLenVsMutationPlot(JPanel dataAPanel ){
+    private void activateComponents() {
+
+        chart1Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                hidePanels();
+                chrLenVsMutationPlot();
+                showPanel(dataAPanel);
+            }
+        });
+
+        chart2Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                hidePanels();
+                createLinePlot();
+                showPanel(dataBPanel);
+            }
+        });
+
+        chart3Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                hidePanels();
+                createBarChart();
+                showPanel(dataCPanel);
+            }
+        });
+   }
+
+   private void hidePanels(){
+        dataAPanel.setVisible(false);
+        dataBPanel.setVisible(false);
+        dataCPanel.setVisible(false);
+   }
+
+   private void showPanel(JPanel currentPanel){
+        currentPanel.setVisible(true);
+        dataPanel.add(currentPanel);
+   }
+
+   private void chrLenVsMutationPlot(){
         ChartPanel chartpanel = new ChartPanel(overviewChart.getChart(0));
-        chartpanel.setPreferredSize(new Dimension(screenWidth/4,screenHeight/3));
         chartpanel.setDomainZoomable(true);
+
+        dataAPanel.removeAll();
         dataAPanel.add(chartpanel);
+        dataAPanel.revalidate();
+        dataAPanel.repaint();
     }
 
-    private void createLinePlot(JPanel dataBPanel ) {
-
+    private void createLinePlot() {
         ChartPanel chartpanel = new ChartPanel(overviewChart.getChart(1));
-        chartpanel.setPreferredSize(new Dimension(screenWidth/4,screenHeight/3));
         chartpanel.setDomainZoomable(true);
+
+        dataBPanel.removeAll();
         dataBPanel.add(chartpanel);
+        dataBPanel.revalidate();
+        dataBPanel.repaint();
     }
 
-    private void createPieChart(JPanel dataCPanel ) {
-
+    private void createBarChart() {
         ChartPanel chartpanel = new ChartPanel(overviewChart.getChart(2));
-        chartpanel.setSize(new Dimension(screenWidth/5,screenHeight/3));
         chartpanel.setDomainZoomable(true);
+
+        dataCPanel.removeAll();
         dataCPanel.add(chartpanel);
-        dataCPanel.setBounds(1,10,200,300);
+        dataCPanel.revalidate();
+        dataCPanel.repaint();
     }
 
 }

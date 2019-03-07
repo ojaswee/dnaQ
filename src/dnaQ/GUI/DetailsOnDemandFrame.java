@@ -53,8 +53,7 @@ public class DetailsOnDemandFrame extends JFrame {
         dataPanel = new JPanel();
         dataPanel.add(new Label("Chart Area"));
 
-        logoPanel = new JPanel();
-
+        logoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
     }
 
     private void layoutDoDComponents(){
@@ -65,39 +64,28 @@ public class DetailsOnDemandFrame extends JFrame {
         ImageIcon logoPicture = GUICommonTools.getRectangularLogo(screenWidth/2,screenHeight/11);
         JLabel lblLogo= new JLabel(logoPicture);
 
-        JPanel logoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         logoPanel.add(lblLogo);
 
-
         dataPanel = new JPanel(new GridLayout(0,2));
-
 
         JPanel dataAPanel = new JPanel();
         dataAPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-
-
         JPanel dataBPanel = new JPanel();
         dataBPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-
 
         JPanel dataCPanel = new JPanel();
         dataCPanel.add(new Label("Chart C"));
         dataCPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-
-
         JPanel dataDPanel = new JPanel();
         dataDPanel.add(new Label("Chart D"));
         dataDPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
 
         chrLenVsMutationPlot(dataAPanel);
         createLinePlot(dataBPanel);
         createPieChart(dataCPanel);
         createHistoGram(dataDPanel);
-
 
         dataPanel.add(dataAPanel);
         dataPanel.add(dataBPanel);
@@ -111,7 +99,6 @@ public class DetailsOnDemandFrame extends JFrame {
         mainPanel.add(dataPanel);
 
         add(mainPanel);
-
     }
 
     private void chrLenVsMutationPlot(JPanel dataAPanel ){
