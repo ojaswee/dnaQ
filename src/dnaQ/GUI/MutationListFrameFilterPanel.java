@@ -150,7 +150,7 @@ public class MutationListFrameFilterPanel extends JPanel {
         filterPanel.add(populationFreqFilterPanel2);
 
     //Cancer database filter
-        cancerFilterPanel.add(new Label("Cancer count min"),BorderLayout.LINE_START);
+        cancerFilterPanel.add(new Label("CancerCount min"),BorderLayout.LINE_START);
         cancerFilterPanel.add(cancerCountTextField,BorderLayout.CENTER);
         JLabel label3 = new JLabel("");
         label3.setPreferredSize(new Dimension(500,1));

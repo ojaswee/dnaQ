@@ -14,6 +14,9 @@ public class GUICommonTools {
 	public static ImageIcon logo1 = new ImageIcon();
 	public static ImageIcon logo2 = new ImageIcon();
 
+	public static Integer screenWidth;
+	public static Integer screenHeight;
+
 
 	public static Rectangle getBounds(Component componentOrNull){
 		Insets insets;
@@ -46,6 +49,18 @@ public class GUICommonTools {
 	}
 
 
+	public static void setSizeOfScreen(){
+		screenWidth = 0; screenHeight = 0;
 
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+		screenWidth = screenSize.width;
+		screenHeight = screenSize.height;
+
+	}
+
+	public void setBorder(JPanel currentPanel){
+
+	}
 
 }

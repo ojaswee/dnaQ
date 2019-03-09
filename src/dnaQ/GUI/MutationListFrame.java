@@ -15,6 +15,9 @@ public class MutationListFrame extends JFrame  {
 
 	private static final long serialVersionUID = 1L;
 
+	private Integer frameWidth;
+	private Integer frameHeight;
+
 	public CommonTable commonTable;
 	public CommonTableModel commonTableModel;
 
@@ -79,6 +82,9 @@ public class MutationListFrame extends JFrame  {
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+		frameWidth = (GUICommonTools.screenWidth)/8;
+		frameHeight = (GUICommonTools.screenHeight)/2;
+
 		createComponents();
 		layoutComponents();
 		activateComponents();
@@ -120,22 +126,23 @@ public class MutationListFrame extends JFrame  {
 	}
 
 	private void layoutComponents(){
+//
+//		int widthPanel, heightPanel;
+//
+//		widthPanel = 750;
+//		heightPanel = 750;
 
-		int widthPanel, heightPanel;
-
-		widthPanel = 750;
-		heightPanel = 750;
-
-		setMinimumSize(new Dimension(widthPanel,heightPanel));
+		setMinimumSize(new Dimension(frameWidth,frameHeight));
 		panel.setBackground(GUICommonTools.BackgroundColor2);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
 		//logo
-		ImageIcon logoPicture = GUICommonTools.getSquareLogo(widthPanel/5, heightPanel/5);
+		ImageIcon logoPicture = GUICommonTools.getSquareLogo(frameWidth/3, frameHeight/3);
 		JLabel lblLogo= new JLabel(logoPicture);
 
 		JPanel logoPanel = new JPanel();
 		logoPanel.add(lblLogo);
+		logoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 //		upper panel includes filter and feature panel
 
@@ -145,8 +152,7 @@ public class MutationListFrame extends JFrame  {
         filterPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         filterPanel.setBackground(GUICommonTools.BackgroundColor2);
 
-		MutationListFrameFilterPanel filterPanel1 = new MutationListFrameFilterPanel(this, filterPanel,mutationList,datachart);
-		add(filterPanel1);
+		new MutationListFrameFilterPanel(this, filterPanel,mutationList,datachart);
 
 		JPanel featurePanel = new JPanel(new BorderLayout());
 		featurePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -197,9 +203,7 @@ public class MutationListFrame extends JFrame  {
 		tabbedPane.addTab("Clinical", null, clinicalScrollPane, null);
 		tabbedPane.addTab("Biology", null, biologyScrollPane, null);
 
-
 		lowerPanel.add(tabbedPane, BorderLayout.CENTER);
-
 
 		lowerPanel.setBackground(GUICommonTools.BackgroundColor1);
 		panel.add(lowerPanel);

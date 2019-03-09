@@ -17,6 +17,9 @@ import dnaQ.GUI.tables.*;
 
 public class WelcomeFrame extends JFrame{
 
+    private Integer frameWidth;
+    private Integer frameHeight;
+
     private JPanel mainPanel;
     private JPanel logoPanel;
     private JPanel userInfoPanel;
@@ -59,6 +62,9 @@ public class WelcomeFrame extends JFrame{
         this.queueTable = queueTable;
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        frameWidth = (GUICommonTools.screenWidth)/7;
+        frameHeight = (GUICommonTools.screenHeight)/9;
 
         createComponents();
         layoutComponents();
@@ -107,23 +113,17 @@ public class WelcomeFrame extends JFrame{
 
     private void layoutComponents() {
 
-        int widthPanel, heightPanel;
-
-        widthPanel = 600;
-        heightPanel = 500;
-
-        setSize(widthPanel, heightPanel);
+        setSize(frameWidth, frameHeight);
 
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-
 
         uploadPanel.setBackground(GUICommonTools.BackgroundColor2);
 
         //fit logo as label background
-        ImageIcon logoPicture = GUICommonTools.getRectangularLogo(widthPanel, heightPanel/5);
+        ImageIcon logoPicture = GUICommonTools.getRectangularLogo(frameWidth, frameHeight/3);
         JLabel lblLogo= new JLabel(logoPicture);
 
-        JPanel logoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        logoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         logoPanel.add(lblLogo);
 
         //userInfo mainPanel
@@ -151,7 +151,6 @@ public class WelcomeFrame extends JFrame{
         uploadPanel.add(testTypeComboBox);
 
         uploadPanel.add(uploadButton);
-
         uploadPanel.add(refreshButton);
 
         //tests in queue

@@ -14,17 +14,16 @@ import dnaQ.Connections.DatabaseConnections;
 public class LoginFrame extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
+
+	private Integer frameWidth;
+	private Integer frameHeight;
 	
 	private JPanel mainPanel;
+	private JPanel logoPanel;
 
 	private JTextField emailTextField;
 	private JPasswordField passwordTextField;
     private JButton loginButton;
-
-//	public ArrayList<Mutation> mutations;
-
-//	public MutationList mutationList;
-
 
 	/**
 	 * Create login Frame application.
@@ -32,6 +31,12 @@ public class LoginFrame extends JFrame {
 	public LoginFrame() {
 		super("dnaQ Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		GUICommonTools.setSizeOfScreen();
+
+		frameWidth = (GUICommonTools.screenWidth)/7;
+		frameHeight = (GUICommonTools.screenHeight)/4;
+
 		createComponents();
 		layoutLoginComponents();
 		activateComponents();
@@ -41,6 +46,7 @@ public class LoginFrame extends JFrame {
 
 	private void createComponents(){
 		mainPanel = new JPanel();
+		logoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
 		loginButton = new JButton("Login");
 		emailTextField = new JTextField();
@@ -49,21 +55,14 @@ public class LoginFrame extends JFrame {
 	
 	private void layoutLoginComponents(){
 
-		int widthPanel, heightPanel;
-
-		widthPanel = 600;
-		heightPanel = 400;
-
 		mainPanel.setBackground(GUICommonTools.BackgroundColor2);
-		setSize(widthPanel, heightPanel);
-		mainPanel.setLayout(new GridBagLayout());
+		setSize(frameWidth, frameHeight);
 
 		//fit logo as label background
-		ImageIcon logoPicture = GUICommonTools.getSquareLogo(widthPanel/2, heightPanel/2);
+		ImageIcon logoPicture = GUICommonTools.getSquareLogo(frameWidth/2, frameHeight-70);
 
 		JLabel lblLogo= new JLabel(logoPicture);
 
-		JPanel logoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		logoPanel.add(lblLogo);
 		mainPanel.add(logoPanel);
 
@@ -74,7 +73,7 @@ public class LoginFrame extends JFrame {
 		JPanel loginPanel = new JPanel(new GridLayout(6,1));
 		loginPanel.setBackground(GUICommonTools.BackgroundColor1);
 		loginPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		loginPanel.setBorder(BorderFactory.createEmptyBorder(10,90,10,90));
+		loginPanel.setBorder(BorderFactory.createEmptyBorder(20,70,20,70));
 
 
 		//credentials
