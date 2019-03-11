@@ -251,7 +251,7 @@ public class MutationListFrame extends JFrame  {
 
 
 	private void handleReportButtonClick() throws Exception {
-		RequestReportFrame reportFrame = new RequestReportFrame(this);
+		ReportFrame reportFrame = new ReportFrame(this);
 		reportFrame.setVisible(true);
 	}
 }

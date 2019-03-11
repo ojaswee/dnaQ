@@ -63,7 +63,7 @@ public class WelcomeFrame extends JFrame{
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        frameWidth = (GUICommonTools.screenWidth)/7;
+        frameWidth = (GUICommonTools.screenWidth)/4;
         frameHeight = (GUICommonTools.screenHeight)/9;
 
         createComponents();
@@ -113,8 +113,6 @@ public class WelcomeFrame extends JFrame{
 
     private void layoutComponents() {
 
-        setSize(frameWidth, frameHeight);
-
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         uploadPanel.setBackground(GUICommonTools.BackgroundColor2);
@@ -123,7 +121,6 @@ public class WelcomeFrame extends JFrame{
         ImageIcon logoPicture = GUICommonTools.getRectangularLogo(frameWidth, frameHeight/3);
         JLabel lblLogo= new JLabel(logoPicture);
 
-        logoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         logoPanel.add(lblLogo);
 
         //userInfo mainPanel
@@ -209,6 +206,7 @@ public class WelcomeFrame extends JFrame{
                 String run = testQueueTable.getValueAt(testQueueTable.getSelectedRow(), 3).toString();
 
                 if (! event.getValueIsAdjusting()) {
+//                if (event.){
                     displayMutationFrame(testid, run);
                 }
             }

@@ -34,7 +34,7 @@ public class LoginFrame extends JFrame {
 
 		GUICommonTools.setSizeOfScreen();
 
-		frameWidth = (GUICommonTools.screenWidth)/7;
+		frameWidth = (GUICommonTools.screenWidth)/3;
 		frameHeight = (GUICommonTools.screenHeight)/4;
 
 		createComponents();
@@ -58,23 +58,19 @@ public class LoginFrame extends JFrame {
 		mainPanel.setBackground(GUICommonTools.BackgroundColor2);
 		setSize(frameWidth, frameHeight);
 
+
 		//fit logo as label background
-		ImageIcon logoPicture = GUICommonTools.getSquareLogo(frameWidth/2, frameHeight-70);
+		ImageIcon logoPicture = GUICommonTools.getSquareLogo(frameWidth/2, frameHeight/2);
 
 		JLabel lblLogo= new JLabel(logoPicture);
 
 		logoPanel.add(lblLogo);
 		mainPanel.add(logoPanel);
 
-		JPanel lowerPanel = new JPanel(new GridLayout(1,1));
-		lowerPanel.setBackground(GUICommonTools.BackgroundColor1);
-		lowerPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
 		JPanel loginPanel = new JPanel(new GridLayout(6,1));
 		loginPanel.setBackground(GUICommonTools.BackgroundColor1);
-		loginPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		GUICommonTools.setBorder(loginPanel);
 		loginPanel.setBorder(BorderFactory.createEmptyBorder(20,70,20,70));
-
 
 		//credentials
 		JLabel lblUsername = new JLabel("UserName");
@@ -92,8 +88,7 @@ public class LoginFrame extends JFrame {
 		loginPanel.add(new Label(""));
 		loginPanel.add(loginButton);
 
-		lowerPanel.add(loginPanel);
-		mainPanel.add(lowerPanel);
+		mainPanel.add(loginPanel);
 
 		add(mainPanel);
 	}

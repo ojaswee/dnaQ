@@ -5,14 +5,16 @@ import dnaQ.Models.Mutation;
 import dnaQ.Models.MutationList;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.labels.PieSectionLabelGenerator;
-import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
+import org.jfree.chart.labels.*;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.ui.TextAnchor;
 
 import javax.swing.*;
+import java.awt.*;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,10 +83,8 @@ public class OverviewChart extends JDialog {
             }
         }
 
-//        Double x =0.0;
         for (String key : map.keySet()) {
             dataset.addValue((map.get(key)).doubleValue()*100/mutationSize, "Mutation", key);
-//            x = (map.get(key)).doubleValue()/mutationSize +x;
             dataset.addValue(lengthOfChr[Integer.parseInt(key)-1],"Length of chr",key);
         }
 
@@ -175,7 +175,7 @@ public class OverviewChart extends JDialog {
         dataset.setValue("European", new Double(globalEuro));
 
         JFreeChart chart = ChartFactory.createPieChart(
-                "Your mutation is most similar to",   // chart title
+                "Ethnicity Estimate",   // chart title
                 dataset,          // data
                 true,      // include legend
                 true,
@@ -252,11 +252,14 @@ public class OverviewChart extends JDialog {
                 "Mutations with cancer,clinical and pop_freq", "Chromosomes",
                 "Count", dataset,PlotOrientation.VERTICAL, true,true,false);
 
-        return chart;
-    }
+        BarRenderer renderer = new BarRenderer();
+        renderer.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+        renderer.setBaseItemLabelFont(new Font("Tahoma",Font.PLAIN, 14));
 
-    public void updateCharts(){
-        charts.clear();
-//        createCharts();
+//        renderer.setBasePositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.INSIDE12, TextAnchor.TOP_CENTER));
+        renderer.setBaseItemLabelsVisible(true);
+        chart.getCategoryPlot().setRenderer(renderer);
+
+        return chart;
     }
 }

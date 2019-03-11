@@ -59,7 +59,8 @@ public class GUICommonTools {
 
 	}
 
-	public void setBorder(JPanel currentPanel){
+	public static void setBorder(JPanel currentPanel){
+		currentPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 	}
 

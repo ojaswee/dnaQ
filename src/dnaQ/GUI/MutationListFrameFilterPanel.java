@@ -263,9 +263,6 @@ public class MutationListFrameFilterPanel extends JPanel {
             }
         });
         
-//        addPropertyChangeListener(populationFreqMaxTextField.getText(),e -> handleCheckBoxClick());
-//        addPropertyChangeListener(minPubTextField.getText(),e -> handleCheckBoxClick());
-//        addPropertyChangeListener(cancerCountTextField.getText(),e -> handleCheckBoxClick());
 
         populationFreqMaxTextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
