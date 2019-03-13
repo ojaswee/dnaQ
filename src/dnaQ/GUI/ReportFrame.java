@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import dnaQ.Connections.DatabaseConnections;
 import dnaQ.Connections.SSHConnection;
+import dnaQ.Models.TestQueue;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,12 +20,17 @@ public class ReportFrame extends JFrame {
     private Integer frameWidth;
     private Integer frameHeight;
 
+    private String usertestid;
+    private TestQueue tq;
+    private String filename;
+
     private JPanel mainPanel;
     private JPanel logoPanel;
     private JPanel reportPanel;
     private JPanel progressPanel;
     
     private JComboBox reportComboBox;
+    private String reportname;
     private JButton submitButton;
 
     private JProgressBar progressBar;
@@ -33,10 +39,14 @@ public class ReportFrame extends JFrame {
 
     private boolean reportCompleted;
 
-    public ReportFrame(MutationListFrame mutationlistframe) throws Exception {
+    public ReportFrame(MutationListFrame mutationlistframe,String usertestid,TestQueue tq) throws Exception {
 
         super ("Request Report");
         this.parent = mutationlistframe;
+        this.usertestid = usertestid;
+        this.tq = tq;
+
+        filename = tq.userid +"_"+tq.testid +"_RUN"+tq.run;
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -74,6 +84,8 @@ public class ReportFrame extends JFrame {
         downloadButton = new JButton("Download Report");
 
         reportCompleted = false;
+
+        reportname = "";
     }
 
     private void layoutReportComponents() {
@@ -96,14 +108,14 @@ public class ReportFrame extends JFrame {
         progressBar.setValue(0);
         progressBar.setStringPainted(true);
 
-        progressTextArea.setText("You have just submitted a report request.");
+        progressTextArea.setText("Please select report to submit.\n");
         progressTextArea.setSize(new Dimension(frameWidth - 50, frameHeight/4));
         progressTextArea.isVisible();
 
         downloadButton.setVisible(false);
 
         progressPanel.add(progressBar);
-        progressPanel.add(Box.createRigidArea(new Dimension(5,20)));
+        progressPanel.add(Box.createRigidArea(new Dimension(5,30)));
         progressPanel.add(progressTextArea);
         GUICommonTools.setBorder(progressPanel);
         progressPanel.add(downloadButton);
@@ -112,7 +124,6 @@ public class ReportFrame extends JFrame {
         mainPanel.add(reportPanel);
         mainPanel.add(progressPanel);
 
-        
         add(mainPanel);
 
     }
@@ -133,11 +144,17 @@ public class ReportFrame extends JFrame {
             public void actionPerformed(ActionEvent arg0) {
                 try{
                     Integer selectedReport = reportComboBox.getSelectedIndex();
+                    String temp = String.valueOf(reportComboBox.getSelectedItem());
+                    reportname = temp;
+                    reportname = reportname.replaceAll(" ", "_");
+//                    System.out.println(reportname);
+
+                    progressTextArea.append("You selected "+ temp+" report.\n");
+
                     reportSubmission(selectedReport);
-//                    downloadButton.setVisible(true);
 
                 }catch (Exception e){
-                    JOptionPane.showMessageDialog(ReportFrame.this, "Report not submitted");
+                    progressTextArea.append("Report not submitted, please try again");
                 }
             }
         });
@@ -146,7 +163,8 @@ public class ReportFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 try{
-
+                    SSHConnection.transferReportFromServer(reportname,filename);
+                    progressTextArea.append("Your report has been downloaded\n");
 
                 }catch (Exception e){
                     JOptionPane.showMessageDialog(ReportFrame.this, "Report not ready");
@@ -157,20 +175,11 @@ public class ReportFrame extends JFrame {
 
     private void reportSubmission(Integer report) throws Exception {
 
+
         if (report == 0){
-            int random = (int)(Math.random() * 9999 + 1);
-
-            String name = "global_" + random;
-
-//              SSHConnection.generateReport(name);
-//            progressBar.setValue(80);
-//            SSHConnection.transferReportFromServer(name);
-
+            SSHConnection.generateReport(reportname,usertestid,filename);
             updateProgress();
-
-
         }
-
     }
 
 
@@ -190,7 +199,7 @@ public class ReportFrame extends JFrame {
                     int c2=0;
                     while(c2<10000){
                         c2 = c2+1;
-                        System.out.println(c2);
+//                        System.out.println(c2);
                     }
 
                     progressBar.setValue(counter);
@@ -201,7 +210,7 @@ public class ReportFrame extends JFrame {
                 }
             }
         };
-        Thread t = new Thread(runner, "Code Executer");
+        Thread t = new Thread(runner, "Progressbar");
         t.start();
     }
 }

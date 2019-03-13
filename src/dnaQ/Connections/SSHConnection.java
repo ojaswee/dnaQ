@@ -21,8 +21,8 @@ public class SSHConnection {
 
     private static Session sshSession;
     private static String userUploads = "/home/ojaswee/dnaq/analysis/";
-    private static String serverFileSender = "/home/ojaswee/masters_project/08_server_report_generator/04_server_report_sender/";
-    private static String clientFileReceiver = "/home/ojaswee/masters_project/08_server_report_generator/05_client_report_receiver/";
+    private static String serverFileSender = "/home/ojaswee/dnaq/analysis/";
+    private static String clientFileReceiver = "/home/ojaswee/dnaq/report_generator/05_client_report_receiver/";
 
 
     private SSHConnection() {
@@ -113,26 +113,25 @@ public class SSHConnection {
     }
 
 
-    public static void generateReport(String name) throws Exception {
+    public static void generateReport(String reportname,String usertestid,String folder) throws Exception {
 
-        String command = "bash /home/ojaswee/masters_project/08_server_report_generator/01_generate_report.sh -f " + name;
+        String command = String.format("bash /home/ojaswee/dnaq/report_generator/01_generate_report.sh " +
+                "-r '%s' -ut '%s' -f '%s'", reportname , usertestid , folder);
 
         CommandResponse rs = executeCommandAndGetOutput(command);
 
         if(rs.exitStatus != 0) {
             throw new Exception("Error creating file on server.");
         }
-        System.out.println(rs.responseLines);
-
     }
     
     //user report is transfered from server to client
-    public static void transferReportFromServer(String name) throws JSchException, SftpException {
+    public static void transferReportFromServer(String name, String filelocation) throws JSchException, SftpException {
 
         ChannelSftp sftpChannel = (ChannelSftp) sshSession.openChannel("sftp");
         sftpChannel.connect();
 
-        String source_path = serverFileSender+ name +".pdf";
+        String source_path = serverFileSender+filelocation+"/Report/"+ name +".pdf";
         String destination_path = clientFileReceiver;
 
         sftpChannel.put(source_path, destination_path);

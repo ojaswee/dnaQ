@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import dnaQ.GUI.tables.*;
 
 import dnaQ.Models.MutationList;
+import dnaQ.Models.TestQueue;
 
 public class MutationListFrame extends JFrame  {
 
@@ -17,6 +18,9 @@ public class MutationListFrame extends JFrame  {
 
 	private Integer frameWidth;
 	private Integer frameHeight;
+
+	private String usertestid;
+	private TestQueue tq;
 
 	public CommonTable commonTable;
 	public CommonTableModel commonTableModel;
@@ -60,12 +64,14 @@ public class MutationListFrame extends JFrame  {
 
 
 
-	public MutationListFrame(WelcomeFrame parent, MutationList mutationList)  {
+	public MutationListFrame(WelcomeFrame parent, MutationList mutationList,String usertestid, TestQueue tq)  {
 
 		super ("Mutation List");
 		this.originaMutationlList= mutationList;
 		this.mutationList = mutationList;
 		this.parent = parent;
+		this.usertestid = usertestid;
+		this.tq=tq;
 
 		this.commonTableModel = new CommonTableModel(mutationList.getMutations());
 		this.cancerTableModel = new CancerTableModel(mutationList.getMutations());
@@ -251,7 +257,7 @@ public class MutationListFrame extends JFrame  {
 
 
 	private void handleReportButtonClick() throws Exception {
-		ReportFrame reportFrame = new ReportFrame(this);
+		ReportFrame reportFrame = new ReportFrame(this,usertestid,tq);
 		reportFrame.setVisible(true);
 	}
 }

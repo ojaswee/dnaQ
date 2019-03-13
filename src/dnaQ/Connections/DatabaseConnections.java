@@ -234,23 +234,7 @@ public class DatabaseConnections {
 		return value;
 	}
 
-	public static ArrayList<String> getReportOptions() throws Exception{
-
-		ArrayList<String> report = new ArrayList<String>();
-
-		//Check reports name
-		String query = "select name from report ;" ;
-		PreparedStatement pstm = databaseConnection.prepareStatement(query);
-		ResultSet rs = pstm.executeQuery();
-
-		while(rs.next()){
-			report.add(rs.getString(1));
-		}
-
-		return report;
-	}
-
-	//length of chr for datachart
+	//length of chr for overviewFrame
 	public static Double[] lengthOfChr () throws Exception{
 		Double lengthOfChr[] = new Double[24];
 
@@ -268,4 +252,26 @@ public class DatabaseConnections {
 
 		return lengthOfChr;
 	}
+
+	//reports available
+	public static ArrayList<String> getReportOptions() throws Exception{
+
+		ArrayList<String> report = new ArrayList<String>();
+
+		//Check reports name
+		String query = "SELECT name FROM report ;" ;
+		PreparedStatement pstm = databaseConnection.prepareStatement(query);
+		ResultSet rs = pstm.executeQuery();
+
+		while(rs.next()){
+			report.add(rs.getString(1));
+		}
+
+		return report;
+	}
+
+	//reportlog insert from python
+//	public static void InsertIntoReportLog(){
+//
+//	}
 }

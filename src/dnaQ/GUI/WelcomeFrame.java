@@ -206,8 +206,11 @@ public class WelcomeFrame extends JFrame{
                 String run = testQueueTable.getValueAt(testQueueTable.getSelectedRow(), 3).toString();
 
                 if (! event.getValueIsAdjusting()) {
-//                if (event.){
-                    displayMutationFrame(testid, run);
+                    TestQueue tq = new TestQueue();
+                    tq.userid = currentuser.getUserID();
+                    tq.testid = testid;
+                    tq.run = run;
+                    displayMutationFrame(tq);
                 }
             }
         });
@@ -227,14 +230,14 @@ public class WelcomeFrame extends JFrame{
         });
     }
 
-    private void displayMutationFrame(String testid, String run){
+    private void displayMutationFrame(TestQueue tq){
         String usertestid = "";
         try {
-            usertestid = DatabaseConnections.getUsertestid(currentuser.getUserID(),testid,run);
+            usertestid = DatabaseConnections.getUsertestid(currentuser.getUserID(),tq.testid,tq.run);
             if (usertestid.matches(".*\\d+.*")){
                 mutations = DatabaseConnections.getAllMutation(usertestid);
                 mutationList = new MutationList(mutations);
-                MutationListFrame mutationlistframe = new MutationListFrame(this,mutationList);
+                MutationListFrame mutationlistframe = new MutationListFrame(this,mutationList,usertestid,tq);
                 mutationlistframe.setVisible(true);
             }
 //            else {
