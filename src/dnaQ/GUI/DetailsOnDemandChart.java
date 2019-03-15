@@ -1,6 +1,5 @@
 package dnaQ.GUI;
 
-import dnaQ.Connections.DatabaseConnections;
 import dnaQ.Models.MutationList;
 import dnaQ.Models.Mutation;
 
@@ -9,16 +8,15 @@ import javax.swing.*;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.*;
-import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.ui.TextAnchor;
 
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Pattern;
 
 
 public class DetailsOnDemandChart extends JDialog {
@@ -44,201 +42,282 @@ public class DetailsOnDemandChart extends JDialog {
 
     private void createCharts(){
 
-        charts.add(chrLenVsMutationPlot());
-        charts.add(popFreqPieChart());
-        charts.add(createPieChart());
-        charts.add(createStackChart());
+        charts.add(scientificEvidencePlot());
+        charts.add(diseaseEvidencePlot());
+        charts.add(cancerEvidencePlot()); 
+        charts.add(popfreqEvidencePlot());
     }
 
-    private JFreeChart chrLenVsMutationPlot() {
+    private JFreeChart scientificEvidencePlot() {
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        Map<String, AtomicInteger> map = new HashMap<String, AtomicInteger>();
+        Map<Integer, String> map = new TreeMap<>(Comparator.reverseOrder());
+
         Integer mutationSize = mutations.size();
 
-        for (int i = 0; i< mutationSize; i++){
+        for (int i = 0; i< mutationSize; i++) {
 
-            String tempKey = mutations.get(i).getChr();
+            String gene = mutations.get(i).getGene().trim();
 
-            if(map.containsKey(tempKey)){
-                map.get(tempKey).incrementAndGet();
-            } else{
-                map.put(tempKey,new AtomicInteger(1));
+            Integer currentPub = 0;
+
+            String pubCount = mutations.get(i).getPublicationCount().trim();
+
+            //check values of gene
+            gene = geneValue(gene);
+
+            //check values of pubCount
+            currentPub = addAllIntegerValues(pubCount);
+
+            // make key value pair
+            if(!(map.containsValue(gene))){
+                map.put(currentPub+1, gene);
             }
         }
-
-        for (String key : map.keySet()) {
-            dataset.addValue((map.get(key)).doubleValue()*100/mutationSize, "Mutation", key);
+        int i = 0;
+        for (Integer key : map.keySet()) {
+            if (i<5){
+                dataset.addValue(key, "Genes", (map.get(key)));
+                i= i+1;
+            } else {}
         }
 
         JFreeChart chart = ChartFactory.createBarChart(
-                "Your Mutation and Length of Chromosomes", "Chromosomes", "Count", dataset,
-                PlotOrientation.VERTICAL, true, true, false);
+                "Scientific Evidence", "Biology Genes", "Publications", dataset,
+                PlotOrientation.VERTICAL, false, true, false);
+
+        barchartRenderer(chart);
 
         return chart;
     }
 
+    private JFreeChart diseaseEvidencePlot() {
 
-    private JFreeChart popFreqPieChart(){
-        DefaultPieDataset dataset = new DefaultPieDataset( );
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        Map<Integer, String> map = new TreeMap<>(Comparator.reverseOrder());
 
         Integer mutationSize = mutations.size();
-
-        Double globalAmer=0.0,globalAsian=0.0, globalAfr =0.0,
-                globalEuro=0.0, globalTotal=0.0;
+        Integer currentPub = 0;
 
         for (int i = 0; i< mutationSize; i++){
-            String amer, asian, afr, euro;
 
-            Double currentAmer = 0.0,currentAsian = 0.0,
-                    currentAfr=0.0, currentEuro=0.0, currentTotal =0.0;
+            String disease = mutations.get(i).getClinicalDisease().trim();
+            String gene = mutations.get(i).getGene().trim();
+            String tempKey = disease+" / "+gene;
+            String pubCount = mutations.get(i).getPublicationCount().trim();
 
-            amer = mutations.get(i).getAmericanFreq().trim();
-            asian = mutations.get(i).getAsianFreq().trim();
-            afr = mutations.get(i).getAfrFreq().trim();
-            euro = mutations.get(i).getEurFreq().trim();
-            
-            currentTotal =0.0;
-            
-            if (amer.matches(".*\\d+.*")){
-                currentAmer= Double.valueOf(amer);
-                currentTotal = currentTotal+ currentAmer; 
-            } else {
-                currentAmer=0.0;
+           //check values of gene
+           gene = geneValue(gene);
+
+            //check values of pubCount
+            currentPub = addAllIntegerValues(pubCount);
+
+            //if disease has many values
+            if (disease.matches(".*\\|+.*")) {
+                String[] diseaseValues = disease.split(Pattern.quote("|"));
+                for (String d : diseaseValues) {
+                    disease = d;
+
+                    tempKey = disease + " / " + gene;
+
+                    if (map.containsValue(tempKey)) {
+                        map.replace(currentPub,tempKey);
+
+                    } else if (tempKey.matches(".*not_+.*")) {
+                    } else {
+                        map.put(currentPub,tempKey);
+                    }
+                }
             }
 
-            if (asian.matches(".*\\d+.*")){
-                currentAsian= Double.valueOf(asian);
-                currentTotal = currentTotal+ currentAsian;
-            } else{
-                currentAsian=0.0;
+            else if (disease.equals("")){
+                tempKey = "Disease not found / "+gene;
             }
 
-            if (afr.matches(".*\\d+.*")){
-                currentAfr= Double.valueOf(afr);
-                currentTotal = currentTotal+ currentAfr;
-            } else {
-                currentAfr=0.0;
-            }
 
-            if (euro.matches(".*\\d+.*")){
-                currentEuro= Double.valueOf(euro);
-                currentTotal = currentTotal+ currentEuro;
-            }else {
-                currentEuro=0.0;
-            }
-            
-            currentAmer = currentAmer/currentTotal;
-            currentAsian= currentAsian/currentTotal;
-            currentAfr = currentAfr/currentTotal;
-            currentEuro = currentEuro/currentTotal;
+            if(map.containsValue(tempKey)){
+                map.replace(currentPub,tempKey);
 
-            if (!(currentAmer.isNaN())) {
-                globalAmer = globalAmer + currentAmer;
-            }
+            }else if (tempKey.matches(".*not_+.*")){
 
-            if (!(currentAsian.isNaN())) {
-                globalAsian = globalAsian + currentAsian;
             }
-
-            if (!(currentAfr.isNaN())) {
-                globalAfr = globalAfr + currentAfr;
-            }
-            if (!(currentEuro.isNaN())) {
-                globalEuro = globalEuro + currentEuro;
-            }
-            if (!(currentTotal.isNaN())) {
-                globalTotal = globalTotal + currentTotal;
+            else{
+                map.put(currentPub,tempKey);
             }
         }
 
-        dataset.setValue( "American",new Double(globalAmer));
-        dataset.setValue( "Asian",new Double(globalAsian));
-        dataset.setValue( "African",new Double(globalAfr));
-        dataset.setValue("European", new Double(globalEuro));
+        int i = 0;
+        for (Integer key : map.keySet()) {
+            if (i<5){
+                dataset.addValue(key, "Disease", (map.get(key)));
+                i= i+1;
+            } else {}
+        }
 
-        JFreeChart chart = ChartFactory.createPieChart(
-                "Your mutation is most similar to",   // chart title
-                dataset,          // data
-                true,      // include legend
-                true,
-                false);
+        JFreeChart chart = ChartFactory.createBarChart(
+                "Disease Evidence", "Clinical Disease / Biology Genes", "Publications", dataset,
+                PlotOrientation.VERTICAL, false, false, false);
 
-        //create labels for pie chart
-        PiePlot plot = (PiePlot) chart.getPlot();
-        PieSectionLabelGenerator gen = new StandardPieSectionLabelGenerator(
-                "{0}: {1} ({2})", NumberFormat.getInstance(),
-                NumberFormat.getPercentInstance());
-        plot.setLabelGenerator(gen);
+        barchartRenderer(chart);
 
         return chart;
     }
 
+    private JFreeChart cancerEvidencePlot(){
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-    private JFreeChart createPieChart() {
-        DefaultPieDataset dataset = new DefaultPieDataset( );
+        Map<String, Integer> map = new HashMap<String, Integer>();
 
-        Integer mutationSize = mutations.size();
+        String cancerID= "";
+        String cancerCount= "";
+        String gene="";
+        Integer count = 0;
 
-        Map<String, AtomicInteger> map = new HashMap<String, AtomicInteger>();
+        for (int i = 0; i< mutations.size(); i++) {
+            cancerID = mutations.get(i).getCancerid().trim();
+            cancerCount = mutations.get(i).getCancerCount();
+            gene = mutations.get(i).getGene();
 
-        for (int i = 0; i< mutationSize; i++){
+            if (cancerID.equals("")){
+                count = 0;
+            }
 
-            String tempKey = mutations.get(i).getChr();
+            //if cancerid is not empty
+            else {
+                //check values of gene
+                gene = geneValue(gene);
 
-            if(map.containsKey(tempKey)){
-                map.get(tempKey).incrementAndGet();
-            } else{
-                map.put(tempKey,new AtomicInteger(1));
+                //check values of pubCount
+                count = addAllIntegerValues(cancerCount);
+
+                // only put in map if cancerid is present
+                if(map.containsKey(gene)) {
+                    map.replace(gene, count);
+
+                }else{
+                    map.put(gene,count);
+                }
             }
         }
 
         for (String key : map.keySet()) {
-            dataset.setValue( key,(map.get(key)).doubleValue()/mutationSize);
+            dataset.addValue((map.get(key)).doubleValue(), "Gene", key);
         }
 
-        JFreeChart chart = ChartFactory.createPieChart(
-                "Chromosomes in your mutation",   // chart title
-                dataset,          // data
-                true,      // include legend
-                true,
-                false);
+        JFreeChart chart = ChartFactory.createBarChart(
+                "Cancer Evidence", "Biology Genes", "Cancer Count", dataset,
+                PlotOrientation.VERTICAL, false, true, false);
 
+
+        barchartRenderer(chart);
         return chart;
     }
 
-    private JFreeChart createStackChart() {
-
-        ArrayList<Mutation> mutations = mutationList.getMutations();
+    private JFreeChart popfreqEvidencePlot() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        String tempChr = mutations.get(0).getChr();
+        Map<String, Integer> map = new HashMap<String, Integer>();
 
-        int countCos =0, countCli=0,countG1000 = 0;
+        String popfreqID= "";
+        String globalfreq= "";
+        String gene="";
+        Integer count = 0;
 
+        for (int i = 0; i< mutations.size(); i++) {
+            popfreqID = mutations.get(i).getFreqid().trim();
+            globalfreq = mutations.get(i).getGlobalFreq().trim();
+            gene = mutations.get(i).getGene();
 
-        dataset.addValue(32.399999999999999D, "Cosmic", "Category 1");
-        dataset.addValue(17.800000000000001D, "Clinvar", "Category 1");
-        dataset.addValue(27.699999999999999D, "G1000", "Category 1");
-        dataset.addValue(43.200000000000003D, "Cosmic", "Category 2");
-        dataset.addValue(15.6D, "Clinvar", "Category 2");
-        dataset.addValue(18.300000000000001D, "G1000", "Category 2");
-        dataset.addValue(23D, "Cosmic", "Category 3");
-        dataset.addValue(11.300000000000001D, "Clinvar", "Category 3");
-        dataset.addValue(25.5D, "G1000", "Category 3");
+            if (popfreqID.equals("")){
+                count = 0;
+            }
 
-        JFreeChart chart = ChartFactory.createStackedBarChart("Stacked Chart",
-                "Category", "Value", dataset,
-                PlotOrientation.VERTICAL, true, true, false);
+            //if popfreqID is not empty
+            else {
+                count = Double.valueOf(globalfreq).intValue();
 
+                gene = geneValue(gene);
+
+                // only put in map if cancerid is present
+                if(map.containsKey(gene)) {
+                    Integer temp = map.get(gene).intValue() + count;
+                    map.replace(gene, temp);
+
+                }else{
+                    map.put(gene,count);
+                }
+            }
+        }
+
+        for (String key : map.keySet()) {
+            dataset.addValue((map.get(key)).doubleValue(), "Cancer", key);
+        }
+
+        JFreeChart chart = ChartFactory.createBarChart(
+                "Population Frequency Evidence", "Biology Genes", "Global frequency", dataset,
+                PlotOrientation.VERTICAL, false, true, false);
+
+        barchartRenderer(chart);
         return chart;
     }
 
-// this function helps to redraw the charts, called from mutationlistframefilterpanel
+    // get gene value
+    private String geneValue (String gene){
+
+        if (gene.matches(".*,+.*")) {
+            String[] temp = gene.split(",");
+            gene = temp[1];
+        }
+
+        else if (gene.equals("")){
+            gene="No gene data";
+        }
+
+        return gene;
+    }
+
+//    if multiple Integer values exits sum else return
+    private Integer addAllIntegerValues (String publication){
+        Integer pubCount = 0;
+
+        if (publication.matches(".*,+.*")) {
+            String[] arr = publication.split(",");
+            for (String s : arr) {
+                Integer value = Integer.valueOf(s.trim());
+                pubCount = value + pubCount;
+            }
+
+        } else if (!(publication.matches(".*\\d+.*"))) {
+            pubCount = 0;
+
+        }else {
+            pubCount = Integer.valueOf(publication);
+        }
+
+        return pubCount;
+    }
+
+    //this function makes labels and sets background for barcharts
+    private void barchartRenderer(JFreeChart chart){
+        BarRenderer renderer = new BarRenderer();
+        renderer.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+
+        renderer.setBasePositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.INSIDE12, TextAnchor.TOP_CENTER));
+
+        renderer.setBaseItemLabelsVisible(true);
+        chart.getCategoryPlot().setRenderer(renderer);
+
+        CategoryPlot categoryPlot = (CategoryPlot) chart.getPlot();
+        categoryPlot.getDomainAxis().setMaximumCategoryLabelLines(3);
+        chart.setBackgroundPaint(null);
+    }
+
+    // this function helps to redraw the charts if filters are changed, called from mutationlistframefilterpanel
     public void updateCharts(){
         charts.clear();
         createCharts();
     }
-
 }
+

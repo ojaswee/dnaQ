@@ -58,14 +58,12 @@ public class LoginFrame extends JFrame {
 		mainPanel.setBackground(GUICommonTools.BackgroundColor2);
 		setSize(frameWidth, frameHeight);
 
-
 		//fit logo as label background
 		ImageIcon logoPicture = GUICommonTools.getSquareLogo(frameWidth/2, frameHeight/2);
 
 		JLabel lblLogo= new JLabel(logoPicture);
 
 		logoPanel.add(lblLogo);
-		mainPanel.add(logoPanel);
 
 		JPanel loginPanel = new JPanel(new GridLayout(6,1));
 		loginPanel.setBackground(GUICommonTools.BackgroundColor1);
@@ -88,6 +86,7 @@ public class LoginFrame extends JFrame {
 		loginPanel.add(new Label(""));
 		loginPanel.add(loginButton);
 
+		mainPanel.add(logoPanel);
 		mainPanel.add(loginPanel);
 
 		add(mainPanel);

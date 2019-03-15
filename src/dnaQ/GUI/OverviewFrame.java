@@ -213,12 +213,15 @@ public class OverviewFrame extends JFrame {
         }
 
         else if (chartButtonClicked == 2){
-            infoTextArea.setText("\nIn this chart, we take a look at Population Frequency database.\n");
+            infoTextArea.setText("\nIn this chart, we take a look at Population Frequency database.\n" +
+                    "Here we want to determine your mutation is most similar to what ethnicity. \n" +
+                    "In ideal case, your mutation should match show your actual ethnicity.");
         }
 
         else if (chartButtonClicked == 3){
             infoTextArea.setText("\nIn this chart we look at three databases, Population Frequency, Cancer " +
-                    "and Clinical\n");
+                    "and Clinical.\n We want to see your mutation has been recorded in any of these database" +
+                    "\nIn ideal case, higher value in None and/or Pop Freq only is better.");
         }
 
         infoTextArea.setLineWrap(true);

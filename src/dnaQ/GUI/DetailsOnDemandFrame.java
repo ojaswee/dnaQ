@@ -14,8 +14,8 @@ public class DetailsOnDemandFrame extends JFrame {
     private MutationListFrame parent;
     private MutationList mutationList;
 
-    private Integer screenWidth;
-    private Integer screenHeight;
+    private Integer frameWidth;
+    private Integer frameHeight;
 
     private JPanel mainPanel;
     private JPanel logoPanel;
@@ -34,8 +34,8 @@ public class DetailsOnDemandFrame extends JFrame {
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         pack();
-        screenWidth= screenSize.width;
-        screenHeight =screenSize.height;
+        frameWidth= screenSize.width;
+        frameHeight =screenSize.height;
         setSize(screenSize.width,screenSize.height);
 
         createComponents();
@@ -50,10 +50,9 @@ public class DetailsOnDemandFrame extends JFrame {
 
         mainPanel = new JPanel();
 
-        dataPanel = new JPanel();
-        dataPanel.add(new Label("Chart Area"));
+        logoPanel = new JPanel();
 
-        logoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        dataPanel = new JPanel(new GridLayout(2,2));
     }
 
     private void layoutDoDComponents(){
@@ -61,39 +60,32 @@ public class DetailsOnDemandFrame extends JFrame {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         //fit logo as label background
-        ImageIcon logoPicture = GUICommonTools.getRectangularLogo(screenWidth/2,screenHeight/11);
+        ImageIcon logoPicture = GUICommonTools.getRectangularLogo(frameWidth/2 - 400,frameHeight/20);
         JLabel lblLogo= new JLabel(logoPicture);
 
         logoPanel.add(lblLogo);
 
-        dataPanel = new JPanel(new GridLayout(0,2));
-
         JPanel dataAPanel = new JPanel();
-        dataAPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        GUICommonTools.setBorder(dataAPanel);
 
         JPanel dataBPanel = new JPanel();
-        dataBPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        GUICommonTools.setBorder(dataBPanel);
 
         JPanel dataCPanel = new JPanel();
-        dataCPanel.add(new Label("Chart C"));
-        dataCPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        GUICommonTools.setBorder(dataCPanel);
 
         JPanel dataDPanel = new JPanel();
-        dataDPanel.add(new Label("Chart D"));
-        dataDPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        GUICommonTools.setBorder(dataDPanel);
 
-        chrLenVsMutationPlot(dataAPanel);
-        createLinePlot(dataBPanel);
-        createPieChart(dataCPanel);
-        createHistoGram(dataDPanel);
+        scientificEvidence(dataAPanel);
+        diseaseEvidence(dataBPanel);
+        cancerEvidence(dataCPanel);
+        popfreqEvidence(dataDPanel);
 
         dataPanel.add(dataAPanel);
         dataPanel.add(dataBPanel);
         dataPanel.add(dataCPanel);
         dataPanel.add(dataDPanel);
-
-        dataPanel.setBackground(GUICommonTools.BackgroundColor1);
-        setLayout(new GridLayout(0,1));
 
         mainPanel.add(logoPanel);
         mainPanel.add(dataPanel);
@@ -101,30 +93,35 @@ public class DetailsOnDemandFrame extends JFrame {
         add(mainPanel);
     }
 
-    private void chrLenVsMutationPlot(JPanel dataAPanel ){
+
+    private void scientificEvidence(JPanel dataAPanel ) {
+
         ChartPanel chartpanel = new ChartPanel(dodChart.getChart(0));
         chartpanel.setDomainZoomable(true);
+        chartpanel.setPreferredSize(new Dimension(frameWidth/2 - 20, frameHeight/3 - 5));
         dataAPanel.add(chartpanel);
     }
 
-    private void createLinePlot(JPanel dataBPanel ) {
-
+    private void diseaseEvidence(JPanel dataBPanel ){
         ChartPanel chartpanel = new ChartPanel(dodChart.getChart(1));
         chartpanel.setDomainZoomable(true);
+        chartpanel.setPreferredSize(new Dimension(frameWidth/2 -20, frameHeight/3 ));
         dataBPanel.add(chartpanel);
     }
 
-    private void createPieChart(JPanel dataCPanel ) {
+    private void cancerEvidence(JPanel dataCPanel ) {
 
         ChartPanel chartpanel = new ChartPanel(dodChart.getChart(2));
         chartpanel.setDomainZoomable(true);
+        chartpanel.setPreferredSize(new Dimension(frameWidth/2 -20, frameHeight/3 - 5));
         dataCPanel.add(chartpanel);
     }
 
-    private void createHistoGram(JPanel dataCPanel ) {
+    private void popfreqEvidence(JPanel dataDPanel ) {
 
         ChartPanel chartpanel = new ChartPanel(dodChart.getChart(3));
         chartpanel.setDomainZoomable(true);
-        dataCPanel.add(chartpanel);
+        chartpanel.setPreferredSize(new Dimension(frameWidth/2 -20, frameHeight/3 - 5));
+        dataDPanel.add(chartpanel);
     }
 }

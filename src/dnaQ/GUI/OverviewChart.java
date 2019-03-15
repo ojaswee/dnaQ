@@ -83,13 +83,14 @@ public class OverviewChart extends JDialog {
             }
         }
 
+
         for (String key : map.keySet()) {
             dataset.addValue((map.get(key)).doubleValue()*100/mutationSize, "Mutation", key);
             dataset.addValue(lengthOfChr[Integer.parseInt(key)-1],"Length of chr",key);
         }
 
         JFreeChart chart = ChartFactory.createBarChart(
-                "Your Mutation and Length of Chromosomes", "Chromosomes", "Count", dataset,
+                "Length of Chromosomes compared to your mutation", "Chromosomes", "Count", dataset,
                 PlotOrientation.VERTICAL, true, true, false);
 
         return chart;

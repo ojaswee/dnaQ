@@ -132,11 +132,6 @@ public class MutationListFrame extends JFrame  {
 	}
 
 	private void layoutComponents(){
-//
-//		int widthPanel, heightPanel;
-//
-//		widthPanel = 750;
-//		heightPanel = 750;
 
 		setMinimumSize(new Dimension(frameWidth,frameHeight));
 		panel.setBackground(GUICommonTools.BackgroundColor2);
@@ -148,20 +143,19 @@ public class MutationListFrame extends JFrame  {
 
 		JPanel logoPanel = new JPanel();
 		logoPanel.add(lblLogo);
-		logoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        GUICommonTools.setBorder(logoPanel);
 
 //		upper panel includes filter and feature panel
-
 		JPanel upperPanel = new JPanel(new FlowLayout());
 
 		JPanel filterPanel = new JPanel(new GridLayout(0,1));
-        filterPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        GUICommonTools.setBorder(filterPanel);
         filterPanel.setBackground(GUICommonTools.BackgroundColor2);
 
 		new MutationListFrameFilterPanel(this, filterPanel,mutationList,datachart);
 
 		JPanel featurePanel = new JPanel(new BorderLayout());
-		featurePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        GUICommonTools.setBorder(featurePanel);
         featurePanel.setBackground(GUICommonTools.BackgroundColor2);
 
 		JPanel featurePanelHeading = new JPanel(new FlowLayout());
@@ -175,17 +169,14 @@ public class MutationListFrame extends JFrame  {
 		JPanel overviewButtonPanel = new JPanel();
 		overviewButtonPanel.add(overviewButton);
 		featureButtonPanel.add(overviewButtonPanel);
-//		featureButtonPanel.add(new Label(" "));
 
         JPanel detailsOnDemandButtonPanel = new JPanel();
         detailsOnDemandButtonPanel.add(detailsOnDemandButton);
 		featureButtonPanel.add(detailsOnDemandButtonPanel);
-//		featureButtonPanel.add(new Label(" "));
 
         JPanel reportButtonPanel = new JPanel();
         reportButtonPanel.add(reportButton);
         featureButtonPanel.add(reportButtonPanel);
-//		featureButtonPanel.add(new Label(" "));
 
         JPanel exportButtonPanel = new JPanel();
         exportButtonPanel.add(exportButton);
