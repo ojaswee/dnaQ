@@ -15,7 +15,6 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.TextAnchor;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 
@@ -75,19 +74,12 @@ public class DetailsOnDemandChart extends JDialog {
                 map.put(currentPub+1, gene);
             }
         }
-        int i = 0;
-        for (Integer key : map.keySet()) {
-            if (i<5){
-                dataset.addValue(key, "Genes", (map.get(key)));
-                i= i+1;
-            } else {}
-        }
 
-        JFreeChart chart = ChartFactory.createBarChart(
-                "Scientific Evidence", "Biology Genes", "Publications", dataset,
-                PlotOrientation.VERTICAL, false, true, false);
+        //insert only top 5 values into dataset
+        dataset = getTop5(map, dataset);
 
-        barchartRenderer(chart);
+        JFreeChart chart = createBarChart( "Scientific Evidence", "Biology Genes",
+                "Publications", dataset);
 
         return chart;
     }
@@ -148,19 +140,10 @@ public class DetailsOnDemandChart extends JDialog {
             }
         }
 
-        int i = 0;
-        for (Integer key : map.keySet()) {
-            if (i<5){
-                dataset.addValue(key, "Disease", (map.get(key)));
-                i= i+1;
-            } else {}
-        }
+        dataset = getTop5(map, dataset);
 
-        JFreeChart chart = ChartFactory.createBarChart(
-                "Disease Evidence", "Clinical Disease / Biology Genes", "Publications", dataset,
-                PlotOrientation.VERTICAL, false, false, false);
-
-        barchartRenderer(chart);
+        JFreeChart chart = createBarChart("Disease Evidence","Clinical Disease / Biology Genes"
+                ,"Publications",dataset);
 
         return chart;
     }
@@ -168,7 +151,7 @@ public class DetailsOnDemandChart extends JDialog {
     private JFreeChart cancerEvidencePlot(){
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        Map<String, Integer> map = new HashMap<String, Integer>();
+        Map<Integer, String> map = new TreeMap<>(Comparator.reverseOrder());
 
         String cancerID= "";
         String cancerCount= "";
@@ -193,32 +176,27 @@ public class DetailsOnDemandChart extends JDialog {
                 count = addAllIntegerValues(cancerCount);
 
                 // only put in map if cancerid is present
-                if(map.containsKey(gene)) {
-                    map.replace(gene, count);
+                if(map.containsValue(gene)) {
+                    map.replace(count,gene);
 
                 }else{
-                    map.put(gene,count);
+                    map.put(count,gene);
                 }
             }
         }
 
-        for (String key : map.keySet()) {
-            dataset.addValue((map.get(key)).doubleValue(), "Gene", key);
-        }
+        dataset = getTop5(map, dataset);
 
-        JFreeChart chart = ChartFactory.createBarChart(
-                "Cancer Evidence", "Biology Genes", "Cancer Count", dataset,
-                PlotOrientation.VERTICAL, false, true, false);
+        JFreeChart chart = createBarChart("Cancer Evidence","Biology Genes"
+                ,"Cancer Count",dataset);
 
-
-        barchartRenderer(chart);
         return chart;
     }
 
     private JFreeChart popfreqEvidencePlot() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        Map<String, Integer> map = new HashMap<String, Integer>();
+        Map<Integer, String> map = new TreeMap<>(Comparator.reverseOrder());
 
         String popfreqID= "";
         String globalfreq= "";
@@ -240,27 +218,34 @@ public class DetailsOnDemandChart extends JDialog {
 
                 gene = geneValue(gene);
 
-                // only put in map if cancerid is present
-                if(map.containsKey(gene)) {
-                    Integer temp = map.get(gene).intValue() + count;
-                    map.replace(gene, temp);
+                // only put in map if popfreqID is present
+
+                if(map.containsValue(gene)) {
+                    Object key = getKeyFromValue(map,gene);
+                    Integer n = Integer.valueOf(key.toString()) + count;
+                    map.replace(n,gene);
 
                 }else{
-                    map.put(gene,count);
+                    map.put(count,gene);
                 }
             }
         }
 
-        for (String key : map.keySet()) {
-            dataset.addValue((map.get(key)).doubleValue(), "Cancer", key);
-        }
+        dataset = getTop5(map, dataset);
 
-        JFreeChart chart = ChartFactory.createBarChart(
-                "Population Frequency Evidence", "Biology Genes", "Global frequency", dataset,
-                PlotOrientation.VERTICAL, false, true, false);
+        JFreeChart chart = createBarChart("Population Frequency Evidence","Biology Genes"
+                ,"Global frequency",dataset);
 
-        barchartRenderer(chart);
         return chart;
+    }
+
+    public static Object getKeyFromValue(Map map, Object value) {
+        for (Object o : map.keySet()) {
+            if (map.get(o).equals(value)) {
+                return o;
+            }
+        }
+        return null;
     }
 
     // get gene value
@@ -299,8 +284,26 @@ public class DetailsOnDemandChart extends JDialog {
         return pubCount;
     }
 
-    //this function makes labels and sets background for barcharts
-    private void barchartRenderer(JFreeChart chart){
+    private DefaultCategoryDataset getTop5(Map< Integer,String> map,DefaultCategoryDataset dataset){
+
+        int i = 0;
+        for (Integer key : map.keySet()) {
+            if (i<5){
+                dataset.addValue(key, "Genes", (map.get(key)));
+                i= i+1;
+            } else {}
+        }
+
+        return dataset;
+    }
+
+    //this function makes barchart from dataset
+    private JFreeChart createBarChart(String title, String xaxisLabel, String yaxisLabel, DefaultCategoryDataset dataset){
+        JFreeChart chart = ChartFactory.createBarChart(
+                title, xaxisLabel, yaxisLabel, dataset,
+                PlotOrientation.VERTICAL, false, false, false);
+
+
         BarRenderer renderer = new BarRenderer();
         renderer.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());
 
@@ -312,6 +315,8 @@ public class DetailsOnDemandChart extends JDialog {
         CategoryPlot categoryPlot = (CategoryPlot) chart.getPlot();
         categoryPlot.getDomainAxis().setMaximumCategoryLabelLines(3);
         chart.setBackgroundPaint(null);
+
+        return chart;
     }
 
     // this function helps to redraw the charts if filters are changed, called from mutationlistframefilterpanel
