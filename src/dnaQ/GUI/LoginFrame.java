@@ -46,7 +46,7 @@ public class LoginFrame extends JFrame {
 
 	private void createComponents(){
 		mainPanel = new JPanel();
-		logoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		logoPanel = new JPanel();
 
 		loginButton = new JButton("Login");
 		emailTextField = new JTextField();

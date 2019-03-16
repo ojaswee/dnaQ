@@ -51,7 +51,7 @@ public class DetailsOnDemandChart extends JDialog {
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        Map<Integer, String> map = new TreeMap<>(Comparator.reverseOrder());
+        Map<Integer, String> gene_pubCount_dic = new TreeMap<>(Comparator.reverseOrder());
 
         Integer mutationSize = mutations.size();
 
@@ -70,13 +70,13 @@ public class DetailsOnDemandChart extends JDialog {
             currentPub = addAllIntegerValues(pubCount);
 
             // make key value pair
-            if(!(map.containsValue(gene))){
-                map.put(currentPub+1, gene);
+            if(!(gene_pubCount_dic.containsValue(gene))){
+                gene_pubCount_dic.put(currentPub+1, gene);
             }
         }
 
         //insert only top 5 values into dataset
-        dataset = getTop5(map, dataset);
+        dataset = getTop5(gene_pubCount_dic, dataset);
 
         JFreeChart chart = createBarChart( "Scientific Evidence", "Biology Genes",
                 "Publications", dataset);
@@ -88,62 +88,38 @@ public class DetailsOnDemandChart extends JDialog {
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        Map<Integer, String> map = new TreeMap<>(Comparator.reverseOrder());
+        Map<String,Integer> disease_gene_dic = new TreeMap<>();
 
-        Integer mutationSize = mutations.size();
-        Integer currentPub = 0;
+        for (int i = 0; i< mutations.size(); i++) {
 
-        for (int i = 0; i< mutationSize; i++){
 
-            String disease = mutations.get(i).getClinicalDisease().trim();
-            String gene = mutations.get(i).getGene().trim();
-            String tempKey = disease+" / "+gene;
-            String pubCount = mutations.get(i).getPublicationCount().trim();
+            String[] disease_list = mutations.get(i).getClinicalDisease().trim().split(Pattern.quote("|"));
 
-           //check values of gene
-           gene = geneValue(gene);
+            if (disease_list[0].equals("")) {
+                continue;
+            }
 
-            //check values of pubCount
-            currentPub = addAllIntegerValues(pubCount);
+            String current_gene = mutations.get(i).getGene().trim().split(",")[0];
 
-            //if disease has many values
-            if (disease.matches(".*\\|+.*")) {
-                String[] diseaseValues = disease.split(Pattern.quote("|"));
-                for (String d : diseaseValues) {
-                    disease = d;
+            for (String disease : disease_list) {
 
-                    tempKey = disease + " / " + gene;
-
-                    if (map.containsValue(tempKey)) {
-                        map.replace(currentPub,tempKey);
-
-                    } else if (tempKey.matches(".*not_+.*")) {
-                    } else {
-                        map.put(currentPub,tempKey);
-                    }
+                if (disease.matches(".*not_+.*")) {
+                    continue;
                 }
-            }
 
-            else if (disease.equals("")){
-                tempKey = "Disease not found / "+gene;
-            }
+                String current_disease_gene_pair = disease + "/" + current_gene;
+                int count = disease_gene_dic.containsKey(current_disease_gene_pair) ? disease_gene_dic.get(current_disease_gene_pair) : 0;
+                disease_gene_dic.put(current_disease_gene_pair, count + 1);
 
-
-            if(map.containsValue(tempKey)){
-                map.replace(currentPub,tempKey);
-
-            }else if (tempKey.matches(".*not_+.*")){
-
-            }
-            else{
-                map.put(currentPub,tempKey);
             }
         }
 
-        dataset = getTop5(map, dataset);
 
+        System.out.println(disease_gene_dic);
+        dataset = putTop5(disease_gene_dic, dataset);
+//
         JFreeChart chart = createBarChart("Disease Evidence","Clinical Disease / Biology Genes"
-                ,"Publications",dataset);
+                ,"Count",dataset);
 
         return chart;
     }
@@ -253,15 +229,16 @@ public class DetailsOnDemandChart extends JDialog {
 
         if (gene.matches(".*,+.*")) {
             String[] temp = gene.split(",");
-            gene = temp[1];
+            gene = temp[0];
         }
 
         else if (gene.equals("")){
             gene="No gene data";
         }
 
-        return gene;
+        return gene.trim();
     }
+
 
 //    if multiple Integer values exits sum else return
     private Integer addAllIntegerValues (String publication){
@@ -297,6 +274,31 @@ public class DetailsOnDemandChart extends JDialog {
         return dataset;
     }
 
+    //to sort the treemap by value uses the class ValueComparator
+    public static Map sortByValue(Map unsortedMap) {
+        Map sortedMap = new TreeMap(new ValueComparator(unsortedMap));
+        sortedMap.putAll(unsortedMap);
+        return sortedMap;
+    }
+
+    //first sorts the treemap using sortByValue then inserts top 5 values in dataset
+    private DefaultCategoryDataset putTop5(Map< String,Integer> map,DefaultCategoryDataset dataset){
+        Map sortedMap = sortByValue(map);
+        int i = 0;
+
+        for (Object key : sortedMap.keySet()) {
+            String disease = key.toString();
+            if (i<5){
+                dataset.addValue((map.get(disease)), "Genes", disease);
+                i= i+1;
+            } else {}
+        }
+
+        return dataset;
+    }
+
+
+
     //this function makes barchart from dataset
     private JFreeChart createBarChart(String title, String xaxisLabel, String yaxisLabel, DefaultCategoryDataset dataset){
         JFreeChart chart = ChartFactory.createBarChart(
@@ -326,3 +328,16 @@ public class DetailsOnDemandChart extends JDialog {
     }
 }
 
+class ValueComparator implements Comparator {
+    Map map;
+
+    public ValueComparator(Map map) {
+        this.map = map;
+    }
+
+    public int compare(Object keyA, Object keyB) {
+        Comparable valueA = (Comparable) map.get(keyA);
+        Comparable valueB = (Comparable) map.get(keyB);
+        return valueB.compareTo(valueA);
+    }
+}

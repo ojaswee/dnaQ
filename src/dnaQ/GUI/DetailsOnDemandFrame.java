@@ -77,9 +77,9 @@ public class DetailsOnDemandFrame extends JFrame {
         JPanel dataDPanel = new JPanel();
         GUICommonTools.setBorder(dataDPanel);
 
-        scientificEvidence(dataAPanel);
-        diseaseEvidence(dataBPanel);
         cancerEvidence(dataCPanel);
+        diseaseEvidence(dataBPanel);
+        scientificEvidence(dataAPanel);
         popfreqEvidence(dataDPanel);
 
         dataPanel.add(dataAPanel);
@@ -94,9 +94,9 @@ public class DetailsOnDemandFrame extends JFrame {
     }
 
 
-    private void scientificEvidence(JPanel dataAPanel ) {
+    private void cancerEvidence(JPanel dataAPanel ) {
 
-        ChartPanel chartpanel = new ChartPanel(dodChart.getChart(0));
+        ChartPanel chartpanel = new ChartPanel(dodChart.getChart(2));
         chartpanel.setDomainZoomable(true);
         chartpanel.setPreferredSize(new Dimension(frameWidth/2 - 20, frameHeight/3 - 5));
         dataAPanel.add(chartpanel);
@@ -109,9 +109,9 @@ public class DetailsOnDemandFrame extends JFrame {
         dataBPanel.add(chartpanel);
     }
 
-    private void cancerEvidence(JPanel dataCPanel ) {
+    private void scientificEvidence(JPanel dataCPanel ) {
 
-        ChartPanel chartpanel = new ChartPanel(dodChart.getChart(2));
+        ChartPanel chartpanel = new ChartPanel(dodChart.getChart(0));
         chartpanel.setDomainZoomable(true);
         chartpanel.setPreferredSize(new Dimension(frameWidth/2 -20, frameHeight/3 - 5));
         dataCPanel.add(chartpanel);
