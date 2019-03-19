@@ -232,4 +232,8 @@ public class Mutation {
 	public void setSelected(boolean selected) {
 		isSelected = selected;
 	}
+
+	public int getColumnCount() {
+		return getClass().getDeclaredFields().length;
+	}
 }

@@ -51,32 +51,25 @@ public class DetailsOnDemandChart extends JDialog {
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        Map<Integer, String> gene_pubCount_dic = new TreeMap<>(Comparator.reverseOrder());
+        Map<String,Integer> gene_pubCount_dic = new TreeMap<>();
 
-        Integer mutationSize = mutations.size();
+        for (int i = 0; i< mutations.size(); i++) {
 
-        for (int i = 0; i< mutationSize; i++) {
-
-            String gene = mutations.get(i).getGene().trim();
-
-            Integer currentPub = 0;
+            String current_gene = mutations.get(i).getGene().trim().split(",")[0];
 
             String pubCount = mutations.get(i).getPublicationCount().trim();
 
-            //check values of gene
-            gene = geneValue(gene);
-
             //check values of pubCount
-            currentPub = addAllIntegerValues(pubCount);
+            Integer current_publication = addAllIntegerValues(pubCount);
 
-            // make key value pair
-            if(!(gene_pubCount_dic.containsValue(gene))){
-                gene_pubCount_dic.put(currentPub+1, gene);
+            // put if the key is not in dictionary
+            if(!(gene_pubCount_dic.containsKey(current_gene))){
+                gene_pubCount_dic.put(current_gene,current_publication);
             }
         }
 
         //insert only top 5 values into dataset
-        dataset = getTop5(gene_pubCount_dic, dataset);
+        dataset = displayTop5(gene_pubCount_dic, dataset);
 
         JFreeChart chart = createBarChart( "Scientific Evidence", "Biology Genes",
                 "Publications", dataset);
@@ -91,7 +84,6 @@ public class DetailsOnDemandChart extends JDialog {
         Map<String,Integer> disease_gene_dic = new TreeMap<>();
 
         for (int i = 0; i< mutations.size(); i++) {
-
 
             String[] disease_list = mutations.get(i).getClinicalDisease().trim().split(Pattern.quote("|"));
 
@@ -110,14 +102,12 @@ public class DetailsOnDemandChart extends JDialog {
                 String current_disease_gene_pair = disease + "/" + current_gene;
                 int count = disease_gene_dic.containsKey(current_disease_gene_pair) ? disease_gene_dic.get(current_disease_gene_pair) : 0;
                 disease_gene_dic.put(current_disease_gene_pair, count + 1);
-
             }
         }
 
+//        System.out.println(disease_gene_dic);
+        dataset = displayTop5(disease_gene_dic, dataset);
 
-        System.out.println(disease_gene_dic);
-        dataset = putTop5(disease_gene_dic, dataset);
-//
         JFreeChart chart = createBarChart("Disease Evidence","Clinical Disease / Biology Genes"
                 ,"Count",dataset);
 
@@ -127,17 +117,16 @@ public class DetailsOnDemandChart extends JDialog {
     private JFreeChart cancerEvidencePlot(){
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        Map<Integer, String> map = new TreeMap<>(Comparator.reverseOrder());
+        Map<String,Integer> cancer_count_dic = new TreeMap<>();
 
         String cancerID= "";
         String cancerCount= "";
-        String gene="";
         Integer count = 0;
 
         for (int i = 0; i< mutations.size(); i++) {
             cancerID = mutations.get(i).getCancerid().trim();
             cancerCount = mutations.get(i).getCancerCount();
-            gene = mutations.get(i).getGene();
+            String current_gene = mutations.get(i).getGene().trim().split(",")[0];
 
             if (cancerID.equals("")){
                 count = 0;
@@ -145,23 +134,20 @@ public class DetailsOnDemandChart extends JDialog {
 
             //if cancerid is not empty
             else {
-                //check values of gene
-                gene = geneValue(gene);
-
                 //check values of pubCount
                 count = addAllIntegerValues(cancerCount);
 
                 // only put in map if cancerid is present
-                if(map.containsValue(gene)) {
-                    map.replace(count,gene);
+                if(cancer_count_dic.containsValue(current_gene)) {
+                    cancer_count_dic.replace(current_gene,count);
 
                 }else{
-                    map.put(count,gene);
+                    cancer_count_dic.put(current_gene,count);
                 }
             }
         }
 
-        dataset = getTop5(map, dataset);
+        dataset = displayTop5(cancer_count_dic, dataset);
 
         JFreeChart chart = createBarChart("Cancer Evidence","Biology Genes"
                 ,"Cancer Count",dataset);
@@ -172,17 +158,14 @@ public class DetailsOnDemandChart extends JDialog {
     private JFreeChart popfreqEvidencePlot() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        Map<Integer, String> map = new TreeMap<>(Comparator.reverseOrder());
+        Map<String,Integer> gene_globalfreq_dic = new TreeMap<>();
 
-        String popfreqID= "";
-        String globalfreq= "";
-        String gene="";
         Integer count = 0;
 
         for (int i = 0; i< mutations.size(); i++) {
-            popfreqID = mutations.get(i).getFreqid().trim();
-            globalfreq = mutations.get(i).getGlobalFreq().trim();
-            gene = mutations.get(i).getGene();
+            String popfreqID = mutations.get(i).getFreqid().trim();
+            String globalfreq = mutations.get(i).getGlobalFreq().trim();
+            String current_gene = mutations.get(i).getGene().trim().split(",")[0];
 
             if (popfreqID.equals("")){
                 count = 0;
@@ -192,53 +175,21 @@ public class DetailsOnDemandChart extends JDialog {
             else {
                 count = Double.valueOf(globalfreq).intValue();
 
-                gene = geneValue(gene);
+                // only put in map if popfreqID is not present
 
-                // only put in map if popfreqID is present
-
-                if(map.containsValue(gene)) {
-                    Object key = getKeyFromValue(map,gene);
-                    Integer n = Integer.valueOf(key.toString()) + count;
-                    map.replace(n,gene);
-
-                }else{
-                    map.put(count,gene);
+                if(!(gene_globalfreq_dic.containsKey(current_gene))) {
+                    gene_globalfreq_dic.put(current_gene,count);
                 }
             }
         }
 
-        dataset = getTop5(map, dataset);
+        dataset = displayTop5(gene_globalfreq_dic, dataset);
 
         JFreeChart chart = createBarChart("Population Frequency Evidence","Biology Genes"
                 ,"Global frequency",dataset);
 
         return chart;
     }
-
-    public static Object getKeyFromValue(Map map, Object value) {
-        for (Object o : map.keySet()) {
-            if (map.get(o).equals(value)) {
-                return o;
-            }
-        }
-        return null;
-    }
-
-    // get gene value
-    private String geneValue (String gene){
-
-        if (gene.matches(".*,+.*")) {
-            String[] temp = gene.split(",");
-            gene = temp[0];
-        }
-
-        else if (gene.equals("")){
-            gene="No gene data";
-        }
-
-        return gene.trim();
-    }
-
 
 //    if multiple Integer values exits sum else return
     private Integer addAllIntegerValues (String publication){
@@ -261,29 +212,19 @@ public class DetailsOnDemandChart extends JDialog {
         return pubCount;
     }
 
-    private DefaultCategoryDataset getTop5(Map< Integer,String> map,DefaultCategoryDataset dataset){
-
-        int i = 0;
-        for (Integer key : map.keySet()) {
-            if (i<5){
-                dataset.addValue(key, "Genes", (map.get(key)));
-                i= i+1;
-            } else {}
-        }
-
-        return dataset;
-    }
-
-    //to sort the treemap by value uses the class ValueComparator
-    public static Map sortByValue(Map unsortedMap) {
-        Map sortedMap = new TreeMap(new ValueComparator(unsortedMap));
-        sortedMap.putAll(unsortedMap);
-        return sortedMap;
-    }
 
     //first sorts the treemap using sortByValue then inserts top 5 values in dataset
-    private DefaultCategoryDataset putTop5(Map< String,Integer> map,DefaultCategoryDataset dataset){
-        Map sortedMap = sortByValue(map);
+    private DefaultCategoryDataset displayTop5(Map< String,Integer> map,DefaultCategoryDataset dataset){
+
+        Map sortedMap = sortByValues(map);
+        // Get Set of entries
+        Set set = sortedMap.entrySet();
+        // Get iterator
+        Iterator it = set.iterator();
+        while(it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+        }
+
         int i = 0;
 
         for (Object key : sortedMap.keySet()) {
@@ -296,8 +237,6 @@ public class DetailsOnDemandChart extends JDialog {
 
         return dataset;
     }
-
-
 
     //this function makes barchart from dataset
     private JFreeChart createBarChart(String title, String xaxisLabel, String yaxisLabel, DefaultCategoryDataset dataset){
@@ -326,18 +265,23 @@ public class DetailsOnDemandChart extends JDialog {
         charts.clear();
         createCharts();
     }
+
+    public static <K, V extends Comparable<V>> Map<K, V> sortByValues(final Map<K, V> map) {
+        Comparator<K> valueComparator =
+                new Comparator<K>() {
+                    public int compare(K k1, K k2) {
+                        int compare =
+                                map.get(k2).compareTo(map.get(k1));
+                        if (compare == 0)
+                            return 1;
+                        else
+                            return compare;
+                    }
+                };
+        Map<K, V> sortedByValues =
+                new TreeMap<K, V>(valueComparator);
+        sortedByValues.putAll(map);
+        return sortedByValues;
+    }
 }
 
-class ValueComparator implements Comparator {
-    Map map;
-
-    public ValueComparator(Map map) {
-        this.map = map;
-    }
-
-    public int compare(Object keyA, Object keyB) {
-        Comparable valueA = (Comparable) map.get(keyA);
-        Comparable valueB = (Comparable) map.get(keyB);
-        return valueB.compareTo(valueA);
-    }
-}

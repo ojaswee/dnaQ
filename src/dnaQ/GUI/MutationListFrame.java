@@ -105,7 +105,6 @@ public class MutationListFrame extends JFrame  {
 		panel = new JPanel();
 
 		commonTable = new CommonTable(this,commonTableModel);
-
 		commonScrollPane = new JScrollPane(commonTable);
 		commonScrollPane.setViewportView(commonTable);
 
@@ -124,6 +123,8 @@ public class MutationListFrame extends JFrame  {
 		biologyTable = new BiologyTable(this,biologyTableModel);
 		biologyScrollPane = new JScrollPane(biologyTable);
 		biologyScrollPane.setViewportView(biologyTable);
+
+		sortTableOnHeaderClick();
 
 		overviewButton = new JButton("Overview");
 		detailsOnDemandButton = new JButton("Details On Demand");
@@ -209,7 +210,7 @@ public class MutationListFrame extends JFrame  {
 	}
 
 
-	private void activateComponents(){
+	private void activateComponents() {
 		overviewButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -234,6 +235,18 @@ public class MutationListFrame extends JFrame  {
 				}
 			}
 		});
+
+		exportButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					handleExportButtonClick();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+
+		});
 	}
 
 	private void handleOverviewButtonClick() {
@@ -250,6 +263,19 @@ public class MutationListFrame extends JFrame  {
 	private void handleReportButtonClick() throws Exception {
 		ReportFrame reportFrame = new ReportFrame(this,usertestid,tq);
 		reportFrame.setVisible(true);
+	}
+
+	private void handleExportButtonClick() throws Exception {
+		ExportMutation export = new ExportMutation(this, mutationList);
+	}
+
+	//this function sorts jTable when column header is clicked
+	private void sortTableOnHeaderClick(){
+		commonTable.setAutoCreateRowSorter(true);
+		cancerTable.setAutoCreateRowSorter(true);
+		clinicalTable.setAutoCreateRowSorter(true);
+		populationFreqTable.setAutoCreateRowSorter(true);
+		biologyTable.setAutoCreateRowSorter(true);
 	}
 }
 
