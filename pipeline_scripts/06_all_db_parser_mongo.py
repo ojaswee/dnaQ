@@ -14,16 +14,18 @@ def fileParser(inputfile, outputfile, source):
             gene = info_line[0].split('=')[1]
             strand = info_line[1].split('=')[1]
             if info_line[2] == 'SNP':
-                cds = info_line[3].split('=')[1]
-                aa = info_line[4].split('=')[1]
+                # cds = info_line[3].split('=')[1]
+                # aa = info_line[4].split('=')[1]
                 count = info_line[5].split('=')[1]
             else:
-                cds = info_line[2].split('=')[1]
-                aa = info_line[3].split('=')[1]
+                # cds = info_line[2].split('=')[1]
+                # aa = info_line[3].split('=')[1]
                 count = info_line[4].split('=')[1]
-            filter.append(row['ID'], row['CHROM'],row['POS'],row['REF'],row['ALT'],gene,strand,cds,aa,count)
+            # filter.append(row['ID'], row['CHROM'],row['POS'],row['REF'],row['ALT'],gene,strand,cds,aa,count)
+            filter.append(row['ID'], row['CHROM'],row['POS'],row['REF'],row['ALT'],gene,strand,count)
         df_filter=pd.DataFrame(filter)
-        df_filter.columns= ['cosmic-id','chr','pos','ref','alt','gene','strand','cds','aa','count']
+        # df_filter.columns= ['cosmic-id','chr','pos','ref','alt','gene','strand','cds','aa','count']
+        df_filter.columns= ['cosmic-id','chr','pos','ref','alt','gene','strand','count']
         df_filter.to_csv(outputfile,index='false')
 
     elif source == 'clinvar':

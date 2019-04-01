@@ -69,12 +69,6 @@ def combineDB(infile):
             chrtopublication_cursor=list(chrtopublication.find({'chr':'chr'+str(chr),'start':{'$lte':int(pos)},'end':{'$gte':int(pos)}},projection={'_id':0,'publication':1}))
             chrtopublication_ids=appendResult(chrtopublication_cursor,['publication'])
 
-            # civic_cursor = list(g1000.find({'chr':int(chr),'pos':int(pos),'ref':ref,'alt':alt},projection={'_id': 0,'disease':1,'drugs':1,'clinical_significance':1,'evidence_statement':1,'variant_summary':1}))
-            # civic_ids=appendResult(civic_cursor,['disease','drugs','clinical_significance','evidence_statement','variant_summary'])
-
-            # oncokb_cursor = list(g1000.find({'Isoform':enst},projection={'_id': 0,'Gene':1,'Protein Change':1,'Oncogenicity':1,'Mutation Effect':1}))
-            # oncokb_ids=appendResult(oncokb_cursor,['Gene','Protein Change','Oncogenecity','Mutation Effect'])
-
             result.append([chr,pos,ref,alt,\
                     g1000_ids[0],g1000_ids[1],g1000_ids[2],g1000_ids[3],g1000_ids[4],g1000_ids[5],\
                     cosmic_ids[0],cosmic_ids[1],\
@@ -106,4 +100,4 @@ try:
     combineDB(infile)
 
 except TypeError:
-	print ("python 07_sample_dbs_join.py -help for help")
+	print ("Error in python: 04_parsed_uploads_join_mongodb.py -help for help")
