@@ -67,6 +67,8 @@ public class CommonTable extends JTable {
         ((DefaultTableCellRenderer)getDefaultRenderer(String.class)).setHorizontalAlignment(SwingConstants.CENTER);
     }
 
+
+
 }
 
 

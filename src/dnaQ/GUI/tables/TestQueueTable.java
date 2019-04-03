@@ -29,6 +29,8 @@ public class TestQueueTable extends JTable {
     }
 
 
+
+
     public class TestQueueTableCellRenderer extends DefaultTableCellRenderer {
         public Component getTableCellRendererComponent(JTable table,
                                                        Object value,

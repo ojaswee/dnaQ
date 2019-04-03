@@ -76,4 +76,8 @@ public class BiologyTableModel extends CommonTableModel {
         Mutation mutation = mutations.get(row);
         return columns.get(column).getValue(mutation);
     }
+
+    public final Mutation getMutation(int row){
+        return mutations.get(row);
+    }
 }
