@@ -94,8 +94,6 @@ public class BiologyTable extends CommonTable{
         if(!gene.equals("") && !gene.equals("null")){
             WebConnections.searchGene(gene);
         }
-
     }
-
 }
 

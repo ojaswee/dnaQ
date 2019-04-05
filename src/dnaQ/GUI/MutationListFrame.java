@@ -108,6 +108,14 @@ public class MutationListFrame extends JFrame  {
 		commonScrollPane = new JScrollPane(commonTable);
 		commonScrollPane.setViewportView(commonTable);
 
+		biologyTable = new BiologyTable(this,biologyTableModel);
+		biologyScrollPane = new JScrollPane(biologyTable);
+		biologyScrollPane.setViewportView(biologyTable);
+
+		populationFreqTable = new PopulationFreqTable(this, populationFreqTableModel);
+		populationFreqScrollPane = new JScrollPane(populationFreqTable);
+		populationFreqScrollPane.setViewportView(populationFreqTable);
+
 		cancerTable = new CancerTable(this, cancerTableModel);
 		cancerScrollPane = new JScrollPane(cancerTable);
 		cancerScrollPane.setViewportView(cancerTable);
@@ -115,14 +123,6 @@ public class MutationListFrame extends JFrame  {
 		clinicalTable = new ClinicalTable(this, clinicalTableModel);
 		clinicalScrollPane = new JScrollPane(clinicalTable);
 		clinicalScrollPane.setViewportView(clinicalTable);
-
-		populationFreqTable = new PopulationFreqTable(this, populationFreqTableModel);
-		populationFreqScrollPane = new JScrollPane(populationFreqTable);
-		populationFreqScrollPane.setViewportView(populationFreqTable);
-
-		biologyTable = new BiologyTable(this,biologyTableModel);
-		biologyScrollPane = new JScrollPane(biologyTable);
-		biologyScrollPane.setViewportView(biologyTable);
 
 		sortTableOnHeaderClick();
 
@@ -196,10 +196,11 @@ public class MutationListFrame extends JFrame  {
 
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.addTab("Common", null, commonScrollPane, null);
+		tabbedPane.addTab("Biology", null, biologyScrollPane, null);
 		tabbedPane.addTab("Pop_Freq", null, populationFreqScrollPane, null);
 		tabbedPane.addTab("Cancer", null, cancerScrollPane, null);
 		tabbedPane.addTab("Clinical", null, clinicalScrollPane, null);
-		tabbedPane.addTab("Biology", null, biologyScrollPane, null);
+
 
 		lowerPanel.add(tabbedPane, BorderLayout.CENTER);
 
