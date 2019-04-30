@@ -147,7 +147,6 @@ public class ReportFrame extends JFrame {
                     String temp = String.valueOf(reportComboBox.getSelectedItem());
                     reportname = temp;
                     reportname = reportname.replaceAll(" ", "_");
-//                    System.out.println(reportname);
 
                     progressTextArea.append("You selected "+ temp+" report.\n");
 
@@ -174,8 +173,6 @@ public class ReportFrame extends JFrame {
     }
 
     private void reportSubmission(Integer report) throws Exception {
-
-
         if (report == 0){
             SSHConnection.generateReport(reportname,usertestid,filename);
             updateProgress();

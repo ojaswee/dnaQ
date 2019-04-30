@@ -113,10 +113,10 @@ public class SSHConnection {
     }
 
 
-    public static void generateReport(String reportname,String usertestid,String folder) throws Exception {
+    public static void generateReport(String reportname,String inputFile, String outDir) throws Exception {
 
-        String command = String.format("bash /home/ojaswee/dnaq/report_generator/01_generate_report.sh " +
-                "-r '%s' -ut '%s' -f '%s'", reportname , usertestid , folder);
+        String command = String.format("/opt/python3/bin/python3.4 /home/ojaswee/github/dnaQ/report_generator/01_create_report.py" +
+                "'%s' '%s' '%s' ", reportname, inputFile, outDir);
 
         CommandResponse rs = executeCommandAndGetOutput(command);
 
