@@ -7,9 +7,6 @@ import dnaQ.Models.Mutation;
 import dnaQ.Models.TestQueue;
 import dnaQ.Models.User;
 
-import static java.sql.JDBCType.NULL;
-import static java.util.Objects.isNull;
-
 public class DatabaseConnections {
 
 	private static Connection databaseConnection = null;
