@@ -5,6 +5,7 @@ import dnaQ.Models.Mutation;
 
 import javax.swing.*;
 
+import dnaQ.Models.Report;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.*;
@@ -24,6 +25,9 @@ public class DetailsOnDemandChart extends JDialog {
     private MutationList mutationList;
     private ArrayList<JFreeChart> charts;
     private ArrayList<Mutation> mutations;
+
+    public static String disease1, disease2;
+    public static String gene1, gene2;
 
     public DetailsOnDemandChart(MutationListFrame parent, MutationList mutationList){
 
@@ -81,7 +85,7 @@ public class DetailsOnDemandChart extends JDialog {
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        Map<String,Integer> disease_gene_dic = new TreeMap<>();
+         Map<String,Integer> disease_gene_dic = new TreeMap<>();
 
         for (int i = 0; i< mutations.size(); i++) {
 
@@ -107,6 +111,10 @@ public class DetailsOnDemandChart extends JDialog {
 
 //        System.out.println(disease_gene_dic);
         dataset = displayTop5(disease_gene_dic, dataset);
+
+        disease1 = (String) dataset.getColumnKey(0);
+        disease2 = (String) dataset.getColumnKey(1);
+
 
         JFreeChart chart = createBarChart("Disease Evidence","Clinical Disease / Biology Genes"
                 ,"Count",dataset);
@@ -283,5 +291,23 @@ public class DetailsOnDemandChart extends JDialog {
         sortedByValues.putAll(map);
         return sortedByValues;
     }
+
+    public static String firstDiseaseName(){
+        return disease1;
+    }
+
+    public static String secondDiseaseName(){
+        return disease2;
+    }
+
+    public static String firstGeneName(){
+        return gene1;
+    }
+
+    public static String secondGeneName(){
+        return gene2;
+    }
 }
+
+
 

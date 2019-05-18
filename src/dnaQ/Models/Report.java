@@ -1,5 +1,7 @@
 package dnaQ.Models;
 
+import dnaQ.GUI.DetailsOnDemandChart;
+
 public class Report {
 
     public String report;
@@ -9,15 +11,7 @@ public class Report {
     public String gene2;
 
     public Report(String report) {
-
         this.report = report;
-    }
-
-    public void getTopValues (String disease1, String disease2, String gene1, String gene2){
-        this.disease1 = disease1;
-        this.disease2 = disease2;
-        this.gene1 = gene1;
-        this.gene2 = gene2;
     }
 
     public String getReport() {
@@ -28,4 +22,19 @@ public class Report {
         this.report = report;
     }
 
+    public void setDisease1(){
+        DetailsOnDemandChart.firstDiseaseName();
+    }
+
+    public void setDisease2(){
+        DetailsOnDemandChart.secondDiseaseName();
+    }
+
+    public void setGene1(){
+        DetailsOnDemandChart.firstGeneName();
+    }
+
+    public void setGene2(){
+        DetailsOnDemandChart.secondGeneName();
+    }
 }
