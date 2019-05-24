@@ -22,7 +22,7 @@ public class ReportFrame extends JFrame {
 
     private String usertestid;
     private TestQueue tq;
-    private String filename;
+    private String reportFolder;
 
     private JPanel mainPanel;
     private JPanel logoPanel;
@@ -46,7 +46,7 @@ public class ReportFrame extends JFrame {
         this.usertestid = usertestid;
         this.tq = tq;
 
-        filename = tq.userid +"_"+tq.testid +"_RUN"+tq.run;
+        reportFolder = tq.userid +"_"+tq.testid +"_RUN"+tq.run + "/Report/";
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -62,7 +62,6 @@ public class ReportFrame extends JFrame {
         setResizable(true);
         setLocationRelativeTo(parent);
         setReportsOption();
-
     }
 
     private void createComponents() {
@@ -162,7 +161,7 @@ public class ReportFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 try{
-                    SSHConnection.transferReportFromServer(reportname,filename);
+                    SSHConnection.transferReportFromServer(reportname,reportFolder);
                     progressTextArea.append("Your report has been downloaded\n");
 
                 }catch (Exception e){
@@ -174,7 +173,8 @@ public class ReportFrame extends JFrame {
 
     private void reportSubmission(Integer report) throws Exception {
         if (report == 0){
-            SSHConnection.generateReport(reportname,usertestid,filename);
+            JOptionPane.showMessageDialog(null,reportFolder);
+            SSHConnection.generateReport(reportname,reportFolder+"condition_gene.csv",reportFolder);
             updateProgress();
         }
     }

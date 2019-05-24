@@ -26,8 +26,6 @@ public class DetailsOnDemandChart extends JDialog {
     private ArrayList<JFreeChart> charts;
     private ArrayList<Mutation> mutations;
 
-    public static String disease1, disease2;
-    public static String gene1, gene2;
 
     public DetailsOnDemandChart(MutationListFrame parent, MutationList mutationList){
 
@@ -111,10 +109,6 @@ public class DetailsOnDemandChart extends JDialog {
 
 //        System.out.println(disease_gene_dic);
         dataset = displayTop5(disease_gene_dic, dataset);
-
-        disease1 = (String) dataset.getColumnKey(0);
-        disease2 = (String) dataset.getColumnKey(1);
-
 
         JFreeChart chart = createBarChart("Disease Evidence","Clinical Disease / Biology Genes"
                 ,"Count",dataset);
@@ -292,21 +286,6 @@ public class DetailsOnDemandChart extends JDialog {
         return sortedByValues;
     }
 
-    public static String firstDiseaseName(){
-        return disease1;
-    }
-
-    public static String secondDiseaseName(){
-        return disease2;
-    }
-
-    public static String firstGeneName(){
-        return gene1;
-    }
-
-    public static String secondGeneName(){
-        return gene2;
-    }
 }
 
 
