@@ -12,6 +12,7 @@ SSHConnection.java
 package dnaQ.Connections;
 
 import com.jcraft.jsch.*;
+import dnaQ.GUI.GUICommonTools;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -21,8 +22,8 @@ public class SSHConnection {
 
     private static Session sshSession;
     private static String userUploads = "/home/ojaswee/dnaq/analysis/";
-    private static String clientFileReceiver = "/home/ojaswee/dnaq/report_generator/05_client_report_receiver/";
 
+    private static String reportCreator = "/home/ojaswee/github/dnaQ/report_generator/01_create_report.py";
 
     private SSHConnection() {
     }
@@ -114,12 +115,8 @@ public class SSHConnection {
 
     public static void generateReport(String reportname,String inputFile, String outDir) throws Exception {
 
-        String command = String.format("/opt/python3/bin/python3.4 /home/ojaswee/github/dnaQ/report_generator/01_create_report.py" +
-                "'%s' '%s' '%s' ", reportname, userUploads+inputFile, userUploads+outDir);
-
-        // command prompt shows the path is correct
-//        System.out.println(userUploads+inputFile);
-//        System.out.println(userUploads+outDir);
+        String command = String.format("/opt/python3/bin/python3.4 " +
+                "'%s' '%s' '%s' '%s' ", reportCreator,reportname, userUploads+inputFile, userUploads+outDir);
 
         CommandResponse rs = executeCommandAndGetOutput(command);
 
@@ -134,8 +131,8 @@ public class SSHConnection {
         ChannelSftp sftpChannel = (ChannelSftp) sshSession.openChannel("sftp");
         sftpChannel.connect();
 
-        String source_path = userUploads+filelocation+"/Report/"+ name +".pdf";
-        String destination_path = clientFileReceiver;
+        String source_path = userUploads+filelocation;
+        String destination_path = GUICommonTools.userDownloadFolder();
 
         sftpChannel.put(source_path, destination_path);
 

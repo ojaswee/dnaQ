@@ -23,18 +23,18 @@ public class Report {
     }
 
     public void setDisease1(){
-        DetailsOnDemandChart.firstDiseaseName();
+//        DetailsOnDemandChart.firstDiseaseName();
     }
 
     public void setDisease2(){
-        DetailsOnDemandChart.secondDiseaseName();
+//        DetailsOnDemandChart.secondDiseaseName();
     }
 
     public void setGene1(){
-        DetailsOnDemandChart.firstGeneName();
+//        DetailsOnDemandChart.firstGeneName();
     }
 
     public void setGene2(){
-        DetailsOnDemandChart.secondGeneName();
+//        DetailsOnDemandChart.secondGeneName();
     }
 }

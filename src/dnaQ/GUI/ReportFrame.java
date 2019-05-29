@@ -161,7 +161,9 @@ public class ReportFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 try{
-                    SSHConnection.transferReportFromServer(reportname,reportFolder);
+
+                    String fileLocation = reportFolder+reportname+"_Result.pdf";
+                    SSHConnection.transferReportFromServer(reportname,fileLocation);
                     progressTextArea.append("Your report has been downloaded\n");
 
                 }catch (Exception e){
@@ -173,7 +175,7 @@ public class ReportFrame extends JFrame {
 
     private void reportSubmission(Integer report) throws Exception {
         if (report == 0){
-            JOptionPane.showMessageDialog(null,reportFolder);
+//            JOptionPane.showMessageDialog(null,reportFolder);
             SSHConnection.generateReport(reportname,reportFolder+"condition_gene.csv",reportFolder);
             updateProgress();
         }

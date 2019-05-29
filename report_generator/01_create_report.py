@@ -3,7 +3,7 @@ import pandas as pd
 import requests as req
 from PyPDF2 import PdfFileMerger
 
-# /opt/python3/bin/python3.4 /home/ojaswee/github/dnaQ/report_generator/01_create_report.py "Global Similarity" "home/ojaswee/dnaq/analysis/2_1_RUN2/condition_gene.csv" "/home/ojaswee/dnaq/analysis/2_1_RUN2/Report/"
+# /opt/python3/bin/python3.4 /home/ojaswee/github/dnaQ/report_generator/01_create_report.py "Global Similarity" "home/ojaswee/dnaq/analysis/2_1_RUN2/Report/condition_gene.csv" "/home/ojaswee/dnaq/analysis/2_1_RUN2/Report/"
 
 SAMPLENAME = sys.argv[1]
 INPUTFILE  = sys.argv[2]

@@ -62,7 +62,11 @@ public class GUICommonTools {
 
 	public static void setBorder(JPanel currentPanel){
 		currentPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+	}
 
+	public static String userDownloadFolder (){
+		String downloadsFolder = "/home/ojaswee/Downloads/";
+		return downloadsFolder;
 	}
 
 }
