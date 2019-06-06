@@ -1,14 +1,10 @@
 package dnaQ.Models;
 
-import dnaQ.GUI.DetailsOnDemandChart;
-
 public class Report {
 
     public String report;
-    public String disease1;
-    public String disease2;
-    public String gene1;
-    public String gene2;
+    public String [] disease;
+    public String [] gene;
 
     public Report(String report) {
         this.report = report;
@@ -22,19 +18,28 @@ public class Report {
         this.report = report;
     }
 
-    public void setDisease1(){
-//        DetailsOnDemandChart.firstDiseaseName();
+    public void setDisease(){
+        disease = DiseaseAndGeneDecending.getTop2Disease();
+        cleanValuesAndInsert(disease);
     }
 
-    public void setDisease2(){
-//        DetailsOnDemandChart.secondDiseaseName();
+    public void setGenes(){
+        gene = DiseaseAndGeneDecending.getTop2Genes();
+        cleanValuesAndInsert(gene);
     }
 
-    public void setGene1(){
-//        DetailsOnDemandChart.firstGeneName();
+    private void cleanValuesAndInsert(String [] array){
+
+        for (int i = 0; i< array.length; i++) {
+            if (array[i].contains("/")) {
+                String current = array[i].trim().split("/")[0];
+                array[i] = current;
+            }
+            if (array[i].contains("_")){
+                String current = array[i].replace("_","-");
+                array[i] = current;
+            }
+        }
     }
 
-    public void setGene2(){
-//        DetailsOnDemandChart.secondGeneName();
-    }
 }

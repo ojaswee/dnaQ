@@ -25,27 +25,27 @@ df.columns=['type','value']
 pdfs = []
 
 for indx,row in df.iterrows():
-    try:
+    # try:
         r=req.get(WEBSOURCE+row['type']+"/"+row['value']+".pdf", allow_redirects=True)
         pdf_file=OUT_DIR+SAMPLENAME+"_"+row['type']+"_"+row['value']+".pdf"
         open(pdf_file, 'wb').write(r.content)
+    #
+    # except IOError:
+    #     print("")
+    #
+    # else:
+    #     r="Cannot find " + row ['type'] + ': ' + row ['value']
+    #     pdf_file = OUT_DIR+SAMPLENAME+"_"+row['type']+"_"+row['value']+".pdf"
+    #
+    #     pdf = FPDF()
+    #     pdf.add_page()
+    #     pdf.set_xy(10, 10)
+    #     pdf.set_font('arial', 'B', 13.0)
+    #     pdf.cell(ln=0, h=5.0, align='L', w=0, txt=r, border=0)
+    #     pdf.output(pdf_file)
+    #     pdf.close()
 
-    except IOError:
-        print("")
-
-    else:
-        r="Cannot find " + row ['type'] + ': ' + row ['value']
-        pdf_file = OUT_DIR+SAMPLENAME+"_"+row['type']+"_"+row['value']+".pdf"
-
-        pdf = FPDF()
-        pdf.add_page()
-        pdf.set_xy(10, 10)
-        pdf.set_font('arial', 'B', 13.0)
-        pdf.cell(ln=0, h=5.0, align='L', w=0, txt=r, border=0)
-        pdf.output(pdf_file)
-        pdf.close()
-
-    pdfs.append(pdf_file)
+        pdfs.append(pdf_file)
 
 merger = PdfFileMerger()
 
