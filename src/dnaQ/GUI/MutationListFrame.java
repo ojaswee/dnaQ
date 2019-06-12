@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 
 import dnaQ.GUI.tables.*;
 
+import dnaQ.Models.DiseaseAndGeneDecending;
 import dnaQ.Models.MutationList;
 import dnaQ.Models.TestQueue;
 
@@ -230,6 +231,7 @@ public class MutationListFrame extends JFrame  {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
+					DiseaseAndGeneDecending dg= new DiseaseAndGeneDecending(mutationList);
 					handleReportButtonClick();
 				} catch (Exception e1) {
 					e1.printStackTrace();

@@ -17,7 +17,8 @@ public class ExportMutation {
         this.parent = parent;
         this.mutationList = mutationList;
 
-        outputFile = "/home/ojaswee/Downloads/your_mutation.txt";
+//        outputFile = "/home/ojaswee/Downloads/your_mutation.txt";
+        outputFile = GUICommonTools.userDownloadFolder() + "/your_mutation.txt";
 
         exportFile();
     }

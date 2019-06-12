@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 import dnaQ.Connections.DatabaseConnections;
 import dnaQ.Connections.SSHConnection;
+import dnaQ.Models.DiseaseAndGeneDecending;
+import dnaQ.Models.Report;
 import dnaQ.Models.TestQueue;
 
 import java.awt.event.ActionEvent;
@@ -55,6 +57,7 @@ public class ReportFrame extends JFrame {
 
         createComponents();
         layoutReportComponents();
+        writeTop2DiseaseAndGeneInFile();
         activateComponents();
 
         pack();
@@ -173,9 +176,22 @@ public class ReportFrame extends JFrame {
         });
     }
 
+    private void writeTop2DiseaseAndGeneInFile(){
+
+        Report r = new Report("");
+        r.setDisease();
+        r.setGenes();
+
+        SSHConnection.createTop2ListForReport(reportFolder, r.disease, r.gene);
+        progressTextArea.append("Top two disease and gene list has been created\n");
+    }
+
     private void reportSubmission(Integer report) throws Exception {
+
+
         if (report == 0){
 //            JOptionPane.showMessageDialog(null,reportFolder);
+
             SSHConnection.generateReport(reportname,reportFolder+"condition_gene.csv",reportFolder);
             updateProgress();
         }
@@ -192,6 +208,7 @@ public class ReportFrame extends JFrame {
 //            progressBar.setValue(100);
 
                 int counter=0;
+
                 while (counter < 100){
                     counter = counter + 1;
 
