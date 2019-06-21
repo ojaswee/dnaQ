@@ -14,6 +14,9 @@ package dnaQ.Connections;
 import com.jcraft.jsch.*;
 import dnaQ.GUI.GUICommonTools;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -22,7 +25,6 @@ public class SSHConnection {
 
     private static Session sshSession;
     private static String userUploads = "/home/ojaswee/dnaq/analysis/";
-
     private static String reportCreator = "/home/ojaswee/github/dnaQ/report_generator/01_create_report.py";
 
     private SSHConnection() {
@@ -112,6 +114,34 @@ public class SSHConnection {
         sftpChannel.exit();
     }
 
+    public static void createTop2ListForReport(String reportFolder, String []disease, String [] gene){
+        String conditionFile = userUploads+reportFolder+"condition_gene.csv";
+
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(conditionFile));
+
+            bw.write("condition,");
+            bw.write(disease[0]);
+            bw.write("\n");
+
+            bw.write("condition,");
+            bw.write(disease[1]);
+            bw.write("\n");
+
+            bw.write("gene,");
+            bw.write(gene[0]);
+            bw.write("\n");
+
+            bw.write("gene,");
+            bw.write(gene[1]);
+            bw.write("\n");
+
+            bw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void generateReport(String reportname,String inputFile, String outDir) throws Exception {
 
