@@ -110,7 +110,7 @@ public class SSHConnection {
         sftpChannel.put(source_path, destination_path);
         String currentfolder = userUploads+newname+"/";
 
-        sftpChannel.rename(currentfolder+oldname,currentfolder+newname+"_UPLOAD");
+        sftpChannel.rename(currentfolder+oldname,currentfolder+newname+"_UPLOAD_PARSED");
         sftpChannel.exit();
     }
 

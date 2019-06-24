@@ -41,22 +41,22 @@ while IFS=';' read queueid userid testid run status; do
 		echo $userid $testid $run
 
 		CURRENT_DIR="${OUTPUT_DIR}${userid}_${testid}_RUN${run}/"
-		uploadedfile="${CURRENT_DIR}${userid}_${testid}_RUN${run}_UPLOAD"
+		uploadedfile="${CURRENT_DIR}${userid}_${testid}_RUN${run}_UPLOAD_PARSED"
 
 		chmod 777 *
-		#if uploadedfile exist send to python to parse file
-		if [ -f "${uploadedfile}" ];then
-			echo $uploadedfile
-			/opt/python3/bin/python3.4 "${PIPELINE_SCRIPTS}03_parser_userfile_mongo.py" -i $uploadedfile
+		# #if uploadedfile exist send to python to parse file
+		# if [ -f "${uploadedfile}" ];then
+		# 	echo $uploadedfile
+		# 	/opt/python3/bin/python3.4 "${PIPELINE_SCRIPTS}03_parser_userfile_mongo.py" -i $uploadedfile
+		#
+		# 	chmod 777 *
+		#
+		# 	echo $parserdfile
+			if [ -f "${uploadedfile}" ];then
+				echo "${uploadedfile}"
 
-			chmod 777 *
-
-			echo $parserdfile
-			if [ -f "${uploadedfile}_PARSED" ];then
-				echo "${uploadedfile}_PARSED"
-
-				/opt/python3/bin/python3.4 ${PIPELINE_SCRIPTS}04_parsed_uploads_join_mongodb.py -i "${uploadedfile}_PARSED"
- 				combinedfile="${uploadedfile}_PARSED_COMBINED.csv"
+				/opt/python3/bin/python3.4 ${PIPELINE_SCRIPTS}04_parsed_uploads_join_mongodb.py -i "${uploadedfile}"
+ 				combinedfile="${uploadedfile}_COMBINED.csv"
 
 				#if file is found then trigger usertest table and insert a new row
 				if [ -f "$combinedfile" ];then
@@ -79,7 +79,7 @@ while IFS=';' read queueid userid testid run status; do
 
 				else
 					echo "combinedfile not found."
-				fi
+				# fi
 			fi
 		fi
 

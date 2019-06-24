@@ -2,7 +2,7 @@
 # input: ref and alt from user mutation list
 # ouput: excel sheet with mutation and database list
 #
-# time py3 /home/ojaswee/github/dnaQ/summary_report_creator/03_naive_method.py /home/ojaswee/masters_project/01_data/cosmic.filter.vcf /home/ojaswee/masters_project/01_data/g1000.filter.txt /home/ojaswee/masters_project/01_data/clinvar.filter.vcf
+# time py3 /home/ojaswee/github/dnaQ/summary_report_creator/03_naive_method.py /home/ojaswee/masters_project/01_data/cosmic.filter.vcf /home/ojaswee/masters_project/01_data/g1000.filter.txt /home/ojaswee/masters_project/01_data/05_file_for_summary_report/bigfile.txt
 
 import sys
 import csv
@@ -34,11 +34,11 @@ import csv
 
 
 # read_file_memory_error
-def readFile_memory_error(name,data_struct):
-    f = open(name,'r')
-    line = f.read()
-    for l in line:
-        print(l)
+# def readFile_memory_error(name,data_struct):
+#     f = open(name,'r')
+#     line = f.read()
+#     for l in line:
+#         print(l)
 
 
 # read_file_v2 does not use csv library
@@ -97,19 +97,19 @@ if __name__ == '__main__':
     printSummary(data_s)
 
 
-### cosmic.filter.vcf *3 expected result
-# S 67371
-# GT 1320984
-# GC 561693
-# GA 3481563
-# TA 348195
-# CA 1182441
-# D 406005
-# AT 341256
-# I 172761
-# CT 3466977
-# CG 571158
-# AC 323247
-# TC 839310
-# TG 324510
-# AG 814239
+### (cosmic+g1000+cosmic*15) expected result
+# CA 6353499
+# I 932193
+# TA 1883260
+# GT 7091756
+# GC 3047323
+# AT 1846109
+# AC 1755087
+# AG 4472965
+# D 2181925
+# S 359313
+# CG 3098150
+# TG 1761695
+# GA 18843444
+# CT 18763633
+# TC 4607604
