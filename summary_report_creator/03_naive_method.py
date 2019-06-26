@@ -8,40 +8,30 @@ import sys
 import csv
 
 # #readfile_v1 used csv library
-# def readFile(name,data_struct):
-#     with open (name, 'r') as file:
-#         db = csv.reader(file, delimiter=',',quotechar='-')
-#         for row in db:
-#             if row[0][0] !='#':
-#                 updateSummary_v2(row,data_struct)
+def readFile(name,data_struct):
+    with open (name, 'r') as file:
+        db = csv.reader(file, delimiter=',',quotechar='-')
+        for row in db:
+            if row[0][0] !='#':
+                updateSummary(row,data_struct)
 
-# def updateSummary(row,data_struct):
-#     ref = row[2]
-#     alt = row[3]
-#     refalt= ref+alt
-#     if (len(refalt)==2):
-#         if refalt in data_struct.keys():
-#             data_struct[refalt] += 1
-#     # if value greater then 2 find i,s,d
-#     else:
-#         if (len(ref)>len(alt)):
-#             data_struct['D'] +=1
-#         elif(len(ref)<len(alt)):
-#             data_struct['I'] +=1
-#         elif (len(ref)==len(alt)):
-#             data_struct['S'] += 1
-#
-
-
-# read_file_memory_error
-# def readFile_memory_error(name,data_struct):
-#     f = open(name,'r')
-#     line = f.read()
-#     for l in line:
-#         print(l)
+def updateSummary(row,data_struct):
+    ref = row[3]
+    alt = row[4]
+    refalt= ref+alt
+    if (len(refalt)==2):
+        if refalt in data_struct.keys():
+            data_struct[refalt] += 1
+    # if value greater then 2 find i,s,d
+    else:
+        if (len(ref)>len(alt)):
+            data_struct['D'] +=1
+        elif(len(ref)<len(alt)):
+            data_struct['I'] +=1
+        elif (len(ref)==len(alt)):
+            data_struct['S'] += 1
 
 
-# read_file_v2 does not use csv library
 def readFile_v2(name,data_struct):
     with open (name, 'r') as file:
         for row in file:
@@ -54,7 +44,6 @@ def updateSummary_v2(row,data_struct):
     value_in_row = row.split(',')
     ref = value_in_row[3]
     alt = value_in_row[4]
-    # print('line',ref,alt)
     if (len(ref)==1 and len(alt)==1):
         refalt = ref+alt
         if refalt in data_struct.keys():
@@ -68,7 +57,6 @@ def updateSummary_v2(row,data_struct):
             data_struct['I'] +=1
         elif (len(ref)==len(alt)):
             data_struct['S'] += 1
-
 
 def printSummary(ds):
     for k, v in ds.items():
@@ -84,20 +72,14 @@ if __name__ == '__main__':
         'I':0,'D':0,'S':0}
 
     cosmic_server=sys.argv[1]
-    g1000_server=sys.argv[2]
-    clinvar_server=sys.argv[3]
 
-    # readFile(cosmic_server,data_s)
+    #readFile(cosmic_server,data_s)
 
-    databases = [cosmic_server,g1000_server,clinvar_server]
+    readFile_v2(cosmic_server,data_s)
 
-    for i in range (1):
-        for files in databases:
-                readFile_v2(files,data_s)
     printSummary(data_s)
 
-
-### (cosmic+g1000+cosmic*15) expected result
+    ### (cosmic+g1000+cosmic*15) expected result
 # CA 6353499
 # I 932193
 # TA 1883260

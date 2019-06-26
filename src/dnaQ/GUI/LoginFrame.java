@@ -35,7 +35,7 @@ public class LoginFrame extends JFrame {
 		GUICommonTools.setSizeOfScreen();
 
 		frameWidth = (GUICommonTools.screenWidth)/3;
-		frameHeight = (GUICommonTools.screenHeight)/3;
+		frameHeight = (GUICommonTools.screenHeight)/4;
 
 		createComponents();
 		layoutLoginComponents();
