@@ -12,7 +12,7 @@ def updateSummary_v2(row,data_struct):
     value_in_row = row.split(',')
     ref = value_in_row[3]
     alt = value_in_row[4]
-    print('line',ref,alt)
+    # print('line',ref,alt)
     if (len(ref)==1 and len(alt)==1):
         refalt = ref+alt
         if refalt in data_struct.keys():
@@ -24,7 +24,7 @@ def updateSummary_v2(row,data_struct):
             data_struct['D'] +=1
         elif(len(ref)<len(alt)):
             data_struct['I'] +=1
-            print(ref,alt)
+            # print(ref,alt)
         elif (len(ref)==len(alt)):
             data_struct['S'] += 1
 
@@ -40,7 +40,7 @@ if __name__ == '__main__':
         'GA':0,'GC':0,'GT':0,
         'TA':0,'TC':0,'TG':0,
         'I':0,'D':0,'S':0}
-
+    print('-----program running ---')
     cosmic_server=sys.argv[1]
     g1000_server=sys.argv[2]
     clinvar_server=sys.argv[3]
