@@ -13,13 +13,14 @@ public class DatabaseConnections {
 
 	public static void connect() throws Exception {
 
-		String driver = "com.mysql.cj.jdbc.Driver";
+		String driver = "com.mysql.jdbc.Driver";
 		String dbuser = "root";
 		String dbpasswd = "main";
 		String db = "dnaq";
-		String url = "jdbc:mysql://localhost/" + db + "?useSSL=false";
+		String url = "jdbc:mysql://192.168.1.7/" + db + "?noAccessToProcedureBodies=true";
 
 		try {
+			Class.forName(driver);
 			databaseConnection = DriverManager.getConnection(url, dbuser, dbpasswd);
 		} catch (Exception e) {
 			throw new Exception("mysql connection error " + e.getMessage());

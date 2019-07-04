@@ -14,9 +14,6 @@ package dnaQ.Connections;
 import com.jcraft.jsch.*;
 import dnaQ.GUI.GUICommonTools;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -27,6 +24,7 @@ public class SSHConnection {
     private static String userUploads = "/home/ojaswee/dnaq/analysis/";
     private static String reportCreator = "/home/ojaswee/github/dnaQ/report_generator/01_create_report.py";
 
+
     private SSHConnection() {
     }
 
@@ -36,9 +34,11 @@ public class SSHConnection {
 
     private static Session connectToSSH()throws Exception{
         JSch jsch = new JSch();
-        Session sshSession = jsch.getSession("ojaswee", "127.0.0.1",22);
+        Session sshSession = jsch.getSession("ojaswee", "192.168.1.7",22);
         sshSession.setPassword("main");
-        sshSession.setConfig("StrictHostKeyChecking", "no");
+        java.util.Properties config = new java.util.Properties();
+        config.put("StrictHostKeyChecking", "no");
+        sshSession.setConfig(config);
         sshSession.connect();
         return sshSession;
     }
@@ -114,34 +114,20 @@ public class SSHConnection {
         sftpChannel.exit();
     }
 
-    public static void createTop2ListForReport(String reportFolder, String []disease, String [] gene){
-        String conditionFile = userUploads+reportFolder+"condition_gene.csv";
 
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(conditionFile));
+    public static void transferSampleFromLocalToServerReport(String fileLocation,String userid_testid_runid,String oldname, String newname) throws Exception {
+        connect();
+        ChannelSftp sftpChannel = (ChannelSftp) sshSession.openChannel("sftp");
+        sftpChannel.connect();
 
-            bw.write("condition,");
-            bw.write(disease[0]);
-            bw.write("\n");
+        String source_path = fileLocation;
+        String destination_path = userUploads + userid_testid_runid+"/Report/"+newname;
 
-            bw.write("condition,");
-            bw.write(disease[1]);
-            bw.write("\n");
+        sftpChannel.put(source_path, destination_path);
 
-            bw.write("gene,");
-            bw.write(gene[0]);
-            bw.write("\n");
-
-            bw.write("gene,");
-            bw.write(gene[1]);
-            bw.write("\n");
-
-            bw.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        sftpChannel.exit();
     }
+
 
     public static void generateReport(String reportname,String inputFile, String outDir) throws Exception {
 
@@ -156,16 +142,17 @@ public class SSHConnection {
     }
     
     //user report is transfered from server to client
-    public static void transferReportFromServer(String name, String filelocation) throws JSchException, SftpException {
-
+    public static void transferReportFromServer(String name, String filelocation) throws Exception {
+//        connect();
         ChannelSftp sftpChannel = (ChannelSftp) sshSession.openChannel("sftp");
         sftpChannel.connect();
 
         String source_path = userUploads+filelocation;
         String destination_path = GUICommonTools.userDownloadFolder();
 
-        sftpChannel.put(source_path, destination_path);
+        sftpChannel.get(source_path, destination_path);
 
         sftpChannel.exit();
     }
+
 }

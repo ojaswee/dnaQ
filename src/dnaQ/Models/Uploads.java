@@ -44,6 +44,8 @@ public class Uploads {
         testid = DatabaseConnections.getTestid(testName, testType);
 
         run = DatabaseConnections.getRun(userid,testid);
+
+//        JOptionPane.showMessageDialog(null, testName + testType+testid+ run);
     }
 
     private void createFileName() {

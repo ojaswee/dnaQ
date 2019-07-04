@@ -167,7 +167,7 @@ public class WelcomeFrame extends JFrame{
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 try {
-                    fs = new JFileChooser(new File("/home/ojaswee/masters_project/01_data/"));
+                    fs = new JFileChooser(new File("/home/sishir/dnaq/userFiles/"));
                     fs.setDialogTitle("Select a File");
                     fs.showSaveDialog(null);
 

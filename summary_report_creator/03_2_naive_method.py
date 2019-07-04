@@ -41,11 +41,11 @@ if __name__ == '__main__':
         'TA':0,'TC':0,'TG':0,
         'I':0,'D':0,'S':0}
     print('-----program running ---')
-    cosmic_server=sys.argv[1]
-    g1000_server=sys.argv[2]
-    clinvar_server=sys.argv[3]
 
-    databases = [cosmic_server,g1000_server,clinvar_server]
+    databases = []
+    with open (sys.argv[1], 'r') as input:
+        for file in input:
+            databases.append(file.strip('\n'))
 
     for files in databases:
         readFile_v2(files,data_s)

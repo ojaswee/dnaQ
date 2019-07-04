@@ -176,13 +176,18 @@ public class ReportFrame extends JFrame {
         });
     }
 
-    private void writeTop2DiseaseAndGeneInFile(){
+    private void writeTop2DiseaseAndGeneInFile() throws Exception {
 
         Report r = new Report("");
         r.setDisease();
         r.setGenes();
 
-        SSHConnection.createTop2ListForReport(reportFolder, r.disease, r.gene);
+        String fileLoc=r.writeLocalConditionFile(tq);
+        String oldName=tq.userid+"_"+tq.testid+"_RUN"+tq.run;
+        String newName="condition_gene.csv";
+
+        SSHConnection.transferSampleFromLocalToServerReport(fileLoc,oldName,oldName+newName,newName);
+//        SSHConnection.createTop2ListForReport(reportFolder, r.disease, r.gene);
         progressTextArea.append("Top two disease and gene list has been created\n");
     }
 

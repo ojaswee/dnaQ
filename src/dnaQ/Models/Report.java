@@ -1,13 +1,20 @@
 package dnaQ.Models;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class Report {
 
     public String report;
     public String [] disease;
     public String [] gene;
 
+    public String localConditionGeneFolder= "/home/sishir/dnaq/condition_gene_files/";
+
     public Report(String report) {
         this.report = report;
+
     }
 
     public String getReport() {
@@ -40,6 +47,30 @@ public class Report {
                 array[i] = current;
             }
         }
+    }
+
+    public String writeLocalConditionFile(TestQueue tq){
+        String conditionFile = localConditionGeneFolder+tq.userid+"_"+tq.testid+"_RUN"+tq.run+"condition_gene.csv";
+
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(conditionFile));
+            for (int i = 0; i<2; i++){
+                bw.write("condition,");
+                bw.write(disease[i]);
+                bw.write("\n");
+            }
+
+            for (int i = 0; i<2; i++){
+                bw.write("gene,");
+                bw.write(gene[i]);
+                bw.write("\n");
+            }
+            bw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return conditionFile;
     }
 
 }
