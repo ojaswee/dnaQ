@@ -197,6 +197,7 @@ public class ReportFrame extends JFrame {
 
             Report report = new Report("");
 
+
             if (selectedMutation.size()<1){
 
 

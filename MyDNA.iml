@@ -36,7 +36,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar:///usr/share/java/jsch-0.1.55.jar!/" />
+          <root url="jar:///usr/share/java/com.jcraft.jsch_0.1.27.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
