@@ -1,29 +1,36 @@
 package dnaQ.GUI.tables;
 
 import dnaQ.Connections.WebConnections;
+import dnaQ.GUI.CommentFrame;
 import dnaQ.GUI.MutationListFrame;
 import dnaQ.Models.Mutation;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class BiologyTable extends CommonTable{
+public class CommentTable extends CommonTable{
 
     private static final long serialVersionUID = 1L;
 
     protected MutationListFrame parent;
 
-    protected BiologyTableModel biologyTableModel;
+    protected CommentTableModel commentTableModel;
 
 
-    public BiologyTable(MutationListFrame parent, BiologyTableModel biologyTableModel){
+    public CommentTable(MutationListFrame parent, CommentTableModel commentTableModel){
         super();
         this.parent = parent;
-        this.biologyTableModel = biologyTableModel;
-        setModel(biologyTableModel);
+        this.commentTableModel = commentTableModel;
+        setModel(commentTableModel);
+
+        resizeColumnWidths();
+        constructRenderers();
 
         resizeColumnWidths();
         constructRenderers();
@@ -31,7 +38,7 @@ public class BiologyTable extends CommonTable{
         setAutoResizeMode(JTable.AUTO_RESIZE_OFF); //do not resize columns use scrollbar instead
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        setDefaultRenderer(String.class, new TestQueueTableCellRenderer());
+
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -49,7 +56,10 @@ public class BiologyTable extends CommonTable{
                 }
             }
         });
+
+        setDefaultRenderer(String.class, new TestQueueTableCellRenderer());
     }
+
     public class TestQueueTableCellRenderer extends DefaultTableCellRenderer {
         public Component getTableCellRendererComponent(JTable table,
                                                        Object value,
@@ -61,8 +71,7 @@ public class BiologyTable extends CommonTable{
                     isSelected, hasFocus, row, column);
 
 
-            if (column == 2) {
-                Object o = getValueAt(row, 4).toString();
+            if (column == 5) {
                 c.setForeground(Color.BLUE);
             }
 
@@ -75,25 +84,26 @@ public class BiologyTable extends CommonTable{
     }
 
     protected void handleMouseClick(int column) throws Exception{
-        if(column == 2){
-            searchGene();
+        if(column == 5){
+            updateComment();
         }
     }
 
     protected final Mutation getSelectedMutation(){
         int viewRow = getSelectedRow();
         int modelRow = convertRowIndexToModel(viewRow);
-        Mutation mutation = biologyTableModel.getMutation(modelRow);
+        Mutation mutation = commentTableModel.getMutation(modelRow);
         return mutation;
     }
 
-    private void searchGene() throws Exception{
+    private void updateComment(){
 
-        Mutation mutation = getSelectedMutation();
-        String gene = mutation.getGene().trim().split(",")[0];
-        if(!gene.equals("") && !gene.equals("null")){
-            WebConnections.searchGene(gene);
-        }
+        CommentFrame commentFrame = new CommentFrame(this,getSelectedMutation());
+        commentFrame.setVisible(true);
+
     }
+
+
+
 }
 

@@ -43,6 +43,11 @@ while IFS=';' read queueid userid testid run status; do
 		CURRENT_DIR="${OUTPUT_DIR}${userid}_${testid}_RUN${run}/"
 		uploadedfile="${CURRENT_DIR}${userid}_${testid}_RUN${run}_UPLOAD_PARSED"
 
+		LOG_FILE="${CURRENT_DIR}${USERID}.log"
+
+		exec >  >(tee -a ${LOG_FILE})
+    exec 2> >(tee -a ${LOG_FILE} >&2)
+
 		chmod 777 *
 		# #if uploadedfile exist send to python to parse file
 		# if [ -f "${uploadedfile}" ];then

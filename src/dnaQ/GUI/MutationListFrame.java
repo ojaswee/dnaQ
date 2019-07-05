@@ -6,6 +6,8 @@ import javax.swing.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import dnaQ.GUI.tables.*;
 
@@ -38,11 +40,20 @@ public class MutationListFrame extends JFrame  {
 	public BiologyTable biologyTable;
 	public BiologyTableModel biologyTableModel;
 
+
+	public CommentTable commentTable;
+	public CommentTableModel commentTableModel;
+
+	public SelectionTable selectionTable;
+	public SelectionTableModel selectionTableModel;
+
 	private JScrollPane commonScrollPane;
 	private JScrollPane cancerScrollPane;
 	private JScrollPane clinicalScrollPane;
 	private JScrollPane populationFreqScrollPane;
 	private JScrollPane biologyScrollPane;
+	private JScrollPane selectionScrollPane;
+	private JScrollPane commentScrollPane;
 
 	private WelcomeFrame parent;
 
@@ -79,6 +90,8 @@ public class MutationListFrame extends JFrame  {
 		this.clinicalTableModel = new ClinicalTableModel(mutationList.getMutations());
 		this.populationFreqTableModel = new PopulationFreqTableModel(mutationList.getMutations());
 		this.biologyTableModel = new BiologyTableModel(mutationList.getMutations());
+		this.commentTableModel = new CommentTableModel(mutationList.getMutations());
+		this.selectionTableModel = new SelectionTableModel(mutationList.getMutations());
 
 		try {
 			this.overviewChart = new OverviewChart(this,this.originaMutationlList);
@@ -124,6 +137,15 @@ public class MutationListFrame extends JFrame  {
 		clinicalTable = new ClinicalTable(this, clinicalTableModel);
 		clinicalScrollPane = new JScrollPane(clinicalTable);
 		clinicalScrollPane.setViewportView(clinicalTable);
+
+		selectionTable = new SelectionTable(this, selectionTableModel);
+		selectionScrollPane = new JScrollPane(selectionTable);
+		selectionScrollPane.setViewportView(selectionTable);
+
+		commentTable = new CommentTable(this,commentTableModel);
+		commentScrollPane = new JScrollPane(commentTable);
+		commentScrollPane.setViewportView(commentTable);
+
 
 		sortTableOnHeaderClick();
 
@@ -201,7 +223,8 @@ public class MutationListFrame extends JFrame  {
 		tabbedPane.addTab("Pop_Freq", null, populationFreqScrollPane, null);
 		tabbedPane.addTab("Cancer", null, cancerScrollPane, null);
 		tabbedPane.addTab("Clinical", null, clinicalScrollPane, null);
-
+		tabbedPane.addTab("Selection", null, selectionScrollPane, null);
+		tabbedPane.addTab("Comment", null, commentScrollPane, null);
 
 		lowerPanel.add(tabbedPane, BorderLayout.CENTER);
 
@@ -210,7 +233,6 @@ public class MutationListFrame extends JFrame  {
 
 		add(panel);
 	}
-
 
 	private void activateComponents() {
 		overviewButton.addActionListener(new ActionListener() {
@@ -250,6 +272,7 @@ public class MutationListFrame extends JFrame  {
 			}
 
 		});
+
 	}
 
 	private void handleOverviewButtonClick() {
@@ -261,7 +284,6 @@ public class MutationListFrame extends JFrame  {
 		DetailsOnDemandFrame detailsOnDemandFrame = new DetailsOnDemandFrame(this, mutationList, datachart);
 		detailsOnDemandFrame.setVisible(true);
 	}
-
 
 	private void handleReportButtonClick() throws Exception {
 		ReportFrame reportFrame = new ReportFrame(this,usertestid,tq);
@@ -279,6 +301,8 @@ public class MutationListFrame extends JFrame  {
 		clinicalTable.setAutoCreateRowSorter(true);
 		populationFreqTable.setAutoCreateRowSorter(true);
 		biologyTable.setAutoCreateRowSorter(true);
+		commentTable.setAutoCreateRowSorter(true);
+		selectionTable.setAutoCreateRowSorter(true);
 	}
 }
 

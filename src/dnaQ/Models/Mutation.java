@@ -63,7 +63,9 @@ public class Mutation {
 		this.gene = gene;
 		this.biologyDisease = biologyDisease;
 		this.publicationCount = publicationCount;
+
 		this.comment = comment;
+		this.isSelected = false;
 	}
 	public Integer getUsertestid() {
 		return usertestid;
@@ -236,4 +238,6 @@ public class Mutation {
 	public int getColumnCount() {
 		return getClass().getDeclaredFields().length;
 	}
+
+
 }
