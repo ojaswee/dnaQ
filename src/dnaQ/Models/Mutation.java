@@ -36,7 +36,7 @@ public class Mutation {
 
 
 	//custom
-	public boolean isSelected;
+	public boolean selected;
 
 
 	public Mutation(Integer usertestid, String chr, Integer pos, String ref, String alt,
@@ -65,7 +65,7 @@ public class Mutation {
 		this.publicationCount = publicationCount;
 
 		this.comment = comment;
-		this.isSelected = false;
+		this.selected = false;
 	}
 	public Integer getUsertestid() {
 		return usertestid;
@@ -228,11 +228,11 @@ public class Mutation {
 	}
 
 	public boolean isSelected() {
-		return isSelected;
+		return selected;
 	}
 
 	public void setSelected(boolean selected) {
-		isSelected = selected;
+		this.selected = selected;
 	}
 
 	public int getColumnCount() {
