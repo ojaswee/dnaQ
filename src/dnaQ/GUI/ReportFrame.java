@@ -7,9 +7,7 @@ import java.util.ArrayList;
 
 import dnaQ.Connections.DatabaseConnections;
 import dnaQ.Connections.SSHConnection;
-import dnaQ.Models.DiseaseAndGeneDecending;
-import dnaQ.Models.Report;
-import dnaQ.Models.TestQueue;
+import dnaQ.Models.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +21,7 @@ public class ReportFrame extends JFrame {
     private Integer frameHeight;
 
     private String usertestid;
+    private MutationList mutationList;
     private TestQueue tq;
     private String reportFolder;
 
@@ -41,11 +40,12 @@ public class ReportFrame extends JFrame {
 
     private boolean reportCompleted;
 
-    public ReportFrame(MutationListFrame mutationlistframe,String usertestid,TestQueue tq) throws Exception {
+    public ReportFrame(MutationListFrame mutationlistframe,MutationList mutationList, String usertestid,TestQueue tq) throws Exception {
 
         super ("Request Report");
         this.parent = mutationlistframe;
         this.usertestid = usertestid;
+        this.mutationList=mutationList;
         this.tq = tq;
 
         reportFolder = tq.userid +"_"+tq.testid +"_RUN"+tq.run + "/Report/";
@@ -57,7 +57,6 @@ public class ReportFrame extends JFrame {
 
         createComponents();
         layoutReportComponents();
-        writeTop2DiseaseAndGeneInFile();
         activateComponents();
 
         pack();
@@ -132,6 +131,8 @@ public class ReportFrame extends JFrame {
 
     private void setReportsOption() throws Exception {
 
+        reportComboBox.addItem("--Select Report Type--");
+
         ArrayList<String> reports = DatabaseConnections.getReportOptions();
 
         for(int i =0; i < reports.size(); i++){
@@ -145,14 +146,8 @@ public class ReportFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 try{
-                    Integer selectedReport = reportComboBox.getSelectedIndex();
-                    String temp = String.valueOf(reportComboBox.getSelectedItem());
-                    reportname = temp;
-                    reportname = reportname.replaceAll(" ", "_");
 
-                    progressTextArea.append("You selected "+ temp+" report.\n");
-
-                    reportSubmission(selectedReport);
+                    reportSubmission();
 
                 }catch (Exception e){
                     progressTextArea.append("Report not submitted, please try again");
@@ -176,32 +171,66 @@ public class ReportFrame extends JFrame {
         });
     }
 
-    private void writeTop2DiseaseAndGeneInFile() throws Exception {
 
-        Report r = new Report("");
-        r.setDisease();
-        r.setGenes();
 
-        String fileLoc=r.writeLocalConditionFile(tq);
+    private void reportSubmission() throws Exception {
+
+        reportname= String.valueOf(reportComboBox.getSelectedItem()).replaceAll(" ", "_");
+        progressTextArea.append("You selected "+ reportname+" report.\n");
+
+
+        if (reportComboBox.getSelectedItem().toString().equals("Global Mutation Pattern")){
+            System.out.println("Global");
+
+        }else if(reportComboBox.getSelectedItem().toString().equals("Gene Report")){
+
+            ArrayList<Mutation> selectedMutation = new ArrayList<Mutation>();
+
+
+            for(Mutation m:mutationList.getMutations()){
+
+                if(m.isSelected()){
+                    selectedMutation.add(m);
+                }
+
+            }
+
+            Report report = new Report("");
+
+
+            if (selectedMutation.size()<1){
+
+
+                //set gene and disease by choosing top2
+
+
+            }else{
+
+
+                // use selectedmutation to get gene and disease
+
+                //set gene and disease by choosing top2
+
+            }
+            writeDiseaseAndGeneInFile(report);
+
+
+        }
+
+        SSHConnection.generateReport(reportname,reportFolder+"condition_gene.csv",reportFolder);
+        updateProgress();
+    }
+
+    private void writeDiseaseAndGeneInFile(Report report) throws Exception {
+
+
+        String fileLoc=report.writeLocalConditionFile(tq);
         String oldName=tq.userid+"_"+tq.testid+"_RUN"+tq.run;
         String newName="condition_gene.csv";
 
         SSHConnection.transferSampleFromLocalToServerReport(fileLoc,oldName,oldName+newName,newName);
-//        SSHConnection.createTop2ListForReport(reportFolder, r.disease, r.gene);
         progressTextArea.append("Top two disease and gene list has been created\n");
     }
-
-    private void reportSubmission(Integer report) throws Exception {
-
-
-        if (report == 0){
-//            JOptionPane.showMessageDialog(null,reportFolder);
-
-            SSHConnection.generateReport(reportname,reportFolder+"condition_gene.csv",reportFolder);
-            updateProgress();
-        }
-    }
-
 
     private void updateProgress() {
         Runnable runner = new Runnable() {

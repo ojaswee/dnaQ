@@ -253,7 +253,6 @@ public class MutationListFrame extends JFrame  {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					DiseaseAndGeneDecending dg= new DiseaseAndGeneDecending(mutationList);
 					handleReportButtonClick();
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -286,7 +285,7 @@ public class MutationListFrame extends JFrame  {
 	}
 
 	private void handleReportButtonClick() throws Exception {
-		ReportFrame reportFrame = new ReportFrame(this,usertestid,tq);
+		ReportFrame reportFrame = new ReportFrame(this,mutationList,usertestid,tq);
 		reportFrame.setVisible(true);
 	}
 

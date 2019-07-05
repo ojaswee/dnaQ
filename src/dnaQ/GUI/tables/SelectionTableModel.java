@@ -44,10 +44,10 @@ public class SelectionTableModel extends CommonTableModel {
                 String.class,
                 (Mutation mutation) -> mutation.gene));
 
-        columns.add(new CommonTableModelColumn("select to report",
-                "Selection",
-                String.class,
-                (Mutation mutation) -> mutation.isSelected));
+        columns.add(new CommonTableModelColumn("select to generate a report",
+                "Select to Report",
+                Boolean.class,
+                (Mutation mutation) -> mutation.selected));
 
 
     }
