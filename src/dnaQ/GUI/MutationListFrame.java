@@ -6,12 +6,10 @@ import javax.swing.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 import dnaQ.GUI.tables.*;
 
-import dnaQ.Models.DiseaseAndGeneDecending;
+
 import dnaQ.Models.MutationList;
 import dnaQ.Models.TestQueue;
 
@@ -162,7 +160,7 @@ public class MutationListFrame extends JFrame  {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
 		//logo
-		ImageIcon logoPicture = GUICommonTools.getSquareLogo(frameWidth/3, frameHeight/3);
+		ImageIcon logoPicture = GUICommonTools.getSquareLogo(frameWidth/2, frameHeight/3);
 		JLabel lblLogo= new JLabel(logoPicture);
 
 		JPanel logoPanel = new JPanel();

@@ -1,0 +1,33 @@
+#create database
+use dnaq
+
+#create a collection named useruploads
+db.createCollection("mutation")
+
+
+#import parsed databases from terminal in mongodb
+mongoimport --db dnaq --collection cosmic --type csv --headerline --file /home/ojaswee/masters_project/01_data/cosmic.filter.vcf
+
+mongoimport --db dnaq --collection oncokb --type csv --headerline --file /home/ojaswee/masters_project/01_data/oncokb.filter.txt
+
+mongoimport --db dnaq --collection g1000 --type csv --headerline --file /home/ojaswee/masters_project/01_data/g1000.filter.txt
+
+mongoimport --db dnaq --collection clinvar --type csv --headerline --file /home/ojaswee/masters_project/01_data/clinvar.filter.vcf
+
+///note we are using type as tsv because it is tab seperated on below 3 files
+
+mongoimport --db dnaq --collection chrtogene --type tsv --headerline --file /home/ojaswee/masters_project/01_data/chrtogene.txt
+
+mongoimport --db dnaq --collection chrtodisease --type tsv --headerline --file /home/ojaswee/masters_project/01_data/chrtodisease.txt
+
+mongoimport --db dnaq --collection chrtopublication --type tsv --headerline --file /home/ojaswee/masters_project/01_data/chrtopublication.txt
+
+#check if all databases are imported as collection
+show collections;
+db.cosmic.find( {} ).limit( 2 );
+
+db.cosmic.drop()
+
+
+
+

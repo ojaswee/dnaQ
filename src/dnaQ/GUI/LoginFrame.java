@@ -25,6 +25,8 @@ public class LoginFrame extends JFrame {
 	private JPasswordField passwordTextField;
     private JButton loginButton;
 
+    private JButton registerButton;
+
 	/**
 	 * Create login Frame application.
 	 */
@@ -51,15 +53,17 @@ public class LoginFrame extends JFrame {
 		loginButton = new JButton("Login");
 		emailTextField = new JTextField();
 		passwordTextField = new JPasswordField();
+
+		registerButton = new JButton("Register");
 	}
 	
 	private void layoutLoginComponents(){
 
-		mainPanel.setBackground(GUICommonTools.BackgroundColor2);
+//		mainPanel.setBackground(GUICommonTools.BackgroundColor2);
 		setSize(frameWidth, frameHeight);
 
 		//fit logo as label background
-		ImageIcon logoPicture = GUICommonTools.getSquareLogo(frameWidth/2, frameHeight/2);
+		ImageIcon logoPicture = GUICommonTools.getSquareLogo(frameWidth/2, frameHeight-80);
 
 		JLabel lblLogo= new JLabel(logoPicture);
 
@@ -72,22 +76,26 @@ public class LoginFrame extends JFrame {
 
 		//credentials
 		JLabel lblUsername = new JLabel("UserName");
-		lblUsername.setFont(GUICommonTools.TAHOMA_BOLD_14);
+		lblUsername.setFont(GUICommonTools.TAHOMA_BOLD_16);
 
 		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setFont(GUICommonTools.TAHOMA_BOLD_14);
+		lblPassword.setFont(GUICommonTools.TAHOMA_BOLD_16);
 
 		//login button
-		loginButton.setFont(GUICommonTools.TAHOMA_BOLD_14);
+		loginButton.setFont(GUICommonTools.TAHOMA_BOLD_16);
 		loginPanel.add(lblUsername);
 		loginPanel.add(emailTextField);
 		loginPanel.add(lblPassword);
 		loginPanel.add(passwordTextField);
-		loginPanel.add(new Label(""));
 		loginPanel.add(loginButton);
+
+		registerButton.setFont(GUICommonTools.TAHOMA_BOLD_16);
+		loginPanel.add(registerButton);
+
 
 		mainPanel.add(logoPanel);
 		mainPanel.add(loginPanel);
+
 
 		add(mainPanel);
 	}
@@ -103,6 +111,17 @@ public class LoginFrame extends JFrame {
 				}
 			}			
 		});
+
+		registerButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+				try {
+					register();
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 	
 	private void login() throws Exception{
@@ -112,9 +131,9 @@ public class LoginFrame extends JFrame {
 		email = "admin@dnaq.com";
 		passwd = "admin";
 
-		//User with no userHistory
-//		email = "maryanderson@dnaq.com";
-//		passwd = "mary";
+//	//	User with no userHistory
+//		email = "ojaswee@dnaq.com";
+//		passwd = "ojaswee";
 
 		User currentuser = null;
 
@@ -150,4 +169,11 @@ public class LoginFrame extends JFrame {
 
 	}
 
+
+	private void register() throws Exception{
+		RegistrationFrame registrationFrame = new RegistrationFrame(this);
+		registrationFrame.setVisible(true);
+	}
+
 }
+

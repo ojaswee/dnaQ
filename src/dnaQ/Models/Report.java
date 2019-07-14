@@ -1,76 +1,129 @@
 package dnaQ.Models;
 
-import java.io.BufferedWriter;
+import dnaQ.GUI.GUICommonTools;
+
 import java.io.FileWriter;
-import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class Report {
 
-    public String report;
-    public String [] disease;
-    public String [] gene;
+    private String reportName;
+    private String reportIdentifier;
+    private String reportOriginator;
+    private MutationList reportMutationList;
+    private ArrayList<String> inputList;
 
-    public String localConditionGeneFolder= "/home/sishir/dnaq/condition_gene_files/";
 
-    public Report(String report) {
-        this.report = report;
 
+    public Report(String reportName, MutationList mutationList) {
+        this.reportName = reportName;
+        this.reportMutationList = mutationList;
+        this.inputList = new ArrayList<>();
     }
 
-    public String getReport() {
-        return report;
+    public String getReportName() {
+        return reportName;
     }
 
-    public void setReport(String report) {
-        this.report = report;
+    public void setReportName(String reportName) {
+        this.reportName = reportName;
     }
 
-    public void setDisease(){
-        disease = DiseaseAndGeneDecending.getTop2Disease();
-        cleanValuesAndInsert(disease);
+    public ArrayList<String> getInputList() {
+        return inputList;
     }
 
-    public void setGenes(){
-        gene = DiseaseAndGeneDecending.getTop2Genes();
-        cleanValuesAndInsert(gene);
+    public void setInputList(ArrayList<String> inputList) {
+        this.inputList = inputList;
     }
 
-    private void cleanValuesAndInsert(String [] array){
+    public String getReportIdentifier() {
+        return reportIdentifier;
+    }
 
-        for (int i = 0; i< array.length; i++) {
-            if (array[i].contains("/")) {
-                String current = array[i].trim().split("/")[0];
-                array[i] = current;
+    public void setReportIdentifier(String reportIdentifier) {
+        this.reportIdentifier = reportIdentifier;
+    }
+
+    public String getReportOriginator() {
+        return reportOriginator;
+    }
+
+    public void setReportOriginator(String reportOriginator) {
+        this.reportOriginator = reportOriginator;
+    }
+
+    public void generateInputList(boolean basic){
+        // if user doesn't select any record
+        if(basic){
+
+            for(Mutation mutation:reportMutationList.getMutations()){
+                if (!mutation.getCancerid().equals("")){
+                    if(!mutation.gene.equals("")){
+                        String gene = mutation.gene.split(",")[0];
+                        if (!inputList.contains("gene,"+gene)) {
+                            inputList.add("gene,"+gene);
+                        }
+                    }
+                    if(!mutation.clinicalDisease.equals("")){
+                        String condition = mutation.clinicalDisease.split("\\|")[0];
+                        if (!inputList.contains("condition,"+condition))
+                        inputList.add("condition,"+condition);
+                    }
+
+                }
             }
-            if (array[i].contains("_")){
-                String current = array[i].replace("_","-");
-                array[i] = current;
+        }else{ //if user selects some records
+
+            for(Mutation mutation:reportMutationList.getMutations()){
+                if (mutation.isSelected()){
+
+                    if(!mutation.gene.equals("")){
+                        String gene = mutation.gene.split(",")[0];
+                        if (!inputList.contains("gene,"+gene)) {
+                            inputList.add("gene,"+gene);
+                        }
+                    }
+                    if(!mutation.clinicalDisease.equals("")){
+                        String condition = mutation.getClinicalDisease().split("\\|")[0];
+                        if (!inputList.contains("condition,"+condition))
+                            inputList.add("condition,"+condition);
+                    }
+
+                }
             }
+
         }
-    }
 
-    public String writeLocalConditionFile(TestQueue tq){
-        String conditionFile = localConditionGeneFolder+tq.userid+"_"+tq.testid+"_RUN"+tq.run+"condition_gene.csv";
+
+    }
+    //create condition_gene_csv file locally
+
+    public String createReportFileLocally() {
+
+
+        String filelocation = "/home/" + GUICommonTools.getUsernameFromOS()
+                + "/dnaq/report_upload/"+this.reportOriginator+"_"+this.reportIdentifier;
 
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(conditionFile));
-            for (int i = 0; i<2; i++){
-                bw.write("condition,");
-                bw.write(disease[i]);
-                bw.write("\n");
+            FileWriter fileWriter = new FileWriter(filelocation);
+            for (String line : inputList) {
+                fileWriter.write(line);
+                fileWriter.write(System.lineSeparator());
             }
+            fileWriter.close();
 
-            for (int i = 0; i<2; i++){
-                bw.write("gene,");
-                bw.write(gene[i]);
-                bw.write("\n");
-            }
-            bw.close();
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("Cannot write file locally");
         }
-        return conditionFile;
+
+        return filelocation;
+
     }
+
 
 }

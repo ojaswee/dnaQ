@@ -3,6 +3,9 @@ package dnaQ.GUI;
 import javax.swing.*;
 import java.awt.*;
 
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import dnaQ.Connections.DatabaseConnections;
@@ -11,6 +14,7 @@ import dnaQ.Models.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 
 public class ReportFrame extends JFrame {
@@ -22,8 +26,7 @@ public class ReportFrame extends JFrame {
 
     private String usertestid;
     private MutationList mutationList;
-    private TestQueue tq;
-    private String reportFolder;
+    private TestQueue testqueue;
 
     private JPanel mainPanel;
     private JPanel logoPanel;
@@ -31,7 +34,7 @@ public class ReportFrame extends JFrame {
     private JPanel progressPanel;
     
     private JComboBox reportComboBox;
-    private String reportname;
+    private Report report;
     private JButton submitButton;
 
     private JProgressBar progressBar;
@@ -40,19 +43,20 @@ public class ReportFrame extends JFrame {
 
     private boolean reportCompleted;
 
-    public ReportFrame(MutationListFrame mutationlistframe,MutationList mutationList, String usertestid,TestQueue tq) throws Exception {
+    public ReportFrame(MutationListFrame mutationlistframe,MutationList mutationList,
+                       String usertestid,TestQueue testqueue) throws Exception {
 
         super ("Request Report");
         this.parent = mutationlistframe;
+
         this.usertestid = usertestid;
         this.mutationList=mutationList;
-        this.tq = tq;
+        this.testqueue = testqueue;
 
-        reportFolder = tq.userid +"_"+tq.testid +"_RUN"+tq.run + "/Report/";
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        frameWidth = (GUICommonTools.screenWidth)/5;
+        frameWidth = (GUICommonTools.screenWidth)/4;
         frameHeight = (GUICommonTools.screenHeight)/3;
 
         createComponents();
@@ -86,7 +90,6 @@ public class ReportFrame extends JFrame {
 
         reportCompleted = false;
 
-        reportname = "";
     }
 
     private void layoutReportComponents() {
@@ -110,6 +113,12 @@ public class ReportFrame extends JFrame {
         progressBar.setStringPainted(true);
 
         progressTextArea.setText("Please select report to submit.\n");
+
+        mainPanel.add(progressPanel);
+
+        add(mainPanel);
+
+
         progressTextArea.setSize(new Dimension(frameWidth - 50, frameHeight/4));
         progressTextArea.isVisible();
 
@@ -123,10 +132,6 @@ public class ReportFrame extends JFrame {
 
         mainPanel.add(logoPanel);
         mainPanel.add(reportPanel);
-        mainPanel.add(progressPanel);
-
-        add(mainPanel);
-
     }
 
     private void setReportsOption() throws Exception {
@@ -160,9 +165,32 @@ public class ReportFrame extends JFrame {
             public void actionPerformed(ActionEvent arg0) {
                 try{
 
-                    String fileLocation = reportFolder+reportname+"_Result.pdf";
-                    SSHConnection.transferReportFromServer(reportname,fileLocation);
-                    progressTextArea.append("Your report has been downloaded\n");
+                    if(downloadButton.getText().equals("Open Report")){
+
+                        JFileChooser  fs = new JFileChooser(new File(GUICommonTools.userDownloadFolder()));
+                        fs.setDialogTitle("Save Report");
+                        fs.showSaveDialog(null);
+
+                    }else {
+
+                        String fileLocation = "";
+
+                        if (report.getReportName().equals("Global_Mutation_Pattern")) {
+                            fileLocation = "COMMON_RUN_FILES/Global_Mutation_Pattern.pdf";
+
+                        } else if (report.getReportName().equals("Gene_Report")) {
+                            //create condition_gene.csv file locally
+                            fileLocation = report.getReportOriginator()+"/Report/"+
+                                    report.getReportIdentifier() +"/"+
+                                    report.getReportOriginator()+"_"+report.getReportIdentifier() +
+                                    "_Result.pdf";
+                        }
+
+                        SSHConnection.transferReportFromServer(fileLocation);
+                        progressTextArea.append("Your report has been downloaded\n");
+                        downloadButton.setText("Open Report");
+                    }
+
 
                 }catch (Exception e){
                     JOptionPane.showMessageDialog(ReportFrame.this, "Report not ready");
@@ -175,14 +203,25 @@ public class ReportFrame extends JFrame {
 
     private void reportSubmission() throws Exception {
 
-        reportname= String.valueOf(reportComboBox.getSelectedItem()).replaceAll(" ", "_");
+        String reportname= String.valueOf(reportComboBox.getSelectedItem()).replaceAll(" ", "_");
+
+        Report report = new Report(reportname,mutationList);
+
+        this.report = report;
+
+        setReportIdentifier(report);
+        report.setReportOriginator(testqueue.userid +"_"+ testqueue.testid +"_RUN"+ testqueue.run);
+
+
+
         progressTextArea.append("You selected "+ reportname+" report.\n");
 
 
         if (reportComboBox.getSelectedItem().toString().equals("Global Mutation Pattern")){
-            System.out.println("Global");
 
-        }else if(reportComboBox.getSelectedItem().toString().equals("Gene Report")){
+            progressTextArea.append("Click download button to generate Mutation Pattern report....\n");
+
+        } else if(reportComboBox.getSelectedItem().toString().equals("Gene Report")){
 
             ArrayList<Mutation> selectedMutation = new ArrayList<Mutation>();
 
@@ -195,72 +234,63 @@ public class ReportFrame extends JFrame {
 
             }
 
-            Report report = new Report("");
 
 
             if (selectedMutation.size()<1){
 
+                String theMessage ="You did not select any mutation to report. " +
+                        "Do you want to generate report for top 3 mutations from your filtered result?";
+                int result = JOptionPane.showConfirmDialog((Component) null, theMessage,
+                        "alert", JOptionPane.OK_CANCEL_OPTION);
 
-                //set gene and disease by choosing top2
+                if(result==0){
 
+                    report.generateInputList(true);
+                }
 
             }else{
-
-
-                // use selectedmutation to get gene and disease
-
-                //set gene and disease by choosing top2
+                report.generateInputList(false);
 
             }
-            writeDiseaseAndGeneInFile(report);
 
+            report.createReportFileLocally();
 
+            SSHConnection.generateReport(report);
         }
 
-        SSHConnection.generateReport(reportname,reportFolder+"condition_gene.csv",reportFolder);
-        updateProgress();
+        updateProgress(reportname);
     }
 
-    private void writeDiseaseAndGeneInFile(Report report) throws Exception {
 
-
-        String fileLoc=report.writeLocalConditionFile(tq);
-        String oldName=tq.userid+"_"+tq.testid+"_RUN"+tq.run;
-        String newName="condition_gene.csv";
-
-        SSHConnection.transferSampleFromLocalToServerReport(fileLoc,oldName,oldName+newName,newName);
-        progressTextArea.append("Top two disease and gene list has been created\n");
-    }
-
-    private void updateProgress() {
+    private void updateProgress(String reportname) {
         Runnable runner = new Runnable() {
+
             public void run() {
-                progressBar.setValue(0);
+                    progressBar.setValue(0);
+                    int counter = 0;
 
-//            progressBar.setValue(50);
+                    while (counter < 1000) {
+                        counter = counter + 1;
 
-//            progressBar.setValue(100);
-
-                int counter=0;
-
-                while (counter < 100){
-                    counter = counter + 1;
-
-                    int c2=0;
-                    while(c2<10000){
-                        c2 = c2+1;
-//                        System.out.println(c2);
+                        progressBar.setValue(counter);
                     }
 
-                    progressBar.setValue(counter);
-                }
-
-                if (counter==100){
-                    downloadButton.setVisible(true);
-                }
+                    if (counter == 1000) {
+                        downloadButton.setVisible(true);
+                    }
             }
         };
+
         Thread t = new Thread(runner, "Progressbar");
         t.start();
+    }
+
+
+    private void setReportIdentifier( Report report){
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date();
+        report.setReportIdentifier(dateFormat.format(date));
+
     }
 }

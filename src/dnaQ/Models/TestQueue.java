@@ -9,6 +9,7 @@ public class TestQueue {
     public String run;
     public String status;
 
+
     public TestQueue() {
             super();
         }
@@ -21,6 +22,7 @@ public class TestQueue {
         this.testtype= testtype;
         this.run = run;
         this.status = status;
+
         }
 
 

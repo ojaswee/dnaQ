@@ -3,11 +3,9 @@ package dnaQ.Models;
 import dnaQ.Connections.DatabaseConnections;
 import dnaQ.Connections.SSHConnection;
 
-import javax.swing.*;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class Uploads {
@@ -20,7 +18,7 @@ public class Uploads {
     private String clientfileName;
     private String serverfileName;
     private String run;
-    private String d;
+    private String userCreationDate;
 
 
     public Uploads(String userid, String testName, String testType, String filePath,String clientfileName) throws Exception {
@@ -32,7 +30,7 @@ public class Uploads {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         Date date = new Date();
-        d = dateFormat.format(date);
+        userCreationDate = dateFormat.format(date);
 
         getTestidAndRun();
         createFileName();
@@ -54,7 +52,7 @@ public class Uploads {
 
     public void transferFileAndQueue() throws Exception {
 
-        SSHConnection.createUserDir(d,userid,testid,run);
+        SSHConnection.createUserDir(userCreationDate,userid,testid,run);
 
         SSHConnection.transferSampleFromLocalToServer(filePath,clientfileName,serverfileName);
 

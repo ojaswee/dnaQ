@@ -68,7 +68,8 @@ public class DatabaseConnections {
 
 	//insert new record in queue
     public static void insertInQueue(String userid,String testid ,String run)throws SQLException{
-        String query = String.format("INSERT INTO queue (userid,testid,run,status,createdon)values ('%s','%s','%s',0,NOW());",userid,testid,run);
+        String query = String.format("INSERT INTO queue (userid,testid,run,status,createdon)" +
+				"values ('%s','%s','%s',0,NOW());",userid,testid,run);
 
         PreparedStatement pstm = databaseConnection.prepareStatement(query);
         pstm.executeUpdate();
@@ -268,8 +269,26 @@ public class DatabaseConnections {
 		return report;
 	}
 
-	//reportlog insert from python
-//	public static void InsertIntoReportLog(){
-//
-//	}
+	public static void updateComment(String newComment, String usertestid, String chr, String pos, String ref,
+									 String alt ) throws Exception{
+
+		String queryUpdateComment = String.format("UPDATE mutation SET comment = '%s' " +
+				"WHERE usertestid = '%s' AND chr = '%s' AND pos = '%s' AND ref = '%s' AND alt = '%s';",
+				newComment, usertestid,chr, pos, ref, alt);
+		PreparedStatement preparedStatement = databaseConnection.prepareStatement(queryUpdateComment);
+		preparedStatement.executeUpdate();
+
+	}
+
+	public static void registerNewUser(String firstname, String lastname, String email, String password)throws Exception{
+		connect();
+		String query = String.format("INSERT INTO user (firstname, lastname,email,password)" +
+				"values ('%s','%s','%s','%s');", firstname,lastname,email,password);
+
+			PreparedStatement pstm = databaseConnection.prepareStatement(query);
+			pstm.executeUpdate();
+
+	}
+
 }
+

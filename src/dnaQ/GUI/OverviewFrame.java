@@ -46,8 +46,8 @@ public class OverviewFrame extends JFrame {
 
         pack();
 
-        frameWidth= GUICommonTools.screenWidth /3;
-        frameHeight =GUICommonTools.screenHeight - 400;
+        frameWidth= GUICommonTools.screenWidth/2;
+        frameHeight =GUICommonTools.screenHeight - 300;
         setSize(frameWidth,frameHeight);
 
         createComponents();
@@ -164,7 +164,7 @@ public class OverviewFrame extends JFrame {
    private void chrLenVsMutationPlot(){
         ChartPanel chartpanel = new ChartPanel(overviewChart.getChart(0));
         chartpanel.setDomainZoomable(true);
-        chartpanel.setPreferredSize(new Dimension(frameWidth-120, frameHeight-230));
+        chartpanel.setPreferredSize(new Dimension(frameWidth-120, frameHeight-280));
 
         dataAPanel.removeAll();
         dataAPanel.add(chartpanel);
@@ -177,7 +177,7 @@ public class OverviewFrame extends JFrame {
     private void createPieChart() {
         ChartPanel chartpanel = new ChartPanel(overviewChart.getChart(1));
         chartpanel.setDomainZoomable(true);
-        chartpanel.setPreferredSize(new Dimension(frameWidth - 120, frameHeight - 150));
+        chartpanel.setPreferredSize(new Dimension(frameWidth - 200, frameHeight - 280));
 
         dataBPanel.removeAll();
         dataBPanel.add(chartpanel);
@@ -190,7 +190,7 @@ public class OverviewFrame extends JFrame {
     private void createBarChart() {
         ChartPanel chartpanel = new ChartPanel(overviewChart.getChart(2));
         chartpanel.setDomainZoomable(true);
-        chartpanel.setPreferredSize(new Dimension(frameWidth-120, frameHeight-210));
+        chartpanel.setPreferredSize(new Dimension(frameWidth-120, frameHeight-260));
 
         dataCPanel.removeAll();
         dataCPanel.add(chartpanel);

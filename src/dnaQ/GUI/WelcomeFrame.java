@@ -25,6 +25,7 @@ public class WelcomeFrame extends JFrame{
     private JPanel userInfoPanel;
     private JPanel openFilePanel;
     private JPanel uploadPanel;
+    private JPanel historyPanel;
     private JPanel queueTablePanel;
 
     private LoginFrame parent;
@@ -38,7 +39,7 @@ public class WelcomeFrame extends JFrame{
     private JButton openButton;
     private JTextField fileNameTextField;
     private JLabel lblupload;
-    private JFileChooser fs;
+    private JFileChooser fileChooser;
     private JComboBox testNameComboBox;
     private JComboBox testTypeComboBox;
 
@@ -88,6 +89,8 @@ public class WelcomeFrame extends JFrame{
         userInfoPanel = new JPanel();
 
         uploadPanel = new JPanel();
+        historyPanel = new JPanel(new BorderLayout());
+
         openFilePanel = new JPanel();
         lblupload = new JLabel();
         fileNameTextField = new JTextField();
@@ -150,14 +153,26 @@ public class WelcomeFrame extends JFrame{
         uploadPanel.add(uploadButton);
         uploadPanel.add(refreshButton);
 
+
+        //history panel
+
+        JLabel lblUserUploadHistory = new JLabel("Your uploads history");
+        lblUserUploadHistory.setFont(GUICommonTools.TAHOMA_BOLD_16);
+//        lblUserUploadHistory.setBackground(GUICommonTools.BackgroundColor1);
+
+
         //tests in queue
         queueTablePanel.add(userTestScrollPane);
+
+        historyPanel.add(lblUserUploadHistory, BorderLayout.NORTH);
+        historyPanel.add(queueTablePanel,BorderLayout.CENTER);
 
         mainPanel.add(logoPanel);
         mainPanel.add(userInfoPanel);
         mainPanel.add (openFilePanel);
         mainPanel.add(uploadPanel);
-        mainPanel.add(queueTablePanel);
+        mainPanel.add(historyPanel);
+//        mainPanel.add(queueTablePanel);
 
         add(mainPanel);
     }
@@ -167,11 +182,11 @@ public class WelcomeFrame extends JFrame{
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 try {
-                    fs = new JFileChooser(new File("/home/sishir/dnaq/userFiles/"));
-                    fs.setDialogTitle("Select a File");
-                    fs.showSaveDialog(null);
+                    fileChooser = new JFileChooser(new File("/home/"+GUICommonTools.getUsernameFromOS()+"/dnaq/userFiles/"));
+                    fileChooser.setDialogTitle("Select a File");
+                    fileChooser.showSaveDialog(null);
 
-                    fileNameTextField.setText(fs.getSelectedFile().getName());
+                    fileNameTextField.setText(fileChooser.getSelectedFile().getName());
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -188,7 +203,7 @@ public class WelcomeFrame extends JFrame{
 
                     String testType = testTypeComboBox.getSelectedItem().toString();
 
-                    String filePath = fs.getSelectedFile().getAbsolutePath();
+                    String filePath = fileChooser.getSelectedFile().getAbsolutePath();
                     String fileName = fileNameTextField.getText();
 
                     new Uploads(currentuser.getUserID(),testName,testType,filePath,fileName);

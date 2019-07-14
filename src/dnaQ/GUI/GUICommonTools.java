@@ -39,13 +39,18 @@ public class GUICommonTools {
 	    return bounds;
 	}
 
+	public static String getUsernameFromOS (){
+		String user = "ojasweed";
+		return user;
+	}
+
 	public static ImageIcon getSquareLogo(Integer width, Integer height){
-		logo1 = new ImageIcon(new ImageIcon("/home/sishir/dnaq/images/logo.png").getImage().getScaledInstance(width, height,Image.SCALE_SMOOTH));
+		logo1 = new ImageIcon(new ImageIcon("/home/"+getUsernameFromOS()+"/dnaq/images/logo.png").getImage().getScaledInstance(width, height,Image.SCALE_SMOOTH));
 		return logo1;
 	}
 
 	public static ImageIcon getRectangularLogo(Integer width, Integer height){
-		logo2 = new ImageIcon(new ImageIcon("/home/sishir/dnaq/images/logo_2.png").getImage().getScaledInstance(width, height,Image.SCALE_SMOOTH));
+		logo2 = new ImageIcon(new ImageIcon("/home/"+getUsernameFromOS()+"/dnaq/images/logo_2.png").getImage().getScaledInstance(width, height,Image.SCALE_SMOOTH));
 		return logo2;
 	}
 
@@ -65,8 +70,10 @@ public class GUICommonTools {
 	}
 
 	public static String userDownloadFolder (){
-		String downloadsFolder = "/home/sishir/Downloads/";
+		String downloadsFolder = "/home/"+getUsernameFromOS()+"/Downloads/";
 		return downloadsFolder;
 	}
+
+
 
 }

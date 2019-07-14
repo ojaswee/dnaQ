@@ -1,5 +1,6 @@
 package dnaQ.GUI;
 
+import dnaQ.Connections.DatabaseConnections;
 import dnaQ.GUI.tables.CommentTable;
 import dnaQ.Models.Mutation;
 
@@ -50,9 +51,6 @@ public class CommentFrame extends JFrame {
             }
 
         });
-
-
-
     }
 
     private void createComponents() {
@@ -84,6 +82,8 @@ public class CommentFrame extends JFrame {
         currentMutation.setComment(txtComment.getText());
 
         //update database
+        DatabaseConnections.updateComment(currentMutation.comment,currentMutation.usertestid.toString(),
+                currentMutation.chr, currentMutation.pos.toString(),currentMutation.ref,currentMutation.alt);
 
         CommentFrame.this.dispose();
 
